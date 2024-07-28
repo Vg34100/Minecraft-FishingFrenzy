@@ -1,0 +1,6 @@
+{
+  "parent": "fishingfrenzy:item/deluxe_fishing_rod",
+  "textures": {
+    "layer0": "fishingfrenzy:item/deluxe_fishing_rod_cast"
+  }
+}

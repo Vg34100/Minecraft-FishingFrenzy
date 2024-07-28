@@ -1,0 +1,50 @@
+{
+	"schemaVersion": 1,
+	"id": "fishingfrenzy",
+	"version": "${version}",
+	"name": "Fishing Frenzy",
+	"description": "Making fishing in Minecraft interesting...",
+	"authors": [
+		"VgLevelUp"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/fishingfrenzy",
+		"sources": "https://github.com/Vg34100/Minecraft-FishingFrenzy",
+		"issues": "https://github.com/Vg34100/Minecraft-FishingFrenzy/issues"
+	},
+	"license": "MIT",
+	"icon": "assets/fishingfrenzy/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.vg.fishingfrenzy.FishingFrenzy"
+		],
+		"client": [
+			"net.vg.fishingfrenzy.FishingFrenzyClient"
+		],
+		"fabric-datagen": [
+			"net.vg.fishingfrenzy.FishingFrenzyDataGenerator"
+		]
+	},
+	"mixins": [
+		"fishingfrenzy.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.21",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"modmenu": "*"
+	},
+	"custom": {
+		"modmenu" : {
+			"links": {
+				"modmenu.modrinth": "https://modrinth.com/mod/structurevoidable",
+				"modmenu.discord": "https://discord.gg/Xfcysgn3jU",
+				"modmenu.donate": "https://buymeacoffee.com/vglevelup"
+			}
+		}
+	}
+}
