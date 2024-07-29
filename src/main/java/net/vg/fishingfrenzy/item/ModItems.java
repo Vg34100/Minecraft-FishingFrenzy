@@ -10,12 +10,27 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.vg.fishingfrenzy.FishingFrenzy;
 import net.vg.fishingfrenzy.item.custom.BaitItem;
+import net.vg.fishingfrenzy.item.custom.BaitPropertiesBuilder;
 import net.vg.fishingfrenzy.item.custom.DeluxeFishingRodItem;
 
 public class ModItems {
 
-    public static final Item BAIT = registerItem("bait",
-            new BaitItem(new Item.Settings().maxCount(64)));
+//    public static final Item BAIT = registerItem("bait",
+//            new BaitItem(new Item.Settings().maxCount(64)));
+
+    public static final Item GENERIC_BAIT = registerItem("generic_bait",
+            new BaitItem(new Item.Settings(), new BaitPropertiesBuilder()
+                    .setLureBonus(5)
+                    .setLuckBonus(1)));
+
+    public static final Item DELUXE_BAIT = registerItem("deluxe_bait",
+            new BaitItem(new Item.Settings(), new BaitPropertiesBuilder()
+                    .setLureBonus(10)
+                    .setLuckBonus(3)
+                    .setMultiCatchAmount(3)
+                    .setMultiCatchChance(0.5f)));
+
+
     public static final Item DELUXE_FISHING_ROD = registerItem("deluxe_fishing_rod",
             new DeluxeFishingRodItem(new Item.Settings().maxDamage(64).component(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT)));
 

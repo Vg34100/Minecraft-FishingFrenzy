@@ -38,9 +38,7 @@ import net.vg.fishingfrenzy.item.ModItems;
 import org.apache.commons.lang3.math.Fraction;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class DeluxeFishingRodItem extends FishingRodItem {
     private static final int ITEM_BAR_COLOR = MathHelper.packRgb(0.4F, 0.4F, 1.0F);
@@ -54,6 +52,7 @@ public class DeluxeFishingRodItem extends FishingRodItem {
         BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
         return bundleContentsComponent.getOccupancy().floatValue();
     }
+
     public boolean onStackClicked(ItemStack stack, Slot slot, ClickType clickType, PlayerEntity player) {
         if (clickType != ClickType.RIGHT) {
             return false;
@@ -70,9 +69,10 @@ public class DeluxeFishingRodItem extends FishingRodItem {
                         ItemStack itemStack3 = slot.insertStack(itemStack2);
                         builder.add(itemStack3);
                     }
-                } else if (itemStack.getItem().canBeNested()) {
+                } else if (itemStack.getItem().canBeNested() && isBait(itemStack)) {
                     int i = builder.add(slot, player);
                     if (i > 0) {
+                        // Item added successfully
                     }
                 }
 
@@ -82,19 +82,19 @@ public class DeluxeFishingRodItem extends FishingRodItem {
         }
     }
 
-//    public boolean isItemBarVisible(ItemStack stack) {
-//        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
-//        return bundleContentsComponent.getOccupancy().compareTo(Fraction.ZERO) > 0;
-//    }
-//
-//    public int getItemBarStep(ItemStack stack) {
-//        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
-//        return Math.min(1 + MathHelper.multiplyFraction(bundleContentsComponent.getOccupancy(), 12), 13);
-//    }
-//
-//    public int getItemBarColor(ItemStack stack) {
-//        return ITEM_BAR_COLOR;
-//    }
+    public boolean isBundleBarVisible(ItemStack stack) {
+        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
+        return bundleContentsComponent.getOccupancy().compareTo(Fraction.ZERO) > 0;
+    }
+
+    public int getBundleBarStep(ItemStack stack) {
+        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
+        return Math.min(1 + MathHelper.multiplyFraction(bundleContentsComponent.getOccupancy(), 12), 13);
+    }
+
+    public int getBundleBarColor(ItemStack stack) {
+        return ITEM_BAR_COLOR;
+    }
 
     public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
         if (clickType == ClickType.RIGHT && slot.canTakePartial(player)) {
@@ -108,9 +108,10 @@ public class DeluxeFishingRodItem extends FishingRodItem {
                     if (itemStack != null) {
                         cursorStackReference.set(itemStack);
                     }
-                } else {
+                } else if (isBait(otherStack)) {
                     int i = builder.add(otherStack);
                     if (i > 0) {
+                        // Item added successfully
                     }
                 }
 
@@ -122,18 +123,53 @@ public class DeluxeFishingRodItem extends FishingRodItem {
         }
     }
 
+//    public Optional<TooltipData> getTooltipData(ItemStack stack) {
+//        return !stack.contains(DataComponentTypes.HIDE_TOOLTIP) && !stack.contains(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP) ? Optional.ofNullable((BundleContentsComponent)stack.get(DataComponentTypes.BUNDLE_CONTENTS)).map(BundleTooltipData::new) : Optional.empty();
+//    }
+
+//    public Optional<TooltipData> getTooltipData(ItemStack stack) {
+//        return !stack.contains(DataComponentTypes.HIDE_TOOLTIP) &&
+//                !stack.contains(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP) ?
+//                Optional.ofNullable((BundleContentsComponent)stack
+//                        .get(DataComponentTypes.BUNDLE_CONTENTS))
+//                        .map(BundleTooltipData::new) : Optional.empty();
+//    }
+//
+//    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
+//        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.get(DataComponentTypes.BUNDLE_CONTENTS);
+//        if (bundleContentsComponent != null) {
+//            int i = MathHelper.multiplyFraction(bundleContentsComponent.getOccupancy(), 64);
+////            tooltip.add(Text.translatable("item.minecraft.bundle.fullness", new Object[]{i, 64}).formatted(Formatting.GRAY));
+//        }
+//
+//    }
+
     public Optional<TooltipData> getTooltipData(ItemStack stack) {
-        return !stack.contains(DataComponentTypes.HIDE_TOOLTIP) && !stack.contains(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP) ? Optional.ofNullable((BundleContentsComponent)stack.get(DataComponentTypes.BUNDLE_CONTENTS)).map(BundleTooltipData::new) : Optional.empty();
+        if (!stack.contains(DataComponentTypes.HIDE_TOOLTIP) && !stack.contains(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP)) {
+            BundleContentsComponent bundleContentsComponent = (BundleContentsComponent) stack.get(DataComponentTypes.BUNDLE_CONTENTS);
+            if (bundleContentsComponent != null && !bundleContentsComponent.isEmpty()) {
+                List<ItemStack> nonEmptyStacks = new ArrayList<>();
+                for (ItemStack itemStack : bundleContentsComponent.iterate()) {
+                    if (!itemStack.isEmpty()) {
+                        nonEmptyStacks.add(itemStack);
+                    }
+                }
+                return Optional.of(new BundleTooltipData(new BundleContentsComponent(nonEmptyStacks)));
+            }
+        }
+        return Optional.empty();
     }
 
     public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
         BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.get(DataComponentTypes.BUNDLE_CONTENTS);
         if (bundleContentsComponent != null) {
             int i = MathHelper.multiplyFraction(bundleContentsComponent.getOccupancy(), 64);
-//            tooltip.add(Text.translatable("item.minecraft.bundle.fullness", new Object[]{i, 64}).formatted(Formatting.GRAY));
+            if (i > 0) {
+                tooltip.add(Text.translatable("item.minecraft.bundle.fullness", new Object[]{i, 64}).formatted(Formatting.GRAY));
+            }
         }
-
     }
+
 
     public void onItemEntityDestroyed(ItemEntity entity) {
         BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)entity.getStack().get(DataComponentTypes.BUNDLE_CONTENTS);
@@ -169,10 +205,17 @@ public class DeluxeFishingRodItem extends FishingRodItem {
                 ServerWorld serverWorld = (ServerWorld) world;
                 int lureLevel = (int)(EnchantmentHelper.getFishingTimeReduction(serverWorld, rodStack, user) * 20.0F);
                 int luckLevel = EnchantmentHelper.getFishingLuckBonus(serverWorld, rodStack, user);
-                int baitBonus = !baitStack.isEmpty() ? 200 : 0; // Increase catch rate with bait
+//                int baitBonus = !baitStack.isEmpty() ? 200 : 0; // Increase catch rate with bait
+
+                if (!baitStack.isEmpty()) {
+                    BaitProperties baitProperties = (BaitProperties) baitStack.getItem();
+                    luckLevel += baitProperties.getLuckBonus();
+                    lureLevel += baitProperties.getLureBonus();
+                }
+
 
                 // Spawn the fishing bobber entity
-                FishingBobberEntity fishingBobberEntity = new DeluxeFishingBobberEntity(user, serverWorld, luckLevel, lureLevel  + baitBonus, baitStack);
+                FishingBobberEntity fishingBobberEntity = new DeluxeFishingBobberEntity(user, serverWorld, luckLevel, lureLevel, baitStack);
                 serverWorld.spawnEntity(fishingBobberEntity);
             }
 
@@ -186,6 +229,9 @@ public class DeluxeFishingRodItem extends FishingRodItem {
     // Find bait item in the BundleContentsComponent
     private ItemStack findBaitInBundle(ItemStack rodStack) {
         BundleContentsComponent bundleContentsComponent = (BundleContentsComponent) rodStack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
+        if (bundleContentsComponent.isEmpty()) {
+            return ItemStack.EMPTY;
+        }
         for (ItemStack itemStack : bundleContentsComponent.iterate()) {
             if (isBait(itemStack)) {
                 return itemStack;
@@ -193,57 +239,45 @@ public class DeluxeFishingRodItem extends FishingRodItem {
         }
         return ItemStack.EMPTY;
     }
+
     // Decrease bait item in the BundleContentsComponent
     public void decrementBaitInBundle(ItemStack rodStack) {
         BundleContentsComponent bundleContentsComponent = (BundleContentsComponent) rodStack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
-        List<ItemStack> stacks = (List<ItemStack>) bundleContentsComponent.iterate();
+        List<ItemStack> originalStacks = (List<ItemStack>) bundleContentsComponent.iterate();
+        List<ItemStack> stacks = new ArrayList<>(originalStacks);
+        Random random = new Random();
+
+        boolean modified = false;
+
         for (ItemStack itemStack : stacks) {
             if (isBait(itemStack)) {
-                itemStack.decrement(1);
-                break;
-            }
-        }
-        rodStack.set(DataComponentTypes.BUNDLE_CONTENTS, new BundleContentsComponent(stacks));
-    }
-
-    public static boolean decreaseBait(ItemStack stack, PlayerEntity player) {
-        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.get(DataComponentTypes.BUNDLE_CONTENTS);
-        if (bundleContentsComponent != null && !bundleContentsComponent.isEmpty()) {
-            if (player instanceof ServerPlayerEntity) {
-                for (ItemStack stackx : bundleContentsComponent.iterate()) {
-                    if (stackx.isOf(ModItems.BAIT)) {
-                        System.out.println("DECREASE");
-                        stackx.decrement(1);
-                        return true; // Exit the loop early once bait is found and decremented
+                BaitProperties baitProperties = (BaitProperties) itemStack.getItem();
+                if (random.nextFloat() <= baitProperties.getUseChance()) {
+                    if (itemStack.getCount() > 1) {
+                        itemStack.decrement(1);
+                    } else {
+                        System.out.println("Only One Bait");
+                        stacks.remove(itemStack);
                     }
+                    modified = true;
+                    break;
                 }
-//                bundleContentsComponent.iterate().forEach((stackx) -> {
-//                        if (stackx.isOf(ModItems.BAIT)) {
-//                            stackx.decrement(1);
-//                        }
-//                });
-//                bundleContentsComponent.iterateCopy().forEach((stackx) -> {
-//                    player.dropItem(stackx, true);
-//                });
             }
+        }
 
-            return true;
-        } else {
-            return false;
+        if (modified) {
+            if (stacks.isEmpty()) {
+                rodStack.set(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
+            } else {
+                rodStack.set(DataComponentTypes.BUNDLE_CONTENTS, new BundleContentsComponent(stacks));
+            }
         }
     }
 
 
-    // Find bait item in the player's inventory
-    private ItemStack findBait(PlayerEntity player) {
-        for (int i = 0; i < player.getInventory().size(); ++i) {
-            ItemStack itemStack = player.getInventory().getStack(i);
-            if (isBait(itemStack)) {
-                return itemStack;
-            }
-        }
-        return ItemStack.EMPTY;
-    }
+
+
+
 
     // Check if the given stack is a bait item
     private boolean isBait(ItemStack stack) {

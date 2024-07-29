@@ -15,7 +15,9 @@ public class ModItemGroups {
             Identifier.of(FishingFrenzy.MOD_ID, "fishing"),
             FabricItemGroup.builder().displayName(Text.translatable("itemgroup.fishing"))
                     .icon(() -> new ItemStack(Items.FISHING_ROD)).entries((displayContext, entries) -> {
-                        entries.add(ModItems.BAIT);
+//                        entries.add(ModItems.BAIT);
+                        entries.add(ModItems.GENERIC_BAIT);
+                        entries.add(ModItems.DELUXE_BAIT);
                         entries.add(ModItems.DELUXE_FISHING_ROD);
 
                         // Ocean

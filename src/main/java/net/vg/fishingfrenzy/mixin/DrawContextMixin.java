@@ -39,11 +39,10 @@ public class DrawContextMixin {
                 ((DrawContext)(Object)this).drawText(textRenderer, string, x + 19 - 2 - textRenderer.getWidth(string), y + 6 + 3, 16777215, true);
             }
 
-            if (isBundleBarVisible(stack)) {
+            if (item.isItemBarVisible(stack)) {
                 int durabilityStep = item.getItemBarStep(stack);
                 int durabilityColor = item.getItemBarColor(stack);
-                int bundleStep = getBundleBarStep(stack);
-                int bundleColor = getBundleBarColor(stack);
+
 
                 int barX = x + 2;
                 int barY = y + 13;
@@ -52,10 +51,20 @@ public class DrawContextMixin {
                 ((DrawContext)(Object)this).fill(RenderLayer.getGuiOverlay(), barX, barY, barX + 13, barY + 2, Colors.BLACK);
                 ((DrawContext)(Object)this).fill(RenderLayer.getGuiOverlay(), barX, barY, barX + durabilityStep, barY + 1, durabilityColor | Colors.BLACK);
 
+            }
+
+            if (item.isBundleBarVisible(stack)) {
+                int bundleStep = item.getBundleBarStep(stack);
+                int bundleColor = item.getBundleBarColor(stack);
+                int barX = x + 2;
+                int barY = y + 13;
+
                 // Draw bundle contents bar above durability bar
                 ((DrawContext)(Object)this).fill(RenderLayer.getGuiOverlay(), barX, barY - 2, barX + 13, barY, Colors.BLACK);
                 ((DrawContext)(Object)this).fill(RenderLayer.getGuiOverlay(), barX, barY - 2, barX + bundleStep, barY - 1, bundleColor | Colors.BLACK);
+
             }
+
             PlayerEntity clientPlayerEntity = client.player;
             float f = clientPlayerEntity == null ? 0.0F : clientPlayerEntity.getItemCooldownManager().getCooldownProgress(stack.getItem(), (client.getRenderTickCounter().getTickDelta(true)));
             if (f > 0.0F) {
@@ -67,20 +76,5 @@ public class DrawContextMixin {
             matrices.pop();
             ci.cancel();
         }
-    }
-
-    public boolean isBundleBarVisible(ItemStack stack) {
-        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
-        return bundleContentsComponent.getOccupancy().compareTo(Fraction.ZERO) > 0;
-    }
-
-    public int getBundleBarStep(ItemStack stack) {
-        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
-        return Math.min(1 + MathHelper.multiplyFraction(bundleContentsComponent.getOccupancy(), 12), 13);
-    }
-    private static final int ITEM_BAR_COLOR = MathHelper.packRgb(0.4F, 0.4F, 1.0F);
-
-    public int getBundleBarColor(ItemStack stack) {
-        return ITEM_BAR_COLOR;
     }
 }

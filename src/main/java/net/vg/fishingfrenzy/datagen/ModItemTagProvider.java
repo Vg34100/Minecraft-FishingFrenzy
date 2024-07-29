@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 import net.vg.fishingfrenzy.item.ModItems;
+import net.vg.fishingfrenzy.util.ModTags;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
@@ -17,6 +18,10 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+        getOrCreateTagBuilder(ModTags.Items.BAITS)
+                .add(ModItems.GENERIC_BAIT)
+                .add(ModItems.DELUXE_BAIT);
+
         getOrCreateTagBuilder(ItemTags.FISHING_ENCHANTABLE)
                 .add(ModItems.DELUXE_FISHING_ROD);
 

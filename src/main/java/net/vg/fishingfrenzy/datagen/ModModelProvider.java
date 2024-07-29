@@ -20,7 +20,9 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        itemModelGenerator.register(ModItems.BAIT, Models.GENERATED);
+//        itemModelGenerator.register(ModItems.BAIT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.GENERIC_BAIT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.DELUXE_BAIT, Models.GENERATED);
 
 
         // Ocean
