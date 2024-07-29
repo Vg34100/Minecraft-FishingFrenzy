@@ -19,6 +19,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.World;
 import net.vg.fishingfrenzy.item.ModItems;
+import net.vg.fishingfrenzy.item.custom.DeluxeFishingRodItem;
 import net.vg.fishingfrenzy.mixin.FishingBobberAccessor;
 
 import java.util.Iterator;
@@ -75,6 +76,7 @@ public class DeluxeFishingBobberEntity extends FishingBobberEntity {
 
 
             LootTable lootTable = this.getWorld().getServer().getReloadableRegistries().getLootTable(LootTables.FISHING_GAMEPLAY);
+
             List<ItemStack> list = lootTable.generateLoot(lootContextParameterSet);
             Criteria.FISHING_ROD_HOOKED.trigger((ServerPlayerEntity)playerEntity, usedItem, this, list);
             Iterator var7 = list.iterator();
@@ -89,7 +91,9 @@ public class DeluxeFishingBobberEntity extends FishingBobberEntity {
                     itemEntity.setVelocity(d * 0.1, e * 0.1 + Math.sqrt(Math.sqrt(d * d + e * e + f * f)) * 0.08, f * 0.1);
                     this.getWorld().spawnEntity(itemEntity);
                     playerEntity.getWorld().spawnEntity(new ExperienceOrbEntity(playerEntity.getWorld(), playerEntity.getX(), playerEntity.getY() + 0.5, playerEntity.getZ() + 0.5, this.random.nextInt(6) + 1));
-                    baitStack.decrement(1);
+                    // Decrease bait stack in the bundle
+                    DeluxeFishingRodItem fishingRod = (DeluxeFishingRodItem) usedItem.getItem();
+                    fishingRod.decrementBaitInBundle(usedItem);
                     if (itemStack.isIn(ItemTags.FISHES)) {
                         playerEntity.increaseStat(Stats.FISH_CAUGHT, 1);
                     }

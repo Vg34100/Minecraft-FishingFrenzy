@@ -2,10 +2,22 @@ package net.vg.fishingfrenzy;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.loot.LootTables;
+import net.minecraft.loot.condition.LootConditionType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.util.Identifier;
 import net.vg.fishingfrenzy.item.ModItemGroups;
 import net.vg.fishingfrenzy.item.ModItems;
+import net.vg.fishingfrenzy.loot.ModLootTableModifiers;
+import net.vg.fishingfrenzy.loot.condition.BiomeCheckLootCondition;
+import net.minecraft.util.dynamic.CodecHolder;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +31,8 @@ public class FishingFrenzy implements ModInitializer {
 	public static final String MOD_ID = "fishingfrenzy";
 	public static final String MOD_NAME = "Fishing Frenzy";
 	public static final String MOD_VERSION = fetchModVersion();
+	public static final LootConditionType BIOME_CHECK_LOOT_CONDITION_TYPE = new LootConditionType(BiomeCheckLootCondition.CODEC);
+
 
 	/**
 	 * This method is called when Minecraft is ready to load mods.
@@ -28,6 +42,10 @@ public class FishingFrenzy implements ModInitializer {
 	public void onInitialize() {
 		ModItems.registerItems();
 		ModItemGroups.registerItemGroups();
+
+		Registry.register(Registries.LOOT_CONDITION_TYPE, Identifier.of(MOD_ID, "biome_check"), BIOME_CHECK_LOOT_CONDITION_TYPE);
+
+		ModLootTableModifiers.modifyLootTables();
 
 		// Log the initialization message with mod name and version
 		LOGGER.info("Initialized Mod: {} v{}", MOD_NAME, MOD_VERSION);	}
