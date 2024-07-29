@@ -82,19 +82,19 @@ public class DeluxeFishingRodItem extends FishingRodItem {
         }
     }
 
-    public boolean isItemBarVisible(ItemStack stack) {
-        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
-        return bundleContentsComponent.getOccupancy().compareTo(Fraction.ZERO) > 0;
-    }
-
-    public int getItemBarStep(ItemStack stack) {
-        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
-        return Math.min(1 + MathHelper.multiplyFraction(bundleContentsComponent.getOccupancy(), 12), 13);
-    }
-
-    public int getItemBarColor(ItemStack stack) {
-        return ITEM_BAR_COLOR;
-    }
+//    public boolean isItemBarVisible(ItemStack stack) {
+//        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
+//        return bundleContentsComponent.getOccupancy().compareTo(Fraction.ZERO) > 0;
+//    }
+//
+//    public int getItemBarStep(ItemStack stack) {
+//        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
+//        return Math.min(1 + MathHelper.multiplyFraction(bundleContentsComponent.getOccupancy(), 12), 13);
+//    }
+//
+//    public int getItemBarColor(ItemStack stack) {
+//        return ITEM_BAR_COLOR;
+//    }
 
     public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
         if (clickType == ClickType.RIGHT && slot.canTakePartial(player)) {

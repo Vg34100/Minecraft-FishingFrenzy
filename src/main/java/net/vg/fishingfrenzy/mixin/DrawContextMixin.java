@@ -1,0 +1,86 @@
+package net.vg.fishingfrenzy.mixin;
+
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.BundleContentsComponent;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Colors;
+import net.minecraft.util.math.MathHelper;
+import net.vg.fishingfrenzy.item.custom.DeluxeFishingRodItem;
+import org.apache.commons.lang3.math.Fraction;
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Mixin(DrawContext.class)
+public class DrawContextMixin {
+
+    @Shadow @Final private MinecraftClient client;
+
+    @Inject(method = "drawItemInSlot*", at = @At("HEAD"), cancellable = true)
+    private void drawCustomItemInSlot(TextRenderer textRenderer, ItemStack stack, int x, int y, @Nullable String countOverride, CallbackInfo ci) {
+        if (!stack.isEmpty() && stack.getItem() instanceof DeluxeFishingRodItem) {
+            DeluxeFishingRodItem item = (DeluxeFishingRodItem) stack.getItem();
+            MatrixStack matrices = ((DrawContext)(Object)this).getMatrices();
+
+            matrices.push();
+            if (stack.getCount() != 1 || countOverride != null) {
+                String string = countOverride == null ? String.valueOf(stack.getCount()) : countOverride;
+                matrices.translate(0.0F, 0.0F, 200.0F);
+                ((DrawContext)(Object)this).drawText(textRenderer, string, x + 19 - 2 - textRenderer.getWidth(string), y + 6 + 3, 16777215, true);
+            }
+
+            if (isBundleBarVisible(stack)) {
+                int durabilityStep = item.getItemBarStep(stack);
+                int durabilityColor = item.getItemBarColor(stack);
+                int bundleStep = getBundleBarStep(stack);
+                int bundleColor = getBundleBarColor(stack);
+
+                int barX = x + 2;
+                int barY = y + 13;
+
+//                 Draw durability bar
+                ((DrawContext)(Object)this).fill(RenderLayer.getGuiOverlay(), barX, barY, barX + 13, barY + 2, Colors.BLACK);
+                ((DrawContext)(Object)this).fill(RenderLayer.getGuiOverlay(), barX, barY, barX + durabilityStep, barY + 1, durabilityColor | Colors.BLACK);
+
+                // Draw bundle contents bar above durability bar
+                ((DrawContext)(Object)this).fill(RenderLayer.getGuiOverlay(), barX, barY - 2, barX + 13, barY, Colors.BLACK);
+                ((DrawContext)(Object)this).fill(RenderLayer.getGuiOverlay(), barX, barY - 2, barX + bundleStep, barY - 1, bundleColor | Colors.BLACK);
+            }
+            PlayerEntity clientPlayerEntity = client.player;
+            float f = clientPlayerEntity == null ? 0.0F : clientPlayerEntity.getItemCooldownManager().getCooldownProgress(stack.getItem(), (client.getRenderTickCounter().getTickDelta(true)));
+            if (f > 0.0F) {
+                int cooldownStart = y + MathHelper.floor(16.0F * (1.0F - f));
+                int cooldownEnd = cooldownStart + MathHelper.ceil(16.0F * f);
+                ((DrawContext)(Object)this).fill(RenderLayer.getGuiOverlay(), x, cooldownStart, x + 16, cooldownEnd, Integer.MAX_VALUE);
+            }
+
+            matrices.pop();
+            ci.cancel();
+        }
+    }
+
+    public boolean isBundleBarVisible(ItemStack stack) {
+        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
+        return bundleContentsComponent.getOccupancy().compareTo(Fraction.ZERO) > 0;
+    }
+
+    public int getBundleBarStep(ItemStack stack) {
+        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
+        return Math.min(1 + MathHelper.multiplyFraction(bundleContentsComponent.getOccupancy(), 12), 13);
+    }
+    private static final int ITEM_BAR_COLOR = MathHelper.packRgb(0.4F, 0.4F, 1.0F);
+
+    public int getBundleBarColor(ItemStack stack) {
+        return ITEM_BAR_COLOR;
+    }
+}
