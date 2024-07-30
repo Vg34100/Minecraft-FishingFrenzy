@@ -24,7 +24,9 @@
 		],
 		"fabric-datagen": [
 			"net.vg.fishingfrenzy.FishingFrenzyDataGenerator"
-		]
+		],
+		"modmenu": [ "net.vg.fishingfrenzy.client.gui.screen.FishingFrenzyModMenu" ]
+
 	},
 	"mixins": [
 		"fishingfrenzy.mixins.json"

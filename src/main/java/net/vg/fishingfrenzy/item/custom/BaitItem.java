@@ -11,6 +11,7 @@ public class BaitItem extends Item implements BaitProperties {
     private final int multiCatchAmount;
     private final float multiCatchChance;
     private final RegistryKey<LootTable> lootTable;
+    private final Item targetedFish;
 
 
     public BaitItem(Settings settings, BaitProperties properties) {
@@ -22,6 +23,7 @@ public class BaitItem extends Item implements BaitProperties {
         this.multiCatchAmount = properties.getMultiCatchAmount();
         this.multiCatchChance = properties.getMultiCatchChance();
         this.lootTable = properties.getLootTable();
+        this.targetedFish = properties.getTargetedFish();
     }
 
     @Override
@@ -52,6 +54,11 @@ public class BaitItem extends Item implements BaitProperties {
     @Override
     public RegistryKey<LootTable> getLootTable() {
         return lootTable;
+    }
+
+    @Override
+    public Item getTargetedFish() {
+        return targetedFish;
     }
 
 

@@ -16,7 +16,7 @@ public class FishingFrenzyClient implements ClientModInitializer {
                 return 0.0f;
             }
             boolean bl = entity.getMainHandStack() == stack;
-            boolean bl3 = bl2 = entity.getOffHandStack() == stack;
+            bl2 = entity.getOffHandStack() == stack;
             if (entity.getMainHandStack().getItem() instanceof FishingRodItem) {
                 bl2 = false;
             }

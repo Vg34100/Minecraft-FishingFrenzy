@@ -1,7 +1,5 @@
 package net.vg.fishingfrenzy.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.render.entity.FishingBobberEntityRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

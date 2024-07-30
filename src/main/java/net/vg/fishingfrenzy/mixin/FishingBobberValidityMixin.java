@@ -9,15 +9,12 @@ import net.minecraft.item.Items;
 import net.minecraft.world.World;
 import net.vg.fishingfrenzy.item.ModItems;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FishingBobberEntity.class)
 public abstract class FishingBobberValidityMixin extends Entity {
-    @Shadow
-    public abstract PlayerEntity getPlayerOwner();
 
     public FishingBobberValidityMixin(EntityType<?> type, World world) {
         super(type, world);
@@ -32,7 +29,7 @@ public abstract class FishingBobberValidityMixin extends Entity {
         ItemStack mainHandStack = playerEntity.getMainHandStack();
         ItemStack offHandStack = playerEntity.getOffHandStack();
 
-        // Check if the main hand or off hand has a valid fishing rod
+        // Check if the main hand or offhand has a valid fishing rod
         boolean mainHandHasValidRod = mainHandStack.isOf(Items.FISHING_ROD) || mainHandStack.isOf(ModItems.DELUXE_FISHING_ROD);
         boolean offHandHasValidRod = offHandStack.isOf(Items.FISHING_ROD) || offHandStack.isOf(ModItems.DELUXE_FISHING_ROD);
 

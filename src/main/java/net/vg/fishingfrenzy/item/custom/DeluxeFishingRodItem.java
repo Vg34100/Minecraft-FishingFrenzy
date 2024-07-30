@@ -1,10 +1,9 @@
 package net.vg.fishingfrenzy.item.custom;
 
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.BundleContentsComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,10 +16,7 @@ import net.minecraft.item.ItemUsage;
 import net.minecraft.item.tooltip.BundleTooltipData;
 import net.minecraft.item.tooltip.TooltipData;
 import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.screen.slot.Slot;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -34,9 +30,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import net.vg.fishingfrenzy.entity.DeluxeFishingBobberEntity;
-import net.vg.fishingfrenzy.item.ModItems;
 import org.apache.commons.lang3.math.Fraction;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -46,140 +40,6 @@ public class DeluxeFishingRodItem extends FishingRodItem {
     public DeluxeFishingRodItem(Settings settings) {
         super(settings);
     }
-
-
-    public static float getAmountFilled(ItemStack stack) {
-        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
-        return bundleContentsComponent.getOccupancy().floatValue();
-    }
-
-    public boolean onStackClicked(ItemStack stack, Slot slot, ClickType clickType, PlayerEntity player) {
-        if (clickType != ClickType.RIGHT) {
-            return false;
-        } else {
-            BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.get(DataComponentTypes.BUNDLE_CONTENTS);
-            if (bundleContentsComponent == null) {
-                return false;
-            } else {
-                ItemStack itemStack = slot.getStack();
-                BundleContentsComponent.Builder builder = new BundleContentsComponent.Builder(bundleContentsComponent);
-                if (itemStack.isEmpty()) {
-                    ItemStack itemStack2 = builder.removeFirst();
-                    if (itemStack2 != null) {
-                        ItemStack itemStack3 = slot.insertStack(itemStack2);
-                        builder.add(itemStack3);
-                    }
-                } else if (itemStack.getItem().canBeNested() && isBait(itemStack)) {
-                    int i = builder.add(slot, player);
-                    if (i > 0) {
-                        // Item added successfully
-                    }
-                }
-
-                stack.set(DataComponentTypes.BUNDLE_CONTENTS, builder.build());
-                return true;
-            }
-        }
-    }
-
-    public boolean isBundleBarVisible(ItemStack stack) {
-        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
-        return bundleContentsComponent.getOccupancy().compareTo(Fraction.ZERO) > 0;
-    }
-
-    public int getBundleBarStep(ItemStack stack) {
-        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
-        return Math.min(1 + MathHelper.multiplyFraction(bundleContentsComponent.getOccupancy(), 12), 13);
-    }
-
-    public int getBundleBarColor(ItemStack stack) {
-        return ITEM_BAR_COLOR;
-    }
-
-    public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
-        if (clickType == ClickType.RIGHT && slot.canTakePartial(player)) {
-            BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.get(DataComponentTypes.BUNDLE_CONTENTS);
-            if (bundleContentsComponent == null) {
-                return false;
-            } else {
-                BundleContentsComponent.Builder builder = new BundleContentsComponent.Builder(bundleContentsComponent);
-                if (otherStack.isEmpty()) {
-                    ItemStack itemStack = builder.removeFirst();
-                    if (itemStack != null) {
-                        cursorStackReference.set(itemStack);
-                    }
-                } else if (isBait(otherStack)) {
-                    int i = builder.add(otherStack);
-                    if (i > 0) {
-                        // Item added successfully
-                    }
-                }
-
-                stack.set(DataComponentTypes.BUNDLE_CONTENTS, builder.build());
-                return true;
-            }
-        } else {
-            return false;
-        }
-    }
-
-//    public Optional<TooltipData> getTooltipData(ItemStack stack) {
-//        return !stack.contains(DataComponentTypes.HIDE_TOOLTIP) && !stack.contains(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP) ? Optional.ofNullable((BundleContentsComponent)stack.get(DataComponentTypes.BUNDLE_CONTENTS)).map(BundleTooltipData::new) : Optional.empty();
-//    }
-
-//    public Optional<TooltipData> getTooltipData(ItemStack stack) {
-//        return !stack.contains(DataComponentTypes.HIDE_TOOLTIP) &&
-//                !stack.contains(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP) ?
-//                Optional.ofNullable((BundleContentsComponent)stack
-//                        .get(DataComponentTypes.BUNDLE_CONTENTS))
-//                        .map(BundleTooltipData::new) : Optional.empty();
-//    }
-//
-//    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
-//        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.get(DataComponentTypes.BUNDLE_CONTENTS);
-//        if (bundleContentsComponent != null) {
-//            int i = MathHelper.multiplyFraction(bundleContentsComponent.getOccupancy(), 64);
-////            tooltip.add(Text.translatable("item.minecraft.bundle.fullness", new Object[]{i, 64}).formatted(Formatting.GRAY));
-//        }
-//
-//    }
-
-    public Optional<TooltipData> getTooltipData(ItemStack stack) {
-        if (!stack.contains(DataComponentTypes.HIDE_TOOLTIP) && !stack.contains(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP)) {
-            BundleContentsComponent bundleContentsComponent = (BundleContentsComponent) stack.get(DataComponentTypes.BUNDLE_CONTENTS);
-            if (bundleContentsComponent != null && !bundleContentsComponent.isEmpty()) {
-                List<ItemStack> nonEmptyStacks = new ArrayList<>();
-                for (ItemStack itemStack : bundleContentsComponent.iterate()) {
-                    if (!itemStack.isEmpty()) {
-                        nonEmptyStacks.add(itemStack);
-                    }
-                }
-                return Optional.of(new BundleTooltipData(new BundleContentsComponent(nonEmptyStacks)));
-            }
-        }
-        return Optional.empty();
-    }
-
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
-        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)stack.get(DataComponentTypes.BUNDLE_CONTENTS);
-        if (bundleContentsComponent != null) {
-            int i = MathHelper.multiplyFraction(bundleContentsComponent.getOccupancy(), 64);
-            if (i > 0) {
-                tooltip.add(Text.translatable("item.minecraft.bundle.fullness", new Object[]{i, 64}).formatted(Formatting.GRAY));
-            }
-        }
-    }
-
-
-    public void onItemEntityDestroyed(ItemEntity entity) {
-        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)entity.getStack().get(DataComponentTypes.BUNDLE_CONTENTS);
-        if (bundleContentsComponent != null) {
-            entity.getStack().set(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
-            ItemUsage.spawnItemContents(entity, bundleContentsComponent.iterateCopy());
-        }
-    }
-
-
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
@@ -201,8 +61,7 @@ public class DeluxeFishingRodItem extends FishingRodItem {
         } else {
             // Play sound for throwing the bobber
             world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_FISHING_BOBBER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
-            if (world instanceof ServerWorld) {
-                ServerWorld serverWorld = (ServerWorld) world;
+            if (world instanceof ServerWorld serverWorld) {
                 int lureLevel = (int)(EnchantmentHelper.getFishingTimeReduction(serverWorld, rodStack, user) * 20.0F);
                 int luckLevel = EnchantmentHelper.getFishingLuckBonus(serverWorld, rodStack, user);
 //                int baitBonus = !baitStack.isEmpty() ? 200 : 0; // Increase catch rate with bait
@@ -210,7 +69,7 @@ public class DeluxeFishingRodItem extends FishingRodItem {
                 if (!baitStack.isEmpty()) {
                     BaitProperties baitProperties = (BaitProperties) baitStack.getItem();
                     luckLevel += baitProperties.getLuckBonus();
-                    lureLevel += baitProperties.getLureBonus();
+                    lureLevel *= baitProperties.getLureBonus();
                 }
 
 
@@ -228,7 +87,7 @@ public class DeluxeFishingRodItem extends FishingRodItem {
 
     // Find bait item in the BundleContentsComponent
     private ItemStack findBaitInBundle(ItemStack rodStack) {
-        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent) rodStack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
+        BundleContentsComponent bundleContentsComponent = rodStack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
         if (bundleContentsComponent.isEmpty()) {
             return ItemStack.EMPTY;
         }
@@ -242,7 +101,7 @@ public class DeluxeFishingRodItem extends FishingRodItem {
 
     // Decrease bait item in the BundleContentsComponent
     public void decrementBaitInBundle(ItemStack rodStack) {
-        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent) rodStack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
+        BundleContentsComponent bundleContentsComponent = rodStack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
         List<ItemStack> originalStacks = (List<ItemStack>) bundleContentsComponent.iterate();
         List<ItemStack> stacks = new ArrayList<>(originalStacks);
         Random random = new Random();
@@ -260,8 +119,8 @@ public class DeluxeFishingRodItem extends FishingRodItem {
                         stacks.remove(itemStack);
                     }
                     modified = true;
-                    break;
                 }
+                break;
             }
         }
 
@@ -274,20 +133,138 @@ public class DeluxeFishingRodItem extends FishingRodItem {
         }
     }
 
+    /*
+     * Bundle Component Properties
+     * Copied basically from net.minecraft.item.bundleitem (BundleItem.java)
+     * Except for some exceptions
+     */
 
+    public static float getAmountFilled(ItemStack stack) {
+        BundleContentsComponent bundleContentsComponent = stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
+        return bundleContentsComponent.getOccupancy().floatValue();
+    }
 
+    public boolean onStackClicked(ItemStack stack, Slot slot, ClickType clickType, PlayerEntity player) {
+        if (clickType != ClickType.RIGHT) {
+            return false;
+        } else {
+            BundleContentsComponent bundleContentsComponent = stack.get(DataComponentTypes.BUNDLE_CONTENTS);
+            if (bundleContentsComponent == null) {
+                return false;
+            } else {
+                ItemStack itemStack = slot.getStack();
+                BundleContentsComponent.Builder builder = new BundleContentsComponent.Builder(bundleContentsComponent);
+                if (itemStack.isEmpty()) {
+                    this.playRemoveOneSound(player);
+                    ItemStack itemStack2 = builder.removeFirst();
+                    if (itemStack2 != null) {
+                        ItemStack itemStack3 = slot.insertStack(itemStack2);
+                        builder.add(itemStack3);
+                    }
+                } else if (itemStack.getItem().canBeNested() && isBait(itemStack)) {
+                    int i = builder.add(slot, player);
+                    if (i > 0) {
+                        this.playInsertSound(player);
+                    }
+                }
+                stack.set(DataComponentTypes.BUNDLE_CONTENTS, builder.build());
+                return true;
+            }
+        }
+    }
 
+    public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
+        if (clickType == ClickType.RIGHT && slot.canTakePartial(player)) {
+            BundleContentsComponent bundleContentsComponent = stack.get(DataComponentTypes.BUNDLE_CONTENTS);
+            if (bundleContentsComponent == null) {
+                return false;
+            } else {
+                BundleContentsComponent.Builder builder = new BundleContentsComponent.Builder(bundleContentsComponent);
+                if (otherStack.isEmpty()) {
+                    ItemStack itemStack = builder.removeFirst();
+                    if (itemStack != null) {
+                        this.playRemoveOneSound(player);
+                        cursorStackReference.set(itemStack);
+                    }
+                } else if (isBait(otherStack)) {
+                    int i = builder.add(otherStack);
+                    if (i > 0) {
+                        this.playInsertSound(player);
+                    }
+                }
+                stack.set(DataComponentTypes.BUNDLE_CONTENTS, builder.build());
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
 
+    /*
+     * Bundle Tooltip and Item Display
+     */
+    public boolean isBundleBarVisible(ItemStack stack) {
+        BundleContentsComponent bundleContentsComponent = stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
+        return bundleContentsComponent.getOccupancy().compareTo(Fraction.ZERO) > 0;
+    }
+
+    public int getBundleBarStep(ItemStack stack) {
+        BundleContentsComponent bundleContentsComponent = stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
+        return Math.min(1 + MathHelper.multiplyFraction(bundleContentsComponent.getOccupancy(), 12), 13);
+    }
+
+    public int getBundleBarColor() {
+        return ITEM_BAR_COLOR;
+    }
+
+    public Optional<TooltipData> getTooltipData(ItemStack stack) {
+        if (!stack.contains(DataComponentTypes.HIDE_TOOLTIP) && !stack.contains(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP)) {
+            BundleContentsComponent bundleContentsComponent = stack.get(DataComponentTypes.BUNDLE_CONTENTS);
+            if (bundleContentsComponent != null && !bundleContentsComponent.isEmpty()) {
+                List<ItemStack> nonEmptyStacks = new ArrayList<>();
+                for (ItemStack itemStack : bundleContentsComponent.iterate()) {
+                    if (!itemStack.isEmpty()) {
+                        nonEmptyStacks.add(itemStack);
+                    }
+                }
+                return Optional.of(new BundleTooltipData(new BundleContentsComponent(nonEmptyStacks)));
+            }
+        }
+        return Optional.empty();
+    }
+
+    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
+        BundleContentsComponent bundleContentsComponent = stack.get(DataComponentTypes.BUNDLE_CONTENTS);
+        if (bundleContentsComponent != null) {
+            int i = MathHelper.multiplyFraction(bundleContentsComponent.getOccupancy(), 64);
+            if (i > 0) {
+                tooltip.add(Text.translatable("item.minecraft.bundle.fullness", new Object[]{i, 64}).formatted(Formatting.GRAY));
+            }
+        }
+    }
+
+    public void onItemEntityDestroyed(ItemEntity entity) {
+        BundleContentsComponent bundleContentsComponent = entity.getStack().get(DataComponentTypes.BUNDLE_CONTENTS);
+        if (bundleContentsComponent != null) {
+            entity.getStack().set(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
+            ItemUsage.spawnItemContents(entity, bundleContentsComponent.iterateCopy());
+        }
+    }
 
     // Check if the given stack is a bait item
     private boolean isBait(ItemStack stack) {
         return stack.getItem() instanceof BaitItem;
     }
 
-    @Override
-    public int getEnchantability() {
-        return 1;
+    /*
+     * Bundle Interaction Sounds
+     */
+    private void playRemoveOneSound(Entity entity) {
+        entity.playSound(SoundEvents.ITEM_BUNDLE_REMOVE_ONE, 0.8F, 0.8F + entity.getWorld().getRandom().nextFloat() * 0.4F);
     }
 
+    private void playInsertSound(Entity entity) {
+        entity.playSound(SoundEvents.ITEM_BUNDLE_INSERT, 0.8F, 0.8F + entity.getWorld().getRandom().nextFloat() * 0.4F);
+    }
 
 }

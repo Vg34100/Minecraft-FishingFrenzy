@@ -1,11 +1,8 @@
 package net.vg.fishingfrenzy.client.gui.screen.option;
 
-import com.google.common.collect.ImmutableList;
-import com.mojang.serialization.Codec;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
-import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 import net.vg.fishingfrenzy.config.ModConfigs;
 
@@ -22,6 +19,7 @@ public class ClientOptionScreen extends GameOptionsScreen {
     @Override
     public void close() {
         ModConfigs.saveConfigs();
+        assert this.client != null;
         this.client.setScreen(this.parent);
     }
 

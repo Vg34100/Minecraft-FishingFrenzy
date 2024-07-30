@@ -31,7 +31,7 @@ public class FishingFrenzyModMenu implements ModMenuApi {
     /**
      * The main configuration screen for the mod.
      */
-    public class MainConfigScreen extends GameOptionsScreen {
+    public static class MainConfigScreen extends GameOptionsScreen {
         private static final Text TITLE_TEXT = Text.translatable("config.general.title");
         private static final Text SERVER_SETTINGS_TEXT = Text.translatable("config.server.title");
         private static final Text CLIENT_SETTINGS_TEXT = Text.translatable("config.client.title");

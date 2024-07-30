@@ -3,7 +3,6 @@
   "package": "net.vg.fishingfrenzy.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ExampleMixin",
     "FishingBobberAccessor",
     "FishingBobberValidityMixin"
   ],

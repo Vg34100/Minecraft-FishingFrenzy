@@ -6,8 +6,8 @@ import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.context.LootContextParameterSet;
@@ -20,11 +20,9 @@ import net.minecraft.stat.Stats;
 import net.minecraft.world.World;
 import net.vg.fishingfrenzy.item.ModItems;
 import net.vg.fishingfrenzy.item.custom.BaitItem;
-import net.vg.fishingfrenzy.item.custom.BaitProperties;
 import net.vg.fishingfrenzy.item.custom.DeluxeFishingRodItem;
 import net.vg.fishingfrenzy.mixin.FishingBobberAccessor;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class DeluxeFishingBobberEntity extends FishingBobberEntity {
@@ -77,54 +75,63 @@ public class DeluxeFishingBobberEntity extends FishingBobberEntity {
                     .build(LootContextTypes.FISHING);
             LootTable lootTable = this.getWorld().getServer().getReloadableRegistries().getLootTable(LootTables.FISHING_GAMEPLAY);
 
-            if (!baitStack.isEmpty() && baitStack.getItem() instanceof BaitItem) {
-                BaitProperties baitProperties = (BaitProperties) baitStack.getItem();
+            if (!baitStack.isEmpty() && baitStack.getItem() instanceof BaitItem baitProperties) {
                 lootTable = this.getWorld().getServer().getReloadableRegistries().getLootTable(baitProperties.getLootTable());
             }
             List<ItemStack> list = lootTable.generateLoot(lootContextParameterSet);
             Criteria.FISHING_ROD_HOOKED.trigger((ServerPlayerEntity)playerEntity, usedItem, this, list);
-            Iterator var7 = list.iterator();
 
-            while(var7.hasNext()) {
-                    ItemStack itemStack = (ItemStack)var7.next();
-                    double d = playerEntity.getX() - this.getX();
-                    double e = playerEntity.getY() - this.getY();
-                    double f = playerEntity.getZ() - this.getZ();
-                    double g = 0.1;
+            for (ItemStack itemStack : list) {
+                double d = playerEntity.getX() - this.getX();
+                double e = playerEntity.getY() - this.getY();
+                double f = playerEntity.getZ() - this.getZ();
+//                double g = 0.1;
 
-                    int catches = 1;
-                    int caught = 0;
-                    float multiCatchChance = 0.0f; // Default chance
+                int catches = 1;
+                int caught = 0;
+                float multiCatchChance = 0.0f; // Default chance
+                Item targetedFish = null;
 
-                    if (!baitStack.isEmpty() &&  baitStack.getItem() instanceof BaitItem) {
-                        BaitProperties baitProperties = ((BaitProperties) baitStack.getItem());
-                        catches += baitProperties.getMultiCatchAmount();
-                        multiCatchChance = baitProperties.getMultiCatchChance();
-                    }
+                if (!baitStack.isEmpty() && baitStack.getItem() instanceof BaitItem baitProperties) {
+                    catches += baitProperties.getMultiCatchAmount();
+                    multiCatchChance = baitProperties.getMultiCatchChance();
+                    targetedFish = baitProperties.getTargetedFish();
+                }
+                if (targetedFish != null) {
+                    System.out.println(targetedFish.toString());
+                }
 
-                    for (int l = 0; l < catches; l++) {
-                        // Ensure the first spawn always happens
-                        if (l == 0 || Math.random() < multiCatchChance) {
+                for (int l = 0; l < catches; l++) {
+                    // Ensure the first spawn always happens
+                    if (l == 0 || Math.random() < multiCatchChance) {
+                        if (targetedFish != null && Math.random() < 0.8f) {
+                            itemStack = new ItemStack(targetedFish);
+                            ItemEntity itemEntity = new ItemEntity(this.getWorld(), this.getX(), this.getY(), this.getZ(), itemStack);
+                            itemEntity.setVelocity(d * 0.1, e * 0.1 + Math.sqrt(Math.sqrt(d * d + e * e + f * f)) * 0.08, f * 0.1);
+                            this.getWorld().spawnEntity(itemEntity);
+                            caught++;
+                        } else {
                             ItemEntity itemEntity = new ItemEntity(this.getWorld(), this.getX(), this.getY(), this.getZ(), itemStack);
                             itemEntity.setVelocity(d * 0.1, e * 0.1 + Math.sqrt(Math.sqrt(d * d + e * e + f * f)) * 0.08, f * 0.1);
                             this.getWorld().spawnEntity(itemEntity);
                             caught++;
                         }
                     }
-
-
-                    // Experience
-                    playerEntity.getWorld().spawnEntity(new ExperienceOrbEntity(playerEntity.getWorld(), playerEntity.getX(), playerEntity.getY() + 0.5, playerEntity.getZ() + 0.5, this.random.nextInt(6) + 1));
-                    // Decrease bait stack in the bundle
-                    if (!baitStack.isEmpty()) {
-                        DeluxeFishingRodItem fishingRod = (DeluxeFishingRodItem) usedItem.getItem();
-                        fishingRod.decrementBaitInBundle(usedItem);
-                    }
-
-                    if (itemStack.isIn(ItemTags.FISHES)) {
-                        playerEntity.increaseStat(Stats.FISH_CAUGHT, caught);
-                    }
                 }
+
+
+                // Experience
+                playerEntity.getWorld().spawnEntity(new ExperienceOrbEntity(playerEntity.getWorld(), playerEntity.getX(), playerEntity.getY() + 0.5, playerEntity.getZ() + 0.5, this.random.nextInt(6) + 1));
+                // Decrease bait stack in the bundle
+                if (!baitStack.isEmpty()) {
+                    DeluxeFishingRodItem fishingRod = (DeluxeFishingRodItem) usedItem.getItem();
+                    fishingRod.decrementBaitInBundle(usedItem);
+                }
+
+                if (itemStack.isIn(ItemTags.FISHES)) {
+                    playerEntity.increaseStat(Stats.FISH_CAUGHT, caught);
+                }
+            }
             i = 1;
         }
         if (this.isOnGround()) {

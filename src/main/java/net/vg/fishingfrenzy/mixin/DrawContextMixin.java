@@ -5,14 +5,11 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.BundleContentsComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Colors;
 import net.minecraft.util.math.MathHelper;
 import net.vg.fishingfrenzy.item.custom.DeluxeFishingRodItem;
-import org.apache.commons.lang3.math.Fraction;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -55,7 +52,7 @@ public class DrawContextMixin {
 
             if (item.isBundleBarVisible(stack)) {
                 int bundleStep = item.getBundleBarStep(stack);
-                int bundleColor = item.getBundleBarColor(stack);
+                int bundleColor = item.getBundleBarColor();
                 int barX = x + 2;
                 int barY = y + 13;
 

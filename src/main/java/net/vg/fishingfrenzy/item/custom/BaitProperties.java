@@ -1,5 +1,6 @@
 package net.vg.fishingfrenzy.item.custom;
 
+import net.minecraft.item.Item;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.LootTables;
 import net.minecraft.registry.RegistryKey;
@@ -29,4 +30,6 @@ public interface BaitProperties {
     default RegistryKey<LootTable> getLootTable() {
         return LootTables.FISHING_GAMEPLAY;
     }
+
+    default Item getTargetedFish() { return null; }
 }

@@ -1,9 +1,6 @@
 package net.vg.fishingfrenzy.config;
 
-import com.mojang.datafixers.util.Pair;
 import net.vg.fishingfrenzy.FishingFrenzy;
-
-import java.util.Arrays;
 
 public class ModConfigs {
     public static SimpleConfig CONFIG;
@@ -25,8 +22,6 @@ public class ModConfigs {
 
     private static void createConfigs() {
         FishingFrenzy.LOGGER.debug("Creating default configuration values.");
-
-
     }
 
     private static void assignConfigs() {

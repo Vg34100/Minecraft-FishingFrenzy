@@ -1,5 +1,6 @@
 package net.vg.fishingfrenzy.item.custom;
 
+import net.minecraft.item.Item;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.LootTables;
 import net.minecraft.registry.RegistryKey;
@@ -11,6 +12,7 @@ public class BaitPropertiesBuilder implements BaitProperties {
     private int multiCatchAmount = 0;
     private float multiCatchChance = 0.0f;
     private RegistryKey<LootTable> lootTable = LootTables.FISHING_GAMEPLAY;
+    private Item targetedFish = null;
 
 
     public BaitPropertiesBuilder setLureBonus(int lureBonus) {
@@ -40,6 +42,11 @@ public class BaitPropertiesBuilder implements BaitProperties {
 
     public BaitPropertiesBuilder setLootTable(RegistryKey<LootTable> lootTable) {
         this.lootTable = lootTable;
+        return this;
+    }
+
+    public BaitPropertiesBuilder setTargetedFish(Item targetedFish) {
+        this.targetedFish = targetedFish;
         return this;
     }
 
@@ -75,4 +82,7 @@ public class BaitPropertiesBuilder implements BaitProperties {
     public RegistryKey<LootTable> getLootTable() {
         return lootTable;
     }
+
+    @Override
+    public Item getTargetedFish() { return targetedFish; }
 }
