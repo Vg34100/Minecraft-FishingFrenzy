@@ -53,9 +53,7 @@ public interface FishProperties {
         return 0xffd476;
     }
 
-    default int getSecondaryColor() {
-        return 0xb29452;
-    }
+    default int getSecondaryColor() { return 0xb29452; }
 
     default EntityType<? extends MobEntity> getFishEntityType() {
         return null;

@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import net.vg.fishingfrenzy.entity.ModEntities;
+import net.vg.fishingfrenzy.entity.ModEntityClientInitializer;
 import net.vg.fishingfrenzy.entity.client.*;
 import net.vg.fishingfrenzy.item.ModItems;
 import net.vg.fishingfrenzy.item.custom.CustomSpawnEggItem;
@@ -19,18 +20,12 @@ import net.vg.fishingfrenzy.item.custom.TargetBaitItem;
 public class FishingFrenzyClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        EntityRendererRegistry.register(ModEntities.CARP, CarpRenderer::new);
-        EntityModelLayerRegistry.registerModelLayer(ModModelLayers.CARP, CarpModel::getTexturedModelData);
-
-        EntityRendererRegistry.register(ModEntities.BONEFISH, BonefishRenderer::new);
-        EntityModelLayerRegistry.registerModelLayer(ModModelLayers.BONEFISH, BonefishModel::getTexturedModelData);
-
-        // Render the colored texture
-//        ColorProviderRegistry.ITEM.register(
-//                (stack, tintIndex) -> ((CustomBaitItem) stack.getItem()).getColor(tintIndex), ModItems.TESTBAIT
-//        );
-//        ColorProviderRegistry.ITEM.register((stack, tintIndex) ->
-//                ((CustomSpawnEggItem)stack.getItem()).getColor(tintIndex), ModItems.CUSTOM_EGG);
+        ModEntityClientInitializer.registerEntities();
+//        EntityRendererRegistry.register(ModEntities.CARP, CarpRenderer::new);
+//        EntityModelLayerRegistry.registerModelLayer(ModModelLayers.CARP, CarpModel::getTexturedModelData);
+//
+//        EntityRendererRegistry.register(ModEntities.BONEFISH, BonefishRenderer::new);
+//        EntityModelLayerRegistry.registerModelLayer(ModModelLayers.BONEFISH, BonefishModel::getTexturedModelData);
 
         for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
             ColorProviderRegistry.ITEM.register((stack, tintIndex) ->
@@ -38,7 +33,7 @@ public class FishingFrenzyClient implements ClientModInitializer {
 
         }
 
-            // Render the casted texture
+        // Render the casted texture
         ModelPredicateProviderRegistry.register(ModItems.DELUXE_FISHING_ROD, Identifier.of("cast"), (stack, world, entity, seed) -> {
             boolean bl2;
             if (entity == null) {
