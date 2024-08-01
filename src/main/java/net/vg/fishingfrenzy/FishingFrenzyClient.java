@@ -7,11 +7,14 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FishingRodItem;
+import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.ColorHelper;
 import net.vg.fishingfrenzy.entity.ModEntities;
 import net.vg.fishingfrenzy.entity.client.*;
 import net.vg.fishingfrenzy.item.ModItems;
-import net.vg.fishingfrenzy.item.custom.CustomBaitItem;
+import net.vg.fishingfrenzy.item.custom.CustomSpawnEggItem;
+import net.vg.fishingfrenzy.item.custom.TargetBaitItem;
 
 public class FishingFrenzyClient implements ClientModInitializer {
     @Override
@@ -23,11 +26,19 @@ public class FishingFrenzyClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(ModModelLayers.BONEFISH, BonefishModel::getTexturedModelData);
 
         // Render the colored texture
-        ColorProviderRegistry.ITEM.register(
-                (stack, tintIndex) -> ((CustomBaitItem) stack.getItem()).getColor(tintIndex), ModItems.TESTBAIT
-        );
+//        ColorProviderRegistry.ITEM.register(
+//                (stack, tintIndex) -> ((CustomBaitItem) stack.getItem()).getColor(tintIndex), ModItems.TESTBAIT
+//        );
+//        ColorProviderRegistry.ITEM.register((stack, tintIndex) ->
+//                ((CustomSpawnEggItem)stack.getItem()).getColor(tintIndex), ModItems.CUSTOM_EGG);
 
-        // Render the casted texture
+        for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
+            ColorProviderRegistry.ITEM.register((stack, tintIndex) ->
+                    ColorHelper.Argb.fullAlpha(((TargetBaitItem)stack.getItem()).getColor(tintIndex)), baitItem);
+
+        }
+
+            // Render the casted texture
         ModelPredicateProviderRegistry.register(ModItems.DELUXE_FISHING_ROD, Identifier.of("cast"), (stack, world, entity, seed) -> {
             boolean bl2;
             if (entity == null) {

@@ -80,6 +80,7 @@ public class ModItems {
 
     public static final List<RegistryKey<Biome>> WARMWATERS = List.of(
             BiomeKeys.OCEAN,
+            BiomeKeys.DEEP_OCEAN,
             BiomeKeys.LUKEWARM_OCEAN,
             BiomeKeys.DEEP_LUKEWARM_OCEAN,
             BiomeKeys.WARM_OCEAN,
@@ -575,10 +576,11 @@ public class ModItems {
 //                    .setPrimaryColor(0x036ffc)
 //                    .setSecondaryColor(0xb0bdcf)));
 
-    public static final Item TESTBAIT = registerItem("custom_bait",
-            new CustomBaitItem(0xffd476, 0xb29452, new Item.Settings()));
-
-
+//    public static final Item TESTBAIT = registerItem("custom_bait",
+//            new CustomBaitItem(0xffd476, 0xb29452, new Item.Settings()));
+//
+//    public static final Item CUSTOM_EGG = registerItem("custom_egg",
+//            new CustomSpawnEggItem(0xFF0000, 0x00FF00, new Item.Settings()));
 
 
 
@@ -602,15 +604,18 @@ public class ModItems {
 
     private static void createBait() {
         for (Item fish : FISH_ITEMS) {
-            String fishName = Registries.ITEM.getId(fish).getPath();
-            String baitName = fishName + "_bait";
-            registerBaitItem(baitName,
-                    new BaitItem(new Item.Settings(), new BaitPropertiesBuilder()
-                            .setLuckBonus(4)
-                            .setLureBonus(2)
-                            .setTargetedFish(fish)
-                            .setMultiCatchAmount(3)
-                            .setMultiCatchChance(0.1f)));
+            if (fish instanceof FishItem fishItem) {
+
+                String fishName = Registries.ITEM.getId(fish).getPath();
+                String baitName = fishName + "_bait";
+                registerBaitItem(baitName,
+                        new TargetBaitItem(((FishItem) fish).getPrimaryColor(), ((FishItem) fish).getSecondaryColor(), new Item.Settings(), new BaitPropertiesBuilder()
+                                .setLuckBonus(4)
+                                .setLureBonus(2)
+                                .setTargetedFish(fish)
+                                .setMultiCatchAmount(3)
+                                .setMultiCatchChance(0.1f)));
+            }
         }
     }
 

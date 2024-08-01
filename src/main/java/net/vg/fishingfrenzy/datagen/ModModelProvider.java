@@ -34,9 +34,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.CHALLENGE_BAIT, Models.GENERATED);
         itemModelGenerator.register(ModItems.WILD_BAIT, Models.GENERATED);
 
-        for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
-            itemModelGenerator.register(baitItem, Models.GENERATED);
-        }
+
         for (Item fishItem : ModItems.FISH_ITEMS) {
             itemModelGenerator.register(fishItem, Models.GENERATED);
         }
@@ -60,9 +58,17 @@ public class ModModelProvider extends FabricModelProvider {
             FishingFrenzy.LOGGER.info("Registered model for spawn egg: " + spawnEggId.getPath());
         }
 
+        Model targetBaitModel = new Model(Optional.of(Identifier.of(FishingFrenzy.MOD_ID,"item/template_target_bait")), Optional.empty());
 
-        itemModelGenerator.register(ModItems.TESTBAIT,
-                    new Model(Optional.of(Identifier.of(FishingFrenzy.MOD_ID, "item/template_target_bait")), Optional.empty()));
+
+        for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
+            Identifier spawnEggId = Registries.ITEM.getId(baitItem);
+            itemModelGenerator.register(baitItem, targetBaitModel);
+            FishingFrenzy.LOGGER.info("Registered model for spawn egg: " + spawnEggId.getPath());
+        }
+
+//        itemModelGenerator.register(ModItems.TESTBAIT,
+//                    new Model(Optional.of(Identifier.of(FishingFrenzy.MOD_ID, "item/template_target_bait")), Optional.empty()));
 
     }
 

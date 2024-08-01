@@ -15,6 +15,7 @@ import net.vg.fishingfrenzy.item.ModItemGroups;
 import net.vg.fishingfrenzy.item.ModItems;
 import net.vg.fishingfrenzy.loot.ModLootTableModifiers;
 
+import net.vg.fishingfrenzy.world.ModEntitySpawns;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +50,7 @@ public class FishingFrenzy implements ModInitializer {
 		FabricDefaultAttributeRegistry.register(ModEntities.CARP, CarpEntity.createCarpAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntities.BONEFISH, BonefishEntity.createBonefishAttributes());
 
+		ModEntitySpawns.addEntitySpawns();
 
 		// Log the initialization message with mod name and version
 		LOGGER.info("Initialized Mod: {} v{}", MOD_NAME, MOD_VERSION);	}

@@ -18,6 +18,7 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
+import net.vg.fishingfrenzy.item.ModItems;
 
 public class CarpEntity extends SchoolingFishEntity {
     public final AnimationState idleAnimationState = new AnimationState();
@@ -34,6 +35,14 @@ public class CarpEntity extends SchoolingFishEntity {
         } else {
             --this.idleAnimationTimeout;
         }
+    }
+
+    @Override
+    protected void dropLoot(DamageSource damageSource, boolean causedByPlayer) {
+        super.dropLoot(damageSource, causedByPlayer);
+
+        this.dropItem(ModItems.RAW_CARP);
+
     }
 
     @Override

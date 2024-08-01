@@ -19,6 +19,7 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
+import net.vg.fishingfrenzy.item.ModItems;
 
 public class BonefishEntity extends SchoolingFishEntity {
     public final AnimationState idleAnimationState = new AnimationState();
@@ -34,6 +35,19 @@ public class BonefishEntity extends SchoolingFishEntity {
             this.idleAnimationState.start(this.age);
         } else {
             --this.idleAnimationTimeout;
+        }
+    }
+
+    @Override
+    protected void dropLoot(DamageSource damageSource, boolean causedByPlayer) {
+        super.dropLoot(damageSource, causedByPlayer);
+
+        this.dropItem(ModItems.BONEFISH);
+
+        // Chance to drop bones
+        // 10% chance to drop 1-3 bones
+        if (this.random.nextFloat() < 0.1f) {
+            this.dropStack(new ItemStack(Items.BONE, this.random.nextInt(3) + 1));
         }
     }
 
