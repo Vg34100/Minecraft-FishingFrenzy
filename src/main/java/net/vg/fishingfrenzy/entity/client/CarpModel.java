@@ -54,8 +54,6 @@ public class CarpModel<T extends CarpEntity> extends SinglePartEntityModel<T> {
 
 		this.animateMovement(ModAnimations.CARP_IDLE, limbSwing, limbSwingAmount, 2f, 2.5f);
 		this.updateAnimation(entity.idleAnimationState, ModAnimations.CARP_IDLE, ageInTicks, 1f);
-
-
 	}
 
 	private void setHeadAngles(float headYaw, float headPitch) {

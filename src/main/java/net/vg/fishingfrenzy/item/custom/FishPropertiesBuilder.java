@@ -1,10 +1,13 @@
 package net.vg.fishingfrenzy.item.custom;
 
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 
 import java.util.List;
+import java.util.Optional;
 
 public class FishPropertiesBuilder implements FishProperties {
     private int weight = 25;
@@ -18,6 +21,7 @@ public class FishPropertiesBuilder implements FishProperties {
     private List<RegistryKey<Biome>> biomes = List.of();
     private int primaryColor = 0xffd476;
     private int secondaryColor = 0xb29452;
+    private EntityType<? extends MobEntity> fishEntityType = null;
 
     public FishPropertiesBuilder setWeight(int weight) {
         this.weight = weight;
@@ -74,6 +78,12 @@ public class FishPropertiesBuilder implements FishProperties {
         return this;
     }
 
+    public FishPropertiesBuilder setFishEntityType(EntityType<? extends MobEntity> fishEntityType) {
+        this.fishEntityType = fishEntityType;
+        return this;
+    }
+
+
     @Override
     public int getWeight() {
         return weight;
@@ -127,5 +137,15 @@ public class FishPropertiesBuilder implements FishProperties {
     @Override
     public int getSecondaryColor() {
         return secondaryColor;
+    }
+
+    @Override
+    public EntityType<? extends MobEntity> getFishEntityType() {
+        return fishEntityType;
+    }
+
+    @Override
+    public boolean hasFishEntityType() {
+        return fishEntityType != null;
     }
 }

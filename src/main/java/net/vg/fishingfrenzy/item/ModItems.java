@@ -4,6 +4,7 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.BundleContentsComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
@@ -22,6 +23,7 @@ import net.vg.fishingfrenzy.item.custom.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class ModItems {
 
@@ -465,6 +467,9 @@ public class ModItems {
     // Mountain
     public static final Item RAW_CARP = registerFishItem("raw_carp",
             new FishItem(new Item.Settings().food(ModFoodComponents.RAW_CARP), new FishPropertiesBuilder()
+                    .setFishEntityType(ModEntities.CARP)
+                    .setPrimaryColor(0xe5b650)
+                    .setSecondaryColor(0xffd578)
                     .setWeight(45)
                     .setBiomes(combine(RIVERS, PLAINS, FORESTS, MOUNTAINS))));
 
@@ -546,6 +551,9 @@ public class ModItems {
 
     public static final Item BONEFISH = registerFishItem("bonefish",
             new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SARDINE), new FishPropertiesBuilder()
+                    .setFishEntityType(ModEntities.BONEFISH)
+                    .setPrimaryColor(0xa0a082)
+                    .setSecondaryColor(0x595945)
                     .setWeight(10)
                     .setBiomes(combine(WARMWATERS, COLDWATERS, JUNGLES, SWAMPS))
                     .setYRange(CAVERN) // there's also .atMost() or .between()
@@ -572,20 +580,6 @@ public class ModItems {
 
 
 
-    public static final Item DUMMY_FISH_1_SPAWN_EGG = registerSpawnEgg("dummy_fish_1_spawn_egg",
-            new SpawnEggItem(ModEntities.CARP, 0xFF0000, 0x00FF00, new Item.Settings()));
-
-    public static final Item DUMMY_FISH_2_SPAWN_EGG = registerSpawnEgg("dummy_fish_2_spawn_egg",
-            new SpawnEggItem(ModEntities.CARP, 0x0000FF, 0xFFFF00, new Item.Settings()));
-
-    // Dummy spawn eggs for manual addition to the models class
-    public static final Item MANUAL_DUMMY_1_SPAWN_EGG = Registry.register(Registries.ITEM,
-            Identifier.of(FishingFrenzy.MOD_ID, "manual_dummy_1_spawn_egg"),
-            new SpawnEggItem(ModEntities.CARP, 0xFF00FF, 0x00FFFF, new Item.Settings()));
-
-    public static final Item MANUAL_DUMMY_2_SPAWN_EGG = Registry.register(Registries.ITEM,
-            Identifier.of(FishingFrenzy.MOD_ID, "manual_dummy_2_spawn_egg"),
-            new SpawnEggItem(ModEntities.CARP, 0xAA00AA, 0x00AAAA, new Item.Settings()));
 
 
 
@@ -625,24 +619,32 @@ public class ModItems {
         return Registry.register(Registries.ITEM, Identifier.of(FishingFrenzy.MOD_ID, name), item);
     }
 
-
     private static void createSpawnItems() {
         for (Item fish : FISH_ITEMS) {
-            if (fish instanceof FishItem) {
-                FishItem fishItem = (FishItem) fish;
-                String fishName = Registries.ITEM.getId(fish).getPath();
-                String eggName = fishName + "_spawn_egg";
-                int primaryColor = fishItem.getPrimaryColor();
-                int secondaryColor = fishItem.getSecondaryColor();
+            if (fish instanceof FishItem fishItem) {
 
-                FishingFrenzy.LOGGER.info("Creating spawn egg for " + fishName +
-                        " with colors: " + String.format("0x%06X", primaryColor) +
-                        ", " + String.format("0x%06X", secondaryColor));
+                if (fishItem.hasFishEntityType()) {
+                    EntityType<? extends MobEntity> entityType = fishItem.getFishEntityType();
+                    String fishName = Registries.ITEM.getId(fish).getPath();
+                    String eggName = fishName + "_spawn_egg";
+                    int primaryColor = fishItem.getPrimaryColor();
+                    int secondaryColor = fishItem.getSecondaryColor();
 
-                registerSpawnEgg(eggName, new SpawnEggItem(EntityType.PIG, primaryColor, secondaryColor, new Item.Settings()));
+                    FishingFrenzy.LOGGER.info("Creating spawn egg for " + fishName +
+                            " with colors: " + String.format("0x%06X", primaryColor) +
+                            ", " + String.format("0x%06X", secondaryColor));
+
+                    registerSpawnEgg(eggName, new SpawnEggItem(entityType, primaryColor, secondaryColor, new Item.Settings()));
+                } else {
+                    FishingFrenzy.LOGGER.info("Skipping spawn egg creation for " + Registries.ITEM.getId(fish).getPath() +
+                            " as no entity type is set.");
+                }
             }
         }
     }
+
+
+
     private static Item registerSpawnEgg(String name, Item item) {
         FISH_SPAWN_EGGS.add(item);
         return Registry.register(Registries.ITEM, Identifier.of(FishingFrenzy.MOD_ID, name), item);

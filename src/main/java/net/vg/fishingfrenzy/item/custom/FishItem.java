@@ -1,11 +1,14 @@
 package net.vg.fishingfrenzy.item.custom;
 
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 
 import java.util.List;
+import java.util.Optional;
 
 public class FishItem extends Item {
 
@@ -20,6 +23,7 @@ public class FishItem extends Item {
     private final List<RegistryKey<Biome>> biomes;
     private final int primaryColor;
     private final int secondaryColor;
+    private final EntityType<? extends MobEntity> fishEntityType;
 
     public FishItem(Settings settings, FishProperties properties) {
         super(settings);
@@ -34,6 +38,8 @@ public class FishItem extends Item {
         this.biomes = properties.getBiomes();
         this.primaryColor = properties.getPrimaryColor();
         this.secondaryColor = properties.getSecondaryColor();
+        this.fishEntityType = properties.getFishEntityType();
+
     }
 
     public int getWeight() {
@@ -78,5 +84,13 @@ public class FishItem extends Item {
 
     public int getSecondaryColor() {
         return secondaryColor;
+    }
+
+    public EntityType<? extends MobEntity> getFishEntityType() {
+        return fishEntityType;
+    }
+
+    public boolean hasFishEntityType() {
+        return fishEntityType != null;
     }
 }

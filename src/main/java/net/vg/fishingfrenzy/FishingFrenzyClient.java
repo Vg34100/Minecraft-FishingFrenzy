@@ -9,9 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.util.Identifier;
 import net.vg.fishingfrenzy.entity.ModEntities;
-import net.vg.fishingfrenzy.entity.client.CarpModel;
-import net.vg.fishingfrenzy.entity.client.CarpRenderer;
-import net.vg.fishingfrenzy.entity.client.ModModelLayers;
+import net.vg.fishingfrenzy.entity.client.*;
 import net.vg.fishingfrenzy.item.ModItems;
 import net.vg.fishingfrenzy.item.custom.CustomBaitItem;
 
@@ -20,6 +18,9 @@ public class FishingFrenzyClient implements ClientModInitializer {
     public void onInitializeClient() {
         EntityRendererRegistry.register(ModEntities.CARP, CarpRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(ModModelLayers.CARP, CarpModel::getTexturedModelData);
+
+        EntityRendererRegistry.register(ModEntities.BONEFISH, BonefishRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(ModModelLayers.BONEFISH, BonefishModel::getTexturedModelData);
 
         // Render the colored texture
         ColorProviderRegistry.ITEM.register(

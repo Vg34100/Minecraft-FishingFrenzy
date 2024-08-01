@@ -7,4 +7,8 @@ import net.vg.fishingfrenzy.FishingFrenzy;
 public class ModModelLayers {
     public static final EntityModelLayer CARP =
             new EntityModelLayer(Identifier.of(FishingFrenzy.MOD_ID, "carp"), "main");
+
+    public static final EntityModelLayer BONEFISH =
+            new EntityModelLayer(Identifier.of(FishingFrenzy.MOD_ID, "bonefish"), "main");
+
 }

@@ -1,10 +1,13 @@
 package net.vg.fishingfrenzy.item.custom;
 
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FishProperties {
 
@@ -50,5 +53,13 @@ public interface FishProperties {
 
     default int getSecondaryColor() {
         return 0xb29452;
+    }
+
+    default EntityType<? extends MobEntity> getFishEntityType() {
+        return null;
+    }
+
+    default boolean hasFishEntityType() {
+        return getFishEntityType() != null;
     }
 }

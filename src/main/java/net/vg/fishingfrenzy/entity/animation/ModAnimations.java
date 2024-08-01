@@ -21,4 +21,18 @@ public class ModAnimations {
             ))
             .build();
 
+    public static final Animation BONEFISH_IDLE = Animation.Builder.create(1.0F)
+            .addBoneAnimation("bonefish", new Transformation(Transformation.Targets.ROTATE,
+			new Keyframe(0.2F, AnimationHelper.createRotationalVector(0.0F, -27.5F, 0.0F), Transformation.Interpolations.LINEAR),
+            new Keyframe(0.65F, AnimationHelper.createRotationalVector(0.0F, 10.0F, 0.0F), Transformation.Interpolations.LINEAR),
+            new Keyframe(0.95F, AnimationHelper.createRotationalVector(0.0F, -5.0F, 0.0F), Transformation.Interpolations.LINEAR)
+            ))
+            .addBoneAnimation("tail", new Transformation(Transformation.Targets.ROTATE,
+			new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
+            new Keyframe(0.2F, AnimationHelper.createRotationalVector(0.0F, -15.0F, 0.0F), Transformation.Interpolations.LINEAR),
+            new Keyframe(0.55F, AnimationHelper.createRotationalVector(0.0F, 7.5F, 0.0F), Transformation.Interpolations.LINEAR),
+            new Keyframe(0.9F, AnimationHelper.createRotationalVector(0.0F, 2.5F, 0.0F), Transformation.Interpolations.LINEAR)
+            ))
+            .build();
+
 }
