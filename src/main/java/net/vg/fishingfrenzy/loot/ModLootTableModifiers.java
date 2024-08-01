@@ -20,6 +20,7 @@ import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
+import net.vg.fishingfrenzy.config.ModConfigs;
 import net.vg.fishingfrenzy.item.ModItems;
 import net.vg.fishingfrenzy.item.custom.FishItem;
 
@@ -56,61 +57,43 @@ public class ModLootTableModifiers {
                                 .weight(2))
                         .with(ItemEntry.builder(Items.PUFFERFISH)
                                 .weight(13));
-//
-//                        .with(ItemEntry.builder(ModItems.RAW_CARP)
-//                                .weight(3000)
-//                                .conditionally(TimeCheckLootCondition
-//                                        .create(BoundedIntUnaryOperator.create(6000, 18000)) // Available from 6000 to 18000 ticks (morning to evening)
-//                                        .period(24000L)) // Full Minecraft day cycle
-//                                .conditionally(TimeCheckLootCondition
-//                                        .create(BoundedIntUnaryOperator.create(6000, 18000)) // Available from 6000 to 18000 ticks (morning to evening)
-//                                        .period(24000L)) // Full Minecraft day cycle
-//                                .conditionally(WeatherCheckLootCondition.create()
-//                                        .raining(false)
-//                                        .thundering(false))
-//                                .conditionally(LocationCheckLootCondition.builder(
-//                                        LocationPredicate.Builder.createY(NumberRange.DoubleRange.atMost(10)))
-//                                )
-//                                .conditionally(LocationCheckLootCondition.builder(
-//                                        LocationPredicate.Builder.createDimension(World.END)
-//                                )));
-//                                .conditionally(LocationCheckLootCondition.builder(
-//                                        LocationPredicate.Builder.create()
-//                                        .biome(RegistryEntryList.of(biomeRegistry.getOrThrow(BiomeKeys.RIVER), biomeRegistry.getOrThrow(BiomeKeys.FROZEN_RIVER))))
-//
-//
-//                        ));
-
 
                 for (Item fish : ModItems.FISH_ITEMS) {
                     if (fish instanceof FishItem fishItem) {
-                        LootCondition.Builder locationCondition = RandomChanceLootCondition.builder(1.0f);
-                        if (!fishItem.getBiomes().isEmpty()) {
-                           locationCondition = LocationCheckLootCondition.builder(
-                                    LocationPredicate.Builder.create()
-                                            .biome(RegistryEntryList.of(
-                                                    fishItem.getBiomes().stream()
-                                                            .map(biomeRegistry::getOrThrow)
-                                                            .toArray(RegistryEntry[]::new)
-                                            ))
-                            );
+
+                        if (ModConfigs.EASY_MODE) {
+                            poolBuilder.with(ItemEntry.builder(fish)
+                                    .weight(fishItem.getWeight())
+                                    .quality(fishItem.getQuality()));
+                        } else {
+                            LootCondition.Builder locationCondition = RandomChanceLootCondition.builder(1.0f);
+                            if (!fishItem.getBiomes().isEmpty()) {
+                                locationCondition = LocationCheckLootCondition.builder(
+                                        LocationPredicate.Builder.create()
+                                                .biome(RegistryEntryList.of(
+                                                        fishItem.getBiomes().stream()
+                                                                .map(biomeRegistry::getOrThrow)
+                                                                .toArray(RegistryEntry[]::new)
+                                                ))
+                                );
+                            }
+
+
+                            LootCondition.Builder timeCondition = createTimeCondition(fishItem.getMinTime(), fishItem.getMaxTime());
+
+                            poolBuilder.with(ItemEntry.builder(fish)
+                                    .weight(fishItem.getWeight())
+                                    .quality(((FishItem) fish).getQuality())
+                                    .conditionally(timeCondition)
+                                    .conditionally((fishItem.isWeatherDependent() ? WeatherCheckLootCondition.create()
+                                            .raining(fishItem.isRaining())
+                                            .thundering(fishItem.isThundering()) : RandomChanceLootCondition.builder(1.0f))) // Weather condition
+                                    .conditionally(LocationCheckLootCondition.builder(
+                                            LocationPredicate.Builder.createY(fishItem.getYRange()))
+                                    )
+                                    .conditionally(locationCondition));
+
                         }
-
-
-                        LootCondition.Builder timeCondition = createTimeCondition(fishItem.getMinTime(), fishItem.getMaxTime());
-
-                        poolBuilder.with(ItemEntry.builder(fish)
-                                .weight(fishItem.getWeight())
-                                .quality(((FishItem) fish).getQuality())
-                                .conditionally(timeCondition)
-                                .conditionally((fishItem.isWeatherDependent() ? WeatherCheckLootCondition.create()
-                                        .raining(fishItem.isRaining())
-                                        .thundering(fishItem.isThundering()) : RandomChanceLootCondition.builder(1.0f))) // Weather condition
-                                .conditionally(LocationCheckLootCondition.builder(
-                                        LocationPredicate.Builder.createY(fishItem.getYRange()))
-                                )
-                                .conditionally(locationCondition));
-
                     }
                 }
 

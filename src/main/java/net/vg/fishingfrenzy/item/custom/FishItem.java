@@ -5,6 +5,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.registry.RegistryKey;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.biome.Biome;
 
 import java.util.List;
@@ -24,6 +25,8 @@ public class FishItem extends Item {
     private final int primaryColor;
     private final int secondaryColor;
     private final EntityType<? extends MobEntity> fishEntityType;
+    private final int spawningWeight;
+    private final Pair<Integer, Integer> groupSizes;
 
     public FishItem(Settings settings, FishProperties properties) {
         super(settings);
@@ -39,6 +42,8 @@ public class FishItem extends Item {
         this.primaryColor = properties.getPrimaryColor();
         this.secondaryColor = properties.getSecondaryColor();
         this.fishEntityType = properties.getFishEntityType();
+        this.spawningWeight = properties.getSpawningWeight();
+        this.groupSizes = properties.getGroupSizes();
 
     }
 
@@ -93,4 +98,13 @@ public class FishItem extends Item {
     public boolean hasFishEntityType() {
         return fishEntityType != null;
     }
+
+    public int getSpawningWeight() {
+        return spawningWeight;
+    }
+
+    public Pair<Integer, Integer> getGroupSizes() {
+        return groupSizes;
+    }
+
 }

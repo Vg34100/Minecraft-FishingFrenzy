@@ -3,6 +3,7 @@ package net.vg.fishingfrenzy.client.gui.screen.option;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
+import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 import net.vg.fishingfrenzy.config.ModConfigs;
 
@@ -15,7 +16,20 @@ public class ServerOptionScreen extends GameOptionsScreen {
     @Override
     protected void addOptions() {
 
+        SimpleOption<Boolean> easyMode = SimpleOption.ofBoolean(
+                "config.easy.mode",
+                SimpleOption.constantTooltip(Text.translatable("tooltip.easy.mode")),
+                ModConfigs.EASY_MODE,
+                value -> ModConfigs.EASY_MODE = value
+        );
+
+        SimpleOption<?>[] options = new SimpleOption[]{
+                easyMode
+        };
+
+        this.body.addAll(options);
     }
+
     @Override
     public void close() {
         ModConfigs.saveConfigs();

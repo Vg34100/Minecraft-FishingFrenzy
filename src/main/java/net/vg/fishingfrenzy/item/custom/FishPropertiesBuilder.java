@@ -1,5 +1,6 @@
 package net.vg.fishingfrenzy.item.custom;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.predicate.NumberRange;
@@ -22,6 +23,9 @@ public class FishPropertiesBuilder implements FishProperties {
     private int primaryColor = 0xffd476;
     private int secondaryColor = 0xb29452;
     private EntityType<? extends MobEntity> fishEntityType = null;
+
+    private int spawningWeight = 5;
+    private Pair<Integer, Integer> groupSizes = Pair.of(2, 3);
 
     public FishPropertiesBuilder setWeight(int weight) {
         this.weight = weight;
@@ -80,6 +84,16 @@ public class FishPropertiesBuilder implements FishProperties {
 
     public FishPropertiesBuilder setFishEntityType(EntityType<? extends MobEntity> fishEntityType) {
         this.fishEntityType = fishEntityType;
+        return this;
+    }
+
+    public FishPropertiesBuilder setSpawningWeight(int spawningWeight) {
+        this.spawningWeight = spawningWeight;
+        return this;
+    }
+
+    public FishPropertiesBuilder setGroupSizes(Pair<Integer, Integer> groupSizes) {
+        this.groupSizes = groupSizes;
         return this;
     }
 
@@ -147,5 +161,15 @@ public class FishPropertiesBuilder implements FishProperties {
     @Override
     public boolean hasFishEntityType() {
         return fishEntityType != null;
+    }
+
+    @Override
+    public int getSpawningWeight() {
+        return spawningWeight;
+    }
+
+    @Override
+    public Pair<Integer, Integer> getGroupSizes() {
+        return groupSizes;
     }
 }

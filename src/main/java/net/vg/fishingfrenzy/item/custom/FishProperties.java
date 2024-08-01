@@ -1,5 +1,6 @@
 package net.vg.fishingfrenzy.item.custom;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.predicate.NumberRange;
@@ -14,6 +15,7 @@ public interface FishProperties {
     default int getWeight() {
         return 25;
     }
+
 
     default int getQuality() {
         return 0;
@@ -62,4 +64,8 @@ public interface FishProperties {
     default boolean hasFishEntityType() {
         return getFishEntityType() != null;
     }
+
+    default int getSpawningWeight() { return 5; }
+
+    default Pair<Integer, Integer> getGroupSizes()  { return Pair.of(2, 3); }
 }

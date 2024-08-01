@@ -1,5 +1,6 @@
 package net.vg.fishingfrenzy.item;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.BundleContentsComponent;
 import net.minecraft.entity.Entity;
@@ -558,7 +559,9 @@ public class ModItems {
                     .setWeight(10)
                     .setBiomes(combine(WARMWATERS, COLDWATERS, JUNGLES, SWAMPS))
                     .setYRange(CAVERN) // there's also .atMost() or .between()
-                    .setQuality(1)));
+                    .setQuality(1)
+                    .setSpawningWeight(3)
+                    .setGroupSizes(Pair.of(1,2))));
 
     public static final Item HARPYFISH = registerFishItem("harpyfish",
             new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SARDINE), new FishPropertiesBuilder()
