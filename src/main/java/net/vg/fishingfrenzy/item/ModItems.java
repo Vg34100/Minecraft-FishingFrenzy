@@ -260,6 +260,9 @@ public class ModItems {
 
     public static final Item RAW_ALBACORE = registerFishItem("raw_albacore",
             new FishItem(new Item.Settings().food(ModFoodComponents.RAW_ALBACORE), new FishPropertiesBuilder()
+                    .setFishEntityType(ModEntities.ALBACORE)
+                    .setPrimaryColor(0x72b287)
+                    .setSecondaryColor(0x196c8d)
                     .setWeight(30)
                     .setYRange(SEALEVEL)
                     .setBiomes(combine(WARMWATERS, COLDWATERS, RIVERS, BEACHES))));

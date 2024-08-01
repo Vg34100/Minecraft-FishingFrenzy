@@ -9,6 +9,7 @@ import net.minecraft.component.ComponentType;
 import net.minecraft.util.Identifier;
 import net.vg.fishingfrenzy.config.ModConfigs;
 import net.vg.fishingfrenzy.entity.ModEntities;
+import net.vg.fishingfrenzy.entity.ModEntityInitializer;
 import net.vg.fishingfrenzy.entity.custom.BonefishEntity;
 import net.vg.fishingfrenzy.entity.custom.CarpEntity;
 import net.vg.fishingfrenzy.item.ModItemGroups;
@@ -47,8 +48,7 @@ public class FishingFrenzy implements ModInitializer {
 		ModEntities.registerEntities();
 		ModLootTableModifiers.modifyLootTables();
 
-		FabricDefaultAttributeRegistry.register(ModEntities.CARP, CarpEntity.createCarpAttributes());
-		FabricDefaultAttributeRegistry.register(ModEntities.BONEFISH, BonefishEntity.createBonefishAttributes());
+		ModEntityInitializer.registerEntities();
 
 		ModEntitySpawns.addEntitySpawns();
 

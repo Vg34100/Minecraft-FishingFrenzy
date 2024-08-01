@@ -12,5 +12,8 @@ public class ModEntityClientInitializer {
 
         EntityRendererRegistry.register(ModEntities.BONEFISH, BonefishRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(ModModelLayers.BONEFISH, BonefishModel::getTexturedModelData);
+
+        EntityRendererRegistry.register(ModEntities.ALBACORE, AlbacoreRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(ModModelLayers.ALBACORE, AlbacoreModel::getTexturedModelData);
     }
 }
