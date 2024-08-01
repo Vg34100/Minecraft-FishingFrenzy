@@ -2,11 +2,14 @@ package net.vg.fishingfrenzy;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.component.ComponentType;
 import net.minecraft.util.Identifier;
 import net.vg.fishingfrenzy.config.ModConfigs;
+import net.vg.fishingfrenzy.entity.ModEntities;
+import net.vg.fishingfrenzy.entity.custom.CarpEntity;
 import net.vg.fishingfrenzy.item.ModItemGroups;
 import net.vg.fishingfrenzy.item.ModItems;
 import net.vg.fishingfrenzy.loot.ModLootTableModifiers;
@@ -39,7 +42,10 @@ public class FishingFrenzy implements ModInitializer {
 
 //		Registry.register(Registries.LOOT_CONDITION_TYPE, Identifier.of(MOD_ID, "biome_check"), BIOME_CHECK_LOOT_CONDITION_TYPE);
 
+		ModEntities.registerEntities();
 		ModLootTableModifiers.modifyLootTables();
+
+		FabricDefaultAttributeRegistry.register(ModEntities.CARP, CarpEntity.createCarpAttributes());
 
 		// Log the initialization message with mod name and version
 		LOGGER.info("Initialized Mod: {} v{}", MOD_NAME, MOD_VERSION);	}

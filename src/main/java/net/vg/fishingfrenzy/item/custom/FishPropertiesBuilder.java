@@ -5,7 +5,6 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 
 import java.util.List;
-import java.util.Optional;
 
 public class FishPropertiesBuilder implements FishProperties {
     private int weight = 25;
@@ -17,6 +16,8 @@ public class FishPropertiesBuilder implements FishProperties {
     private boolean raining = false;
     private boolean thundering = false;
     private List<RegistryKey<Biome>> biomes = List.of();
+    private int primaryColor = 0xffd476;
+    private int secondaryColor = 0xb29452;
 
     public FishPropertiesBuilder setWeight(int weight) {
         this.weight = weight;
@@ -63,6 +64,16 @@ public class FishPropertiesBuilder implements FishProperties {
         return this;
     }
 
+    public FishPropertiesBuilder setPrimaryColor(int primaryColor) {
+        this.primaryColor = primaryColor;
+        return this;
+    }
+
+    public FishPropertiesBuilder setSecondaryColor(int secondaryColor) {
+        this.secondaryColor = secondaryColor;
+        return this;
+    }
+
     @Override
     public int getWeight() {
         return weight;
@@ -106,5 +117,15 @@ public class FishPropertiesBuilder implements FishProperties {
     @Override
     public List<RegistryKey<Biome>> getBiomes() {
         return biomes;
+    }
+
+    @Override
+    public int getPrimaryColor() {
+        return primaryColor;
+    }
+
+    @Override
+    public int getSecondaryColor() {
+        return secondaryColor;
     }
 }

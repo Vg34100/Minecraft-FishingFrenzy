@@ -2,11 +2,9 @@ package net.vg.fishingfrenzy.item.custom;
 
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.world.biome.Biome;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface FishProperties {
 
@@ -44,5 +42,13 @@ public interface FishProperties {
 
     default List<RegistryKey<Biome>> getBiomes() {
         return List.of();
+    }
+
+    default int getPrimaryColor() {
+        return 0xffd476;
+    }
+
+    default int getSecondaryColor() {
+        return 0xb29452;
     }
 }

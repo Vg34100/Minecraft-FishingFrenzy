@@ -18,6 +18,8 @@ public class FishItem extends Item {
     private final boolean raining;
     private final boolean thundering;
     private final List<RegistryKey<Biome>> biomes;
+    private final int primaryColor;
+    private final int secondaryColor;
 
     public FishItem(Settings settings, FishProperties properties) {
         super(settings);
@@ -30,6 +32,8 @@ public class FishItem extends Item {
         this.raining = properties.isRaining();
         this.thundering = properties.isThundering();
         this.biomes = properties.getBiomes();
+        this.primaryColor = properties.getPrimaryColor();
+        this.secondaryColor = properties.getSecondaryColor();
     }
 
     public int getWeight() {
@@ -66,5 +70,13 @@ public class FishItem extends Item {
 
     public List<RegistryKey<Biome>> getBiomes() {
         return biomes;
+    }
+
+    public int getPrimaryColor() {
+        return primaryColor;
+    }
+
+    public int getSecondaryColor() {
+        return secondaryColor;
     }
 }
