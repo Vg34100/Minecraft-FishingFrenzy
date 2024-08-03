@@ -1,6 +1,5 @@
 package net.vg.fishingfrenzy.datagen;
 
-import com.terraformersmc.modmenu.util.mod.Mod;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.item.Item;
@@ -31,6 +30,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
         for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
             getOrCreateTagBuilder(ModTags.Items.BAITS).add(baitItem);
+            getOrCreateTagBuilder(ModTags.Items.TARGET_BAITS).add(baitItem);
         }
 
         for (Item fishItem : ModItems.TARGETED_BAIT_ITEMS) {

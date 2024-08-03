@@ -9,6 +9,7 @@ import net.minecraft.item.Items;
 import net.minecraft.world.World;
 import net.vg.fishingfrenzy.item.ModItems;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -30,12 +31,18 @@ public abstract class FishingBobberValidityMixin extends Entity {
         ItemStack offHandStack = playerEntity.getOffHandStack();
 
         // Check if the main hand or offhand has a valid fishing rod
-        boolean mainHandHasValidRod = mainHandStack.isOf(Items.FISHING_ROD) || mainHandStack.isOf(ModItems.DELUXE_FISHING_ROD);
-        boolean offHandHasValidRod = offHandStack.isOf(Items.FISHING_ROD) || offHandStack.isOf(ModItems.DELUXE_FISHING_ROD);
+        boolean mainHandHasValidRod = isValidFishingRod(mainHandStack);
+        boolean offHandHasValidRod = isValidFishingRod(offHandStack);
+
 
         // Validate if the player is alive, not removed, has a valid rod, and is within a certain distance
         if (!playerEntity.isRemoved() && playerEntity.isAlive() && (mainHandHasValidRod || offHandHasValidRod) && this.squaredDistanceTo(playerEntity) <= 1024.0D) {
             cir.setReturnValue(false); // Prevent the bobber from being removed
         }
+    }
+
+    @Unique
+    private static boolean isValidFishingRod(ItemStack stack) {
+        return stack.isOf(Items.FISHING_ROD) || ModItems.FISHING_RODS.contains(stack.getItem());
     }
 }

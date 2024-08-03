@@ -1,23 +1,19 @@
 package net.vg.fishingfrenzy.world;
 
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
-import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnLocationTypes;
 import net.minecraft.entity.SpawnRestriction;
-import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
 import net.vg.fishingfrenzy.config.ModConfigs;
-import net.vg.fishingfrenzy.entity.ModEntities;
 import net.vg.fishingfrenzy.item.ModItems;
 import net.vg.fishingfrenzy.item.custom.FishItem;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 public class ModEntitySpawns {
     public static void addEntitySpawns() {
@@ -27,7 +23,6 @@ public class ModEntitySpawns {
                     addSpawnForFish((FishItem) fishItem);
                 }
             }
-
         }
     }
 
@@ -44,8 +39,6 @@ public class ModEntitySpawns {
 
     private static void addSpawnForFish(FishItem fishItem) {
         List<RegistryKey<Biome>> fishBiomes = fishItem.getBiomes();
-        Predicate<BiomeSelectionContext> biomePredicate = context ->
-                fishBiomes.contains(context.getBiomeKey());
 
         if (ModConfigs.EASY_MODE) {
             // Allow spawning in any biome when EASY_MODE is enabled

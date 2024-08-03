@@ -1,6 +1,5 @@
 package net.vg.fishingfrenzy.item;
 
-import com.terraformersmc.modmenu.util.mod.Mod;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -12,85 +11,69 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.vg.fishingfrenzy.FishingFrenzy;
 
+import java.util.List;
+
 public class ModItemGroups {
-
-    public static final ItemGroup FISHES_SPAWN_GROUP;
-    public static final ItemGroup BAIT_GROUP;
-    public static final ItemGroup FISHES_GROUP;
     public static final ItemGroup FISHING_FRENZY_GROUP;
-
-
+    public static final ItemGroup FISHES_GROUP;
+    public static final ItemGroup BAIT_GROUP;
+    public static final ItemGroup FISHES_SPAWN_GROUP;
 
     static {
-        FISHING_FRENZY_GROUP = Registry.register(Registries.ITEM_GROUP,
-                Identifier.of(FishingFrenzy.MOD_ID, "fishing_frenzy"),
-                FabricItemGroup.builder().displayName(Text.translatable("itemgroup.fishing"))
-                        .icon(() -> new ItemStack(Items.FISHING_ROD)).entries((displayContext, entries) -> {
-                            // Rods
-                            entries.add(ModItems.DELUXE_FISHING_ROD);
+        FISHING_FRENZY_GROUP = registerGroup("fishing_frenzy_all", ModItems.DELUXE_FISHING_ROD,
+                ModItems.FISHING_RODS,
+                ModItems.FISH_ITEMS,
+                ModItems.BAIT_ITEMS,
+                ModItems.FISH_SPAWN_EGGS);
+        FISHES_GROUP = registerGroup("fishing_frenzy_fishes", ModItems.RAW_CARP,
+                ModItems.FISH_ITEMS);
+        BAIT_GROUP = registerGroup("fishing_frenzy_bait", ModItems.DELUXE_BAIT,
+                ModItems.BAIT_ITEMS);
+        FISHES_SPAWN_GROUP = registerGroup("fishing_frenzy_fish_spawn_eggs", ModItems.FISH_SPAWN_EGGS.getFirst(),
+                ModItems.FISH_SPAWN_EGGS);
 
-                            // Bait
-                            entries.add(ModItems.GENERIC_BAIT);
-                            entries.add(ModItems.DELUXE_BAIT);
-                            entries.add(ModItems.MAGNET);
-                            entries.add(ModItems.CHALLENGE_BAIT);
-                            entries.add(ModItems.WILD_BAIT);
-
-                            for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
-                                entries.add(baitItem);
-                            }
-
-                            for (Item fishItem : ModItems.FISH_ITEMS) {
-                                entries.add(fishItem);
-                            }
-
-                            for (Item fishSpawnEgg : ModItems.FISH_SPAWN_EGGS) {
-                                entries.add(fishSpawnEgg);
-                            }
-
-                        }).build());
-
-        FISHES_GROUP = Registry.register(Registries.ITEM_GROUP,
-                Identifier.of(FishingFrenzy.MOD_ID, "fishes"),
-                FabricItemGroup.builder().displayName(Text.translatable("itemgroup.fishes"))
-                        .icon(() -> new ItemStack(ModItems.RAW_CARP)).entries((displayContext, entries) -> {
-
-                            for (Item fishItem : ModItems.FISH_ITEMS) {
-                                entries.add(fishItem);
-                            }
-
-                        }).build());
-
-        FISHES_SPAWN_GROUP = Registry.register(Registries.ITEM_GROUP,
-                Identifier.of(FishingFrenzy.MOD_ID, "fish_spawn_eggs"),
-                FabricItemGroup.builder().displayName(Text.translatable("itemgroup.fish_spawn_eggs"))
-                        .icon(() -> new ItemStack(ModItems.FISH_SPAWN_EGGS.getFirst())).entries((displayContext, entries) -> {
-
-                            for (Item fishSpawnEgg : ModItems.FISH_SPAWN_EGGS) {
-                                entries.add(fishSpawnEgg);
-                            }
-
-                        }).build());
-        BAIT_GROUP = Registry.register(Registries.ITEM_GROUP,
-                Identifier.of(FishingFrenzy.MOD_ID, "bait"),
-                FabricItemGroup.builder().displayName(Text.translatable("itemgroup.bait"))
-                        .icon(() -> new ItemStack(ModItems.DELUXE_BAIT)).entries((displayContext, entries) -> {
-
-                            // Bait
-                            entries.add(ModItems.GENERIC_BAIT);
-                            entries.add(ModItems.DELUXE_BAIT);
-                            entries.add(ModItems.MAGNET);
-                            entries.add(ModItems.CHALLENGE_BAIT);
-                            entries.add(ModItems.WILD_BAIT);
-
-                            for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
-                                entries.add(baitItem);
-                            }
-
-                        }).build());
     }
 
     public static void registerItemGroups() {
         FishingFrenzy.LOGGER.info("Registering Item Groups for " + FishingFrenzy.MOD_ID);
     }
+
+    /**
+     * Registers an item group with the given name, icon, and multiple lists of items.
+     *
+     * @param name  the name of the item group
+     * @param icon  the item to be used as the icon for the item group
+     * @param itemLists the lists of items to be included in the item group
+     * @return the registered ItemGroup
+     */
+    @SafeVarargs
+    private static ItemGroup registerGroup(String name, Item icon, List<Item>... itemLists) {
+        return Registry.register(Registries.ITEM_GROUP,
+                Identifier.of(FishingFrenzy.MOD_ID, name),
+                FabricItemGroup.builder().displayName(Text.translatable("itemgroup." + name))
+                        .icon(() -> new ItemStack(icon))
+                        .entries((displayContext, entries) -> {
+                            for (List<Item> itemList : itemLists) {
+                                for (Item item : itemList) {
+                                    entries.add(new ItemStack(item));
+                                }
+                            }
+                        })
+                        .build());
+    }
+
+    private static ItemGroup registerGroup(String name, Item icon, EntriesAdder adder) {
+        return Registry.register(Registries.ITEM_GROUP,
+                Identifier.of(FishingFrenzy.MOD_ID, name),
+                FabricItemGroup.builder().displayName(Text.translatable("itemgroup." + name))
+                        .icon(() -> new ItemStack(icon))
+                        .entries(adder::addEntries)
+                        .build());
+    }
+
+    @FunctionalInterface
+    private interface EntriesAdder {
+        void addEntries(ItemGroup.DisplayContext displayContext, ItemGroup.Entries entries);
+    }
+
 }

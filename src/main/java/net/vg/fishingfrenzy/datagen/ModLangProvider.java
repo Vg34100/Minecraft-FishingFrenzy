@@ -6,6 +6,8 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.vg.fishingfrenzy.item.ModItems;
+import net.vg.fishingfrenzy.item.custom.FishRegistry;
+import net.vg.fishingfrenzy.management.FishManager;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -17,7 +19,13 @@ public class ModLangProvider extends FabricLanguageProvider {
     @Override
     public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
 
-        translationBuilder.add("itemgroup.fishing", "Fishing Frenzy");
+        translationBuilder.add("itemgroup.fishing_frenzy_all", "Fishing Frenzy");
+        translationBuilder.add("itemgroup.fishing_frenzy_fishes", "Frenzy Fishes");
+        translationBuilder.add("itemgroup.fishing_frenzy_bait", "Frenzy Baits");
+        translationBuilder.add("itemgroup.fishing_frenzy_fish_spawn_eggs", "Frenzy Spawn Eggs");
+
+
+
         translationBuilder.add("config.client.title", "Client Settings");
         translationBuilder.add("config.server.title", "Server Settings");
         translationBuilder.add("config.general.title", "Fishing Frenzy Settings");
@@ -28,6 +36,18 @@ public class ModLangProvider extends FabricLanguageProvider {
         for (Item fishItem : ModItems.FISH_ITEMS) {
             String fishName = Registries.ITEM.getId(fishItem).getPath();
             translationBuilder.add("item.fishingfrenzy." + fishName, capitalize(fishName.replace("_", " ")));
+        }
+
+        for (FishRegistry fish : FishManager.FISH_REGISTRIES) {
+            String fishName = Registries.ITEM.getId(fish.getFish()).getPath();
+            translationBuilder.add("item.fishingfrenzy." + fishName, capitalize(fishName.replace("_", " ")));
+
+            String eggName = Registries.ITEM.getId(fish.getSpawnEgg()).getPath();
+            String formattedName = capitalize(fishName.replace("_", " ")) + " Spawn Egg";
+            translationBuilder.add("item.fishingfrenzy." + eggName, formattedName);
+
+            String baitName = Registries.ITEM.getId(fish.getBait()).getPath();
+            translationBuilder.add("item.fishingfrenzy." + baitName, capitalize(baitName.replace("_", " ")));
         }
 
 
@@ -51,7 +71,7 @@ public class ModLangProvider extends FabricLanguageProvider {
         StringBuilder capitalized = new StringBuilder();
 
         for (String word : words) {
-            if (word.length() > 0) {
+            if (!word.isEmpty()) {
                 capitalized.append(Character.toUpperCase(word.charAt(0)))
                         .append(word.substring(1))
                         .append(" ");

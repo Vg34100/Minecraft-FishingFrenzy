@@ -2,15 +2,20 @@ package net.vg.fishingfrenzy.item.custom;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
+import net.vg.fishingfrenzy.util.StatusEffectEntry;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class FishPropertiesBuilder implements FishProperties {
+
+    // Spawn Conditions
     private int weight = 25;
     private int quality = 0;
     private NumberRange.DoubleRange yRange = NumberRange.DoubleRange.ANY;
@@ -20,12 +25,22 @@ public class FishPropertiesBuilder implements FishProperties {
     private boolean raining = false;
     private boolean thundering = false;
     private List<RegistryKey<Biome>> biomes = List.of();
+
+    // Spawn Egg
     private int primaryColor = 0xffd476;
     private int secondaryColor = 0xb29452;
     private EntityType<? extends MobEntity> fishEntityType = null;
 
+    // Entity
     private int spawningWeight = 5;
     private Pair<Integer, Integer> groupSizes = Pair.of(2, 3);
+
+    // Food Attributes
+    private Pair<Integer, Float> foodAttributes = Pair.of(2, 0.1f);
+    private boolean snack = false;
+    private List<StatusEffectEntry> statusEffects = new ArrayList<>();
+
+
 
     public FishPropertiesBuilder setWeight(int weight) {
         this.weight = weight;
@@ -72,6 +87,7 @@ public class FishPropertiesBuilder implements FishProperties {
         return this;
     }
 
+    // Spawn Egg
     public FishPropertiesBuilder setPrimaryColor(int primaryColor) {
         this.primaryColor = primaryColor;
         return this;
@@ -87,6 +103,7 @@ public class FishPropertiesBuilder implements FishProperties {
         return this;
     }
 
+    // Entity
     public FishPropertiesBuilder setSpawningWeight(int spawningWeight) {
         this.spawningWeight = spawningWeight;
         return this;
@@ -97,6 +114,21 @@ public class FishPropertiesBuilder implements FishProperties {
         return this;
     }
 
+    // Food Attributes
+    public FishPropertiesBuilder setFoodAttributes(int nutrition, float saturation) {
+        this.foodAttributes = Pair.of(nutrition, saturation);
+        return this;
+    }
+
+    public FishPropertiesBuilder setSnack(boolean snack) {
+        this.snack = snack;
+        return this;
+    }
+
+    public FishPropertiesBuilder addStatusEffect(RegistryEntry<StatusEffect> effect, int duration, int amplifier, float chance) {
+        this.statusEffects.add(new StatusEffectEntry(effect, duration, amplifier, chance));
+        return this;
+    }
 
     @Override
     public int getWeight() {
@@ -171,5 +203,21 @@ public class FishPropertiesBuilder implements FishProperties {
     @Override
     public Pair<Integer, Integer> getGroupSizes() {
         return groupSizes;
+    }
+
+    // Food Attributes
+    @Override
+    public Pair<Integer, Float> getFoodAttributes() {
+        return foodAttributes;
+    }
+
+    @Override
+    public boolean isSnack() {
+        return snack;
+    }
+
+    @Override
+    public List<StatusEffectEntry> getStatusEffects() {
+        return statusEffects;
     }
 }

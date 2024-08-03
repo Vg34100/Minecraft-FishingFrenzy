@@ -13,6 +13,8 @@ import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.vg.fishingfrenzy.FishingFrenzy;
 import net.vg.fishingfrenzy.item.ModItems;
+import net.vg.fishingfrenzy.item.custom.FishRegistry;
+import net.vg.fishingfrenzy.management.FishManager;
 
 import java.util.Optional;
 
@@ -66,6 +68,10 @@ public class ModModelProvider extends FabricModelProvider {
             itemModelGenerator.register(baitItem, targetBaitModel);
             FishingFrenzy.LOGGER.info("Registered model for spawn egg: " + spawnEggId.getPath());
         }
+
+        FishManager.registerItemModels(itemModelGenerator);
+
+//        ModItems.FISH_1.registerItemModels(itemModelGenerator);
 
 //        itemModelGenerator.register(ModItems.TESTBAIT,
 //                    new Model(Optional.of(Identifier.of(FishingFrenzy.MOD_ID, "item/template_target_bait")), Optional.empty()));

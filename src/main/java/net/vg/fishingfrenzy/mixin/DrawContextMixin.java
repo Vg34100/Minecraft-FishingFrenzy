@@ -25,8 +25,7 @@ public class DrawContextMixin {
 
     @Inject(method = "drawItemInSlot*", at = @At("HEAD"), cancellable = true)
     private void drawCustomItemInSlot(TextRenderer textRenderer, ItemStack stack, int x, int y, @Nullable String countOverride, CallbackInfo ci) {
-        if (!stack.isEmpty() && stack.getItem() instanceof DeluxeFishingRodItem) {
-            DeluxeFishingRodItem item = (DeluxeFishingRodItem) stack.getItem();
+        if (!stack.isEmpty() && stack.getItem() instanceof DeluxeFishingRodItem item) {
             MatrixStack matrices = ((DrawContext)(Object)this).getMatrices();
 
             matrices.push();

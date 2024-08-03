@@ -32,7 +32,7 @@ public class ModFoodComponents {
 
 
 
-    public static final FoodComponent RAW_EEL = new FoodComponent.Builder().nutrition(2).saturationModifier(0.1f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 150), 0.8f).build();
+    public static final FoodComponent RAW_EEL = new FoodComponent.Builder().nutrition(2).saturationModifier(0.1f).snack().statusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 150, 2), 0.1f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 150, 2), 0.8f).build();
     public static final FoodComponent SEA_CUCUMBER = new FoodComponent.Builder().nutrition(2).saturationModifier(0.1f).build(); // Morning - Night
     public static final FoodComponent SUPER_CUCUMBER = new FoodComponent.Builder().nutrition(4).saturationModifier(0.1f).build(); // Island
 

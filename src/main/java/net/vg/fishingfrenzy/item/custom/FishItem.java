@@ -6,6 +6,8 @@ import net.minecraft.item.Item;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.registry.RegistryKey;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.world.biome.Biome;
 
 import java.util.List;
@@ -106,5 +108,18 @@ public class FishItem extends Item {
     public Pair<Integer, Integer> getGroupSizes() {
         return groupSizes;
     }
+
+    public  RegistryEntryList<Biome> getEntryBiomes(RegistryWrapper<Biome> biomeRegistry) {
+        List<RegistryKey<Biome>> biomeKeys = getBiomes();
+        if (biomeKeys.isEmpty()) {
+            return RegistryEntryList.of();
+        }
+        return RegistryEntryList.of(
+                biomeKeys.stream()
+                        .map(biomeRegistry::getOrThrow)
+                        .toList()
+        );
+    }
+
 
 }

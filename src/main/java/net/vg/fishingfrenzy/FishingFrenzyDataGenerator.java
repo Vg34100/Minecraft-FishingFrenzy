@@ -16,6 +16,5 @@ public class FishingFrenzyDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ModItemTagProvider::new);
 		pack.addProvider(ModLootTableProvider::new);
 		pack.addProvider(ModLangProvider::new);
-
 	}
 }

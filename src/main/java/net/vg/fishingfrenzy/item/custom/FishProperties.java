@@ -5,46 +5,42 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.world.biome.Biome;
+import net.vg.fishingfrenzy.util.StatusEffectEntry;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public interface FishProperties {
 
     default int getWeight() {
         return 25;
     }
-
-
     default int getQuality() {
         return 0;
     }
-
     default NumberRange.DoubleRange getYRange() {
         return NumberRange.DoubleRange.ANY;
     }
-
     default int getMinTime() {
         return 0;
     }
-
     default int getMaxTime() {
         return 24000;
     }
-
     default boolean isWeatherDependent() {
         return false;
     }
-
     default boolean isRaining() {
         return false;
     }
-
     default boolean isThundering() {
         return false;
     }
-
     default List<RegistryKey<Biome>> getBiomes() {
         return List.of();
     }
@@ -52,18 +48,23 @@ public interface FishProperties {
     default int getPrimaryColor() {
         return 0xffd476;
     }
-
     default int getSecondaryColor() { return 0xb29452; }
-
     default EntityType<? extends MobEntity> getFishEntityType() {
         return null;
     }
-
     default boolean hasFishEntityType() {
         return getFishEntityType() != null;
     }
-
     default int getSpawningWeight() { return 5; }
-
     default Pair<Integer, Integer> getGroupSizes()  { return Pair.of(2, 3); }
+    default Pair<Integer, Float> getFoodAttributes() {
+        return Pair.of(2, 0.1f);
+    }
+    default boolean isSnack() {
+        return false;
+    }
+    default List<StatusEffectEntry> getStatusEffects() {
+        return List.of();
+    }
+
 }

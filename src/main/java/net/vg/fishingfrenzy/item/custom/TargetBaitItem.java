@@ -2,7 +2,7 @@ package net.vg.fishingfrenzy.item.custom;
 
 import net.minecraft.nbt.NbtCompound;
 
-public class TargetBaitItem extends BaitItem{
+public class TargetBaitItem extends BaitItem implements TargetBaitProperties {
     private final int primaryColor;
     private final int secondaryColor;
 

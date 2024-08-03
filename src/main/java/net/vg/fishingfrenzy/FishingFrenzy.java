@@ -30,7 +30,6 @@ public class FishingFrenzy implements ModInitializer {
 	public static final String MOD_ID = "fishingfrenzy";
 	public static final String MOD_NAME = "Fishing Frenzy";
 	public static final String MOD_VERSION = fetchModVersion();
-//	public static final LootConditionType BIOME_CHECK_LOOT_CONDITION_TYPE = new LootConditionType(BiomeCheckLootCondition.CODEC);
 
 
 	/**
@@ -42,8 +41,6 @@ public class FishingFrenzy implements ModInitializer {
 		ModConfigs.registerConfigs();
 		ModItems.registerItems();
 		ModItemGroups.registerItemGroups();
-
-//		Registry.register(Registries.LOOT_CONDITION_TYPE, Identifier.of(MOD_ID, "biome_check"), BIOME_CHECK_LOOT_CONDITION_TYPE);
 
 		ModEntities.registerEntities();
 		ModLootTableModifiers.modifyLootTables();

@@ -10,21 +10,19 @@ import net.minecraft.loot.condition.*;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.operator.BoundedIntUnaryOperator;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
-import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.entity.LocationPredicate;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
-import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeKeys;
+import net.vg.fishingfrenzy.FishingFrenzy;
 import net.vg.fishingfrenzy.config.ModConfigs;
 import net.vg.fishingfrenzy.item.ModItems;
 import net.vg.fishingfrenzy.item.custom.FishItem;
+import net.vg.fishingfrenzy.management.FishManager;
 
-import java.util.Optional;
 
 public class ModLootTableModifiers {
 
@@ -41,6 +39,17 @@ public class ModLootTableModifiers {
         }
     }
 
+    public static void addItemToFishingLootTable(Item item, int weight) {
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+            if (FISHING_LOOT_TABLE_KEY.equals(key)) {
+                tableBuilder.modifyPools(pools -> {
+                   pools.with(ItemEntry.builder(item)
+                           .weight(weight));
+                });
+
+            }
+        });
+    }
 
     public static void modifyLootTables() {
         LootTableEvents.REPLACE.register((key, original, source, registries) -> {
@@ -59,6 +68,7 @@ public class ModLootTableModifiers {
                                 .weight(13));
 
                 for (Item fish : ModItems.FISH_ITEMS) {
+                    FishingFrenzy.LOGGER.info("Adding " + fish.getName() + " to FISHING_FISH_GAMEPLAY");
                     if (fish instanceof FishItem fishItem) {
 
                         if (ModConfigs.EASY_MODE) {
@@ -70,11 +80,7 @@ public class ModLootTableModifiers {
                             if (!fishItem.getBiomes().isEmpty()) {
                                 locationCondition = LocationCheckLootCondition.builder(
                                         LocationPredicate.Builder.create()
-                                                .biome(RegistryEntryList.of(
-                                                        fishItem.getBiomes().stream()
-                                                                .map(biomeRegistry::getOrThrow)
-                                                                .toArray(RegistryEntry[]::new)
-                                                ))
+                                                .biome(fishItem.getEntryBiomes(biomeRegistry))
                                 );
                             }
 
@@ -103,5 +109,7 @@ public class ModLootTableModifiers {
 
             return original;
         });
+        addItemToFishingLootTable(FishManager.FISH_1.getFish(), 150);
+
     }
 }
