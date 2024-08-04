@@ -38,17 +38,20 @@ public class ModLangProvider extends FabricLanguageProvider {
             translationBuilder.add("item.fishingfrenzy." + fishName, capitalize(fishName.replace("_", " ")));
         }
 
-        for (FishRegistry fish : FishManager.FISH_REGISTRIES) {
-            String fishName = Registries.ITEM.getId(fish.getFish()).getPath();
-            translationBuilder.add("item.fishingfrenzy." + fishName, capitalize(fishName.replace("_", " ")));
+//        for (FishRegistry fish : FishManager.FISH_REGISTRIES) {
+//            String fishName = Registries.ITEM.getId(fish.getFish()).getPath();
+//            translationBuilder.add("item.fishingfrenzy." + fishName, capitalize(fishName.replace("_", " ")));
+//
+//            String eggName = Registries.ITEM.getId(fish.getSpawnEgg()).getPath();
+//            String formattedName = capitalize(fishName.replace("_", " ")) + " Spawn Egg";
+//            translationBuilder.add("item.fishingfrenzy." + eggName, formattedName);
+//
+//            String baitName = Registries.ITEM.getId(fish.getBait()).getPath();
+//            translationBuilder.add("item.fishingfrenzy." + baitName, capitalize(baitName.replace("_", " ")));
+//        }
+        FishManager.registerTranslations(translationBuilder);
 
-            String eggName = Registries.ITEM.getId(fish.getSpawnEgg()).getPath();
-            String formattedName = capitalize(fishName.replace("_", " ")) + " Spawn Egg";
-            translationBuilder.add("item.fishingfrenzy." + eggName, formattedName);
 
-            String baitName = Registries.ITEM.getId(fish.getBait()).getPath();
-            translationBuilder.add("item.fishingfrenzy." + baitName, capitalize(baitName.replace("_", " ")));
-        }
 
 
         // Add translations for fish spawn eggs

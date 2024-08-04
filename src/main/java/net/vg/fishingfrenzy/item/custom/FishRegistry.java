@@ -2,6 +2,8 @@ package net.vg.fishingfrenzy.item.custom;
 
 import com.mojang.datafixers.util.Pair;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.EntityType;
@@ -9,10 +11,17 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.loot.LootTable;
+import net.minecraft.loot.condition.LocationCheckLootCondition;
+import net.minecraft.loot.condition.LootCondition;
+import net.minecraft.loot.condition.RandomChanceLootCondition;
+import net.minecraft.loot.condition.WeatherCheckLootCondition;
+import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.predicate.NumberRange;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
+import net.minecraft.predicate.entity.LocationPredicate;
+import net.minecraft.registry.*;
+import net.minecraft.registry.entry.RegistryEntryList;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.world.biome.Biome;
@@ -20,12 +29,16 @@ import net.vg.fishingfrenzy.FishingFrenzy;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Model;
 import net.minecraft.data.client.Models;
+import net.vg.fishingfrenzy.datagen.ModItemTagProvider;
 import net.vg.fishingfrenzy.management.FishManager;
 import net.vg.fishingfrenzy.management.FishPreset;
+import net.vg.fishingfrenzy.util.ModTags;
 import net.vg.fishingfrenzy.util.StatusEffectEntry;
 
 import java.util.List;
 import java.util.Optional;
+
+import static net.vg.fishingfrenzy.loot.ModLootTableModifiers.createTimeCondition;
 
 public class FishRegistry {
 
@@ -49,7 +62,6 @@ public class FishRegistry {
     private final EntityType<? extends MobEntity> fishEntityType;
     private final int spawningWeight;
     private final Pair<Integer, Integer> groupSizes;
-    private final FoodComponent foodComponent;
 
     public FishRegistry(String name, FishProperties properties) {
         this.fish_name = name;
@@ -71,7 +83,7 @@ public class FishRegistry {
         this.spawningWeight = properties.getSpawningWeight();
         this.groupSizes = properties.getGroupSizes();
 
-        this.foodComponent = createFoodComponent(properties.getFoodAttributes(), properties.isSnack(), properties.getStatusEffects());
+        FoodComponent foodComponent = createFoodComponent(properties.getFoodAttributes(), properties.isSnack(), properties.getStatusEffects());
 
 
         this.fish = createFishItem(new Item.Settings().food(foodComponent), properties);
@@ -139,12 +151,17 @@ public class FishRegistry {
         return fish_name;
     }
 
+
+
+
+    // Handles ModItems: registerFish
     private Item createFishItem(Item.Settings settings, FishProperties properties) {
         FishItem fishItem = new FishItem(settings, properties);
         Registry.register(Registries.ITEM, Identifier.of(FishingFrenzy.MOD_ID, getFishName()), fishItem);
         return fishItem;
     }
 
+    // Handles ModItems: registerSpawnEgg
     private Item createSpawnEgg(Item.Settings settings) {
         if (this.hasFishEntityType()) {
             SpawnEggItem spawnEgg = new SpawnEggItem(this.getFishEntityType(), this.getPrimaryColor(), this.getSecondaryColor(), settings);
@@ -154,12 +171,14 @@ public class FishRegistry {
         return null;
     }
 
+    // Handles ModItems: registerTargetedBait
     private Item createBait(Item.Settings settings, BaitProperties properties) {
         TargetBaitItem bait = new TargetBaitItem(this.getPrimaryColor(), this.getSecondaryColor(), settings, properties);
         Registry.register(Registries.ITEM, Identifier.of(FishingFrenzy.MOD_ID, getFishName() + "_bait"), bait);
         return bait;
     }
 
+    // Handles ModFoodComponents
     private FoodComponent createFoodComponent(Pair<Integer, Float> foodAttributes, boolean snack, List<StatusEffectEntry> statusEffects) {
         FoodComponent.Builder builder = new FoodComponent.Builder().nutrition(foodAttributes.getFirst()).saturationModifier(foodAttributes.getSecond());
         if (snack) {
@@ -171,6 +190,32 @@ public class FishRegistry {
         return builder.build();
     }
 
+    // Handles ModLootTableModifiers
+    public void modifyFishingLootTable(LootTable.Builder tableBuilder, RegistryWrapper. WrapperLookup registries) {
+        LootCondition.Builder locationCondition = RandomChanceLootCondition.builder(1.0f);
+        RegistryWrapper.Impl<Biome> biomeRegistry = registries.getWrapperOrThrow(RegistryKeys.BIOME);
+
+        if (!biomes.isEmpty()) {
+            locationCondition = LocationCheckLootCondition.builder(
+                    LocationPredicate.Builder.create().biome(getEntryBiomes(biomeRegistry))
+            );
+        }
+        LootCondition.Builder timeCondition = createTimeCondition(minTime, maxTime);
+
+        LootCondition.Builder finalLocationCondition = locationCondition;
+        tableBuilder.modifyPools(pools -> {
+            pools.with(ItemEntry.builder(fish)
+                    .weight(weight)
+                    .quality(quality)
+                    .conditionally(timeCondition)
+                    .conditionally(isWeatherDependent ? WeatherCheckLootCondition.create().raining(raining).thundering(thundering) : RandomChanceLootCondition.builder(1.0f))
+                    .conditionally(LocationCheckLootCondition.builder(LocationPredicate.Builder.createY(yRange)))
+                    .conditionally(finalLocationCondition)
+            );
+        });
+    }
+
+    // Handles Data Generation: ModModelProvider
     public void registerItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(this.fish, Models.GENERATED);
         if (this.spawnEgg != null) {
@@ -183,11 +228,60 @@ public class FishRegistry {
         }
     }
 
+    // Handle Data Generation: ModLangProvider
+    public void registerTranslations(FabricLanguageProvider.TranslationBuilder translationBuilder) {
+        String fishName = Registries.ITEM.getId(fish).getPath();
+        translationBuilder.add("item.fishingfrenzy." + fishName, capitalize(fishName.replace("_", " ")));
+
+        if (bait != null) {
+            String baitName = Registries.ITEM.getId(bait).getPath();
+            translationBuilder.add("item.fishingfrenzy." + baitName, capitalize(baitName.replace("_", " ")));
+        }
+
+
+        if (spawnEgg != null) {
+            String eggName = Registries.ITEM.getId(spawnEgg).getPath();
+            String formattedName = capitalize(fishName.replace("_", " ")) + " Spawn Egg";
+            translationBuilder.add("item.fishingfrenzy." + eggName, formattedName);
+        }
+    }
+
+    // Handle Data Generation: ModItemTagProvider
+    public void registerItemTags(ModItemTagProvider tagProvider) {
+        tagProvider.addToTag(ItemTags.FISHES, fish);
+
+        if (bait != null) {
+            tagProvider.addToTag(ModTags.Items.BAITS, bait);
+            tagProvider.addToTag(ModTags.Items.TARGET_BAITS, bait);
+        }
+    }
+
+    // Handles FishingFrenzyClient -> Targeted Bait Alpha
     public void registerItemColorProviders() {
         if (this.bait != null) {
             ColorProviderRegistry.ITEM.register((stack, tintIndex) -> ColorHelper.Argb.fullAlpha(((TargetBaitItem) stack.getItem()).getColor(tintIndex)), this.bait);
         }
     }
 
+    // Helper function to capitalize strings
+    private String capitalize(String str) {
+        if (str.isEmpty()) {
+            return str;
+        }
+        return Character.toUpperCase(str.charAt(0)) + str.substring(1);
+    }
+
+    // Helper function to turn biomes list into correct class for LocationCondition
+    public RegistryEntryList<Biome> getEntryBiomes(RegistryWrapper<Biome> biomeRegistry) {
+        List<RegistryKey<Biome>> biomeKeys = getBiomes();
+        if (biomeKeys.isEmpty()) {
+            return RegistryEntryList.of();
+        }
+        return RegistryEntryList.of(
+                biomeKeys.stream()
+                        .map(biomeRegistry::getOrThrow)
+                        .toList()
+        );
+    }
 
 }

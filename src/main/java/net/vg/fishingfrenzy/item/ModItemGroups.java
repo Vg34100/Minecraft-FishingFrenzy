@@ -10,6 +10,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.vg.fishingfrenzy.FishingFrenzy;
+import net.vg.fishingfrenzy.management.FishManager;
 
 import java.util.List;
 
@@ -22,15 +23,15 @@ public class ModItemGroups {
     static {
         FISHING_FRENZY_GROUP = registerGroup("fishing_frenzy_all", ModItems.DELUXE_FISHING_ROD,
                 ModItems.FISHING_RODS,
-                ModItems.FISH_ITEMS,
-                ModItems.BAIT_ITEMS,
-                ModItems.FISH_SPAWN_EGGS);
+                ModItems.FISH_ITEMS, FishManager.getItemsByType(FishManager.ItemType.FISH),
+                ModItems.BAIT_ITEMS, FishManager.getItemsByType(FishManager.ItemType.BAIT),
+                ModItems.FISH_SPAWN_EGGS, FishManager.getItemsByType(FishManager.ItemType.SPAWN_EGG));
         FISHES_GROUP = registerGroup("fishing_frenzy_fishes", ModItems.RAW_CARP,
-                ModItems.FISH_ITEMS);
+                ModItems.FISH_ITEMS, FishManager.getItemsByType(FishManager.ItemType.FISH));
         BAIT_GROUP = registerGroup("fishing_frenzy_bait", ModItems.DELUXE_BAIT,
-                ModItems.BAIT_ITEMS);
+                ModItems.BAIT_ITEMS, FishManager.getItemsByType(FishManager.ItemType.BAIT));
         FISHES_SPAWN_GROUP = registerGroup("fishing_frenzy_fish_spawn_eggs", ModItems.FISH_SPAWN_EGGS.getFirst(),
-                ModItems.FISH_SPAWN_EGGS);
+                ModItems.FISH_SPAWN_EGGS, FishManager.getItemsByType(FishManager.ItemType.SPAWN_EGG));
 
     }
 

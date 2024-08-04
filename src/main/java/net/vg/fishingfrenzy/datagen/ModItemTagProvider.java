@@ -5,7 +5,9 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.tag.TagKey;
 import net.vg.fishingfrenzy.item.ModItems;
+import net.vg.fishingfrenzy.management.FishManager;
 import net.vg.fishingfrenzy.util.ModTags;
 
 import java.util.concurrent.CompletableFuture;
@@ -13,6 +15,11 @@ import java.util.concurrent.CompletableFuture;
 public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
     public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
         super(output, completableFuture);
+    }
+
+    public void addToTag(TagKey<Item> tagKey, Item item) {
+        getOrCreateTagBuilder(tagKey)
+                .add(item);
     }
 
 
@@ -33,8 +40,12 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
             getOrCreateTagBuilder(ModTags.Items.TARGET_BAITS).add(baitItem);
         }
 
-        for (Item fishItem : ModItems.TARGETED_BAIT_ITEMS) {
+        for (Item fishItem : ModItems.FISH_ITEMS) {
             getOrCreateTagBuilder(ItemTags.FISHES).add(fishItem);
         }
+
+        ////
+        FishManager.registerItemTags(this);
+
     }
 }
