@@ -1,5 +1,7 @@
 package net.vg.fishingfrenzy.management;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.entity.effect.StatusEffects;
@@ -8,10 +10,16 @@ import net.minecraft.loot.LootTable;
 import net.minecraft.registry.RegistryWrapper;
 import net.vg.fishingfrenzy.datagen.ModItemTagProvider;
 import net.vg.fishingfrenzy.entity.ModEntities;
+import net.vg.fishingfrenzy.entity.client.AnchovyModel;
+import net.vg.fishingfrenzy.entity.client.CarpModel;
+import net.vg.fishingfrenzy.entity.client.NewCarpModel;
 import net.vg.fishingfrenzy.item.ModItems;
 import net.vg.fishingfrenzy.item.custom.BaitPropertiesBuilder;
 import net.vg.fishingfrenzy.item.custom.FishPropertiesBuilder;
 import net.vg.fishingfrenzy.item.custom.FishRegistry;
+import net.vg.fishingfrenzy.util.BiomeCategories;
+import net.vg.fishingfrenzy.util.EnvironmentUtil;
+import net.vg.fishingfrenzy.util.HeightRanges;
 
 import java.util.*;
 
@@ -33,30 +41,69 @@ public class FishManager {
         ALL_ITEMS.put(ItemType.SPAWN_EGG, new ArrayList<>());
     }
 
-
-    public static FishRegistry FISH_1;
+    public static FishRegistry ANCHOVY;
 
     public static void registerAllFish() {
-        FISH_1 = new FishRegistry(
-                "fish_1",
-                new FishPropertiesBuilder()
-                        .setPrimaryColor(0x036ffc)
-                        .setSecondaryColor(0xb0bdcf));
+//        ANCHOVY = new FishRegistry(
+//                "raw_anchovy",
+//                new FishPropertiesBuilder()
+//                        .setPrimaryColor(0x036ffc)
+//                        .setSecondaryColor(0xb0bdcf));
+//        ANCHOVY = FishRegistry.createServerRegistry(
+//                "anchovy",
+//                FishPreset.applyPresets(
+//                                new FishPropertiesBuilder()//,
+////                                FishPreset.TEST,
+////                                FishPreset.LIGHT
+//                        )
+//                        .setPrimaryColor(0x036ffc)
+//                        .setSecondaryColor(0xb0bdcf)
+//                        .setWeight(30)
+////                        .setYRange(HeightRanges.SEA_LEVEL.getRange())
+////                        .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.RIVERS, BiomeCategories.BEACHES))
+//                        .addStatusEffect(StatusEffects.DARKNESS, 150, 0, 0.1f)
+//                        .addStatusEffect(StatusEffects.ABSORPTION, 150, 0, 0.1f)
+//        );
+//        if (EnvironmentUtil.isClient()) {
+//            ANCHOVY.initializeClientSide(AnchovyModel.class);
+//        }
+//
+            FishRegistry ANCHOVY = new FishRegistry(
+                    "anchovy",
+                    FishPreset.applyPresets(
+                                    new FishPropertiesBuilder(),
+                                    FishPreset.TEST,
+                                    FishPreset.LIGHT
+                            )
+                            .setPrimaryColor(0x036ffc)
+                            .setSecondaryColor(0xb0bdcf)
+                            .setWeight(3000)
+                            .setSpawningWeight(3000)
+                            .addStatusEffect(StatusEffects.DARKNESS, 150, 0, 0.1f)
+                            .addStatusEffect(StatusEffects.ABSORPTION, 150, 0, 0.1f),
+                    EnvironmentUtil.isClient() ? AnchovyModel.class : null
+            );
 
-        FishRegistry FISH_2 = new FishRegistry(
-                "fish_2",
-                FishPreset.applyPresets(
-                        new FishPropertiesBuilder(),
-                                FishPreset.TEST,
-                                FishPreset.RAIN,
-                                FishPreset.LIGHT)
-                        .setFishEntityType(ModEntities.BONEFISH)
-                        .setPrimaryColor(0x036ffc)
-                        .setSecondaryColor(0xb0bdcf)
-                        .setWeight(3000)  // Overriding the TEST preset
-                        .addStatusEffect(StatusEffects.DARKNESS, 150, 0, 0.1f)
-                        .addStatusEffect(StatusEffects.ABSORPTION, 150, 0, 0.1f)
-        );
+
+//        } else {
+//            FishRegistry ANCHOVY = new FishRegistry(
+//                    "anchovy",
+//                    FishPreset.applyPresets(
+//                                    new FishPropertiesBuilder(),
+//                                    FishPreset.TEST,
+//                                    FishPreset.LIGHT
+//                            )
+//                            .setPrimaryColor(0x036ffc)
+//                            .setSecondaryColor(0xb0bdcf)
+//                            .setWeight(3000)
+//                            .setSpawningWeight(3000)
+//                            .addStatusEffect(StatusEffects.DARKNESS, 150, 0, 0.1f)
+//                            .addStatusEffect(StatusEffects.ABSORPTION, 150, 0, 0.1f)
+//            );
+//        }
+
+//        FishRegistry carpRegistry = new FishRegistry("carp", new FishPropertiesBuilder(), NewCarpModel.class);
+
     }
 
     public static void addFishRegistry(FishRegistry fishRegistry) {
@@ -86,6 +133,13 @@ public class FishManager {
     public static void modifyFishingLootTable(LootTable.Builder tableBuilder, RegistryWrapper. WrapperLookup registries) {
         for (FishRegistry registry : FISH_REGISTRIES) {
             registry.modifyFishingLootTable(tableBuilder, registries);
+        }
+    }
+
+    // Handles ModEntitySpawns
+    public static void registerAllFishSpawns() {
+        for (FishRegistry fishRegistry : FISH_REGISTRIES) {
+            fishRegistry.registerEntitySpawn();
         }
     }
 

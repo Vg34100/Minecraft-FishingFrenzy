@@ -1,14 +1,24 @@
 package net.vg.fishingfrenzy.item.custom;
 
 import com.mojang.datafixers.util.Pair;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.client.color.item.ItemColors;
+import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.SpawnLocationTypes;
+import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.passive.SchoolingFishEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.loot.LootTable;
@@ -24,14 +34,19 @@ import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
 import net.vg.fishingfrenzy.FishingFrenzy;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Model;
 import net.minecraft.data.client.Models;
+import net.vg.fishingfrenzy.config.ModConfigs;
 import net.vg.fishingfrenzy.datagen.ModItemTagProvider;
+import net.vg.fishingfrenzy.management.DynamicFishEntityGenerator;
+import net.vg.fishingfrenzy.management.DynamicFishSystem;
 import net.vg.fishingfrenzy.management.FishManager;
 import net.vg.fishingfrenzy.management.FishPreset;
+import net.vg.fishingfrenzy.util.EnvironmentUtil;
 import net.vg.fishingfrenzy.util.ModTags;
 import net.vg.fishingfrenzy.util.StatusEffectEntry;
 
@@ -59,11 +74,89 @@ public class FishRegistry {
     private final List<RegistryKey<Biome>> biomes;
     private final int primaryColor;
     private final int secondaryColor;
-    private final EntityType<? extends MobEntity> fishEntityType;
+    private EntityType<SchoolingFishEntity> fishEntityType = null;
     private final int spawningWeight;
     private final Pair<Integer, Integer> groupSizes;
 
+    //private final Class<? extends EntityModel<SchoolingFishEntity>> modelClass;
+    private EntityModelLayer modelLayer = null;
+
+    @Environment(EnvType.CLIENT)
+    private Class<? extends EntityModel<SchoolingFishEntity>> modelClass;
+
+
     public FishRegistry(String name, FishProperties properties) {
+        this(name, properties, null);
+//
+//        this.fish_name = name;
+//
+//
+//
+//        this.weight = properties.getWeight();
+//        this.quality = properties.getQuality();
+//        this.yRange = properties.getYRange();
+//        this.minTime = properties.getMinTime();
+//        this.maxTime = properties.getMaxTime();
+//        this.isWeatherDependent = properties.isWeatherDependent();
+//        this.raining = properties.isRaining();
+//        this.thundering = properties.isThundering();
+//        this.biomes = properties.getBiomes();
+//        this.primaryColor = properties.getPrimaryColor();
+//        this.secondaryColor = properties.getSecondaryColor();
+////        this.fishEntityType = properties.getFishEntityType();
+//        this.spawningWeight = properties.getSpawningWeight();
+//        this.groupSizes = properties.getGroupSizes();
+//
+//        FoodComponent foodComponent = createFoodComponent(properties.getFoodAttributes(), properties.isSnack(), properties.getStatusEffects());
+//
+//        this.fishEntityType = DynamicFishEntityGenerator.generateFishEntity(this);
+//
+//        this.fish = createFishItem(new Item.Settings().food(foodComponent), properties);
+//        this.spawnEgg = createSpawnEgg(new Item.Settings());
+//        this.bait = createBait(new Item.Settings(), new BaitPropertiesBuilder().setTargetedFish(this.fish));
+////
+//        this.modelClass = modelClass;
+//        this.modelLayer = new EntityModelLayer(Identifier.of(FishingFrenzy.MOD_ID, name), "main");
+//
+
+
+
+//        FishManager.addFishRegistry(this);
+    }
+
+    public static FishRegistry createServerRegistry(String name, FishProperties properties) {
+        return new FishRegistry(name, properties);
+    }
+
+    @Environment(EnvType.CLIENT)
+    public void initializeClientSide(Class<? extends EntityModel<SchoolingFishEntity>> modelClass) {
+        this.modelClass = modelClass;
+        this.modelLayer = new EntityModelLayer(Identifier.of(FishingFrenzy.MOD_ID, this.getFishName()), "main");
+        DynamicFishSystem.registerFish(this);
+
+    }
+
+//    @Environment(EnvType.CLIENT)
+//    private void initializeClientSide(Class<? extends EntityModel<SchoolingFishEntity>> modelClass) {
+//        this.modelClass = modelClass;
+//        this.modelLayer = new EntityModelLayer(Identifier.of(FishingFrenzy.MOD_ID, fish_name), "main");
+//        this.fishEntityType = DynamicFishEntityGenerator.generateFishEntity(this);
+//        DynamicFishSystem.registerFish(this);
+//    }
+
+    public static FishRegistry create(String name, FishProperties properties, Class<? extends EntityModel<SchoolingFishEntity>> modelClass) {
+        FishRegistry registry = new FishRegistry(name, properties);
+        if (EnvironmentUtil.isClient()) {
+            registry.initializeClientSide(modelClass);
+        } else {
+            registry.fishEntityType = DynamicFishEntityGenerator.generateFishEntity(registry);
+            DynamicFishSystem.registerFish(registry);
+        }
+        return registry;
+    }
+
+//    @Environment(EnvType.CLIENT)
+    public FishRegistry(String name, FishProperties properties, Class<? extends EntityModel<SchoolingFishEntity>> modelClass) {
         this.fish_name = name;
 
 
@@ -79,16 +172,29 @@ public class FishRegistry {
         this.biomes = properties.getBiomes();
         this.primaryColor = properties.getPrimaryColor();
         this.secondaryColor = properties.getSecondaryColor();
-        this.fishEntityType = properties.getFishEntityType();
+//        this.fishEntityType = properties.getFishEntityType();
         this.spawningWeight = properties.getSpawningWeight();
         this.groupSizes = properties.getGroupSizes();
 
         FoodComponent foodComponent = createFoodComponent(properties.getFoodAttributes(), properties.isSnack(), properties.getStatusEffects());
 
+        this.fishEntityType = DynamicFishEntityGenerator.generateFishEntity(this);
+
+        if (modelClass != null) {
+            this.modelClass = modelClass;
+            this.modelLayer = new EntityModelLayer(Identifier.of(FishingFrenzy.MOD_ID, name), "main");
+
+            DynamicFishSystem.registerFish(this);
+        }
+
 
         this.fish = createFishItem(new Item.Settings().food(foodComponent), properties);
         this.spawnEgg = createSpawnEgg(new Item.Settings());
         this.bait = createBait(new Item.Settings(), new BaitPropertiesBuilder().setTargetedFish(this.fish));
+
+
+
+
 
         FishManager.addFishRegistry(this);
     }
@@ -126,7 +232,7 @@ public class FishRegistry {
     public int getSecondaryColor() {
         return secondaryColor;
     }
-    public EntityType<? extends MobEntity> getFishEntityType() {
+    public EntityType<SchoolingFishEntity> getFishEntityType() {
         return fishEntityType;
     }
     public boolean hasFishEntityType() {
@@ -151,7 +257,13 @@ public class FishRegistry {
         return fish_name;
     }
 
+    public Class<? extends EntityModel<SchoolingFishEntity>> getModelClass() {
+        return modelClass;
+    }
 
+    public EntityModelLayer getModelLayer() {
+        return modelLayer;
+    }
 
 
     // Handles ModItems: registerFish
@@ -213,6 +325,66 @@ public class FishRegistry {
                     .conditionally(finalLocationCondition)
             );
         });
+    }
+
+    // Handles ModEntitySpawns
+    public void registerEntitySpawn() {
+        if (this.hasFishEntityType()) {
+            if (ModConfigs.EASY_MODE) {
+                BiomeModifications.addSpawn(
+                        BiomeSelectors.all(),
+                        SpawnGroup.WATER_AMBIENT,
+                        this.getFishEntityType(),
+                        this.getSpawningWeight(),
+                        this.getGroupSizes().getFirst(),
+                        this.getGroupSizes().getSecond()
+                );
+            } else {
+                BiomeModifications.addSpawn(
+                        this.getBiomes().isEmpty() ? BiomeSelectors.all() : BiomeSelectors.includeByKey(this.getBiomes()),
+                        SpawnGroup.WATER_AMBIENT,
+                        this.getFishEntityType(),
+                        this.getSpawningWeight(),
+                        this.getGroupSizes().getFirst(),
+                        this.getGroupSizes().getSecond()
+                );
+            }
+
+            SpawnRestriction.register(
+                    this.getFishEntityType(),
+                    SpawnLocationTypes.IN_WATER,
+                    Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+                    (entityType, world, spawnReason, pos, random) -> {
+                        if (ModConfigs.EASY_MODE) {
+                            return true;
+                        }
+                        if (!this.getYRange().test((double) pos.getY())) {
+                            return false;
+                        }
+                        long timeOfDay = world.toServerWorld().getTimeOfDay();
+                        if (!isWithinTimeRange(timeOfDay, this.getMinTime(), this.getMaxTime())) {
+                            return false;
+                        }
+                        if (this.isWeatherDependent()) {
+                            boolean isRaining = world.toServerWorld().isRaining();
+                            boolean isThundering = world.toServerWorld().isThundering();
+
+                            if (this.isRaining() && !isRaining) {
+                                return false;
+                            }
+                            if (this.isThundering() && !isThundering) {
+                                return false;
+                            }
+                            if (!this.isRaining() && !this.isThundering() && (isRaining || isThundering)) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+            );
+        }
+
+
     }
 
     // Handles Data Generation: ModModelProvider
@@ -282,6 +454,15 @@ public class FishRegistry {
                         .map(biomeRegistry::getOrThrow)
                         .toList()
         );
+    }
+
+    private boolean isWithinTimeRange(long currentTime, int minTime, int maxTime) {
+        currentTime = currentTime % 24000;
+        if (minTime <= maxTime) {
+            return currentTime >= minTime && currentTime <= maxTime;
+        } else {
+            return currentTime >= minTime || currentTime <= maxTime;
+        }
     }
 
 }

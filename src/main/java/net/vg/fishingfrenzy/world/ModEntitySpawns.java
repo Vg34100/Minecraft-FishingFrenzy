@@ -12,11 +12,14 @@ import net.minecraft.world.biome.Biome;
 import net.vg.fishingfrenzy.config.ModConfigs;
 import net.vg.fishingfrenzy.item.ModItems;
 import net.vg.fishingfrenzy.item.custom.FishItem;
+import net.vg.fishingfrenzy.management.FishManager;
 
 import java.util.List;
 
 public class ModEntitySpawns {
     public static void addEntitySpawns() {
+        FishManager.registerAllFishSpawns();
+
         for (Item fishItem : ModItems.FISH_ITEMS) {
             if (fishItem instanceof FishItem) {
                 if (((FishItem) fishItem).hasFishEntityType()) {

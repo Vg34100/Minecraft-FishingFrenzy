@@ -78,64 +78,64 @@ public class ModItems {
 
 
     // Ocean
-    public static final Item RAW_ANCHOVY = registerFishItem("raw_anchovy",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_ANCHOVY), new FishPropertiesBuilder()
-                    .setWeight(50)
-                    .setBiomes(
-                            BiomeCategories.combine(
-                                    BiomeCategories.WARM_WATERS,
-                                    BiomeCategories.COLD_WATERS,
-                                    BiomeCategories.BEACHES,
-                                    BiomeCategories.FORESTS))
-                    .setYRange(HeightRanges.SEA_LEVEL.getRange())
-                    .setQuality(1)));
-
-    public static final Item RAW_SARDINE = registerFishItem("raw_sardine",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SARDINE), new FishPropertiesBuilder()
-                    .setWeight(30)
-                    .setMinTime(6000)
-                    .setMaxTime(18000)
-                    .setYRange(HeightRanges.SEA_LEVEL.getRange())));
-
-    public static final Item RAW_RED_MULLET = registerFishItem("raw_red_mullet",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_RED_MULLET), new FishPropertiesBuilder()
-                    .setWeight(35)
-                    .setBiomes(
-                            BiomeCategories.combine(
-                                    BiomeCategories.BEACHES,
-                                    BiomeCategories.WARM_WATERS,
-                                    BiomeCategories.DESERTS))
-                    .setYRange(HeightRanges.SEA_LEVEL.getRange())));
-
-    public static final Item RAW_HERRING = registerFishItem("raw_herring",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_HERRING), new FishPropertiesBuilder()
-                    .setWeight(65)
-                    .setMinTime(6000)
-                    .setMaxTime(18000)));
-
-    public static final Item RAW_RED_SNAPPER = registerFishItem("raw_red_snapper",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_RED_SNAPPER), new FishPropertiesBuilder()
-                    .setWeight(50)
-                    .setBiomes(
-                            BiomeCategories.combine(
-                                    BiomeCategories.BEACHES,
-                                    BiomeCategories.WARM_WATERS,
-                                    BiomeCategories.JUNGLES))
-                    .setRaining(true)
-                    .setWeatherDependent(true)));
-
-    public static final Item RAW_SQUID = registerFishItem("raw_squid",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SQUID), new FishPropertiesBuilder()
-                    .setWeight(20)
-                    .setMinTime(18000)
-                    .setMaxTime(24000)
-                    .setYRange(HeightRanges.UNDERWATER_CAVES.getRange())
-                    .setBiomes(
-                            BiomeCategories.combine(
-                                    BiomeCategories.WARM_WATERS,
-                                    BiomeCategories.COLD_WATERS,
-                                    BiomeCategories.UNDERGROUND,
-                                    BiomeCategories.BEACHES))));
+//    public static final Item RAW_ANCHOVY = registerFishItem("raw_anchovy",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_ANCHOVY), new FishPropertiesBuilder()
+//                    .setWeight(50)
+//                    .setBiomes(
+//                            BiomeCategories.combine(
+//                                    BiomeCategories.WARM_WATERS,
+//                                    BiomeCategories.COLD_WATERS,
+//                                    BiomeCategories.BEACHES,
+//                                    BiomeCategories.FORESTS))
+//                    .setYRange(HeightRanges.SEA_LEVEL.getRange())
+//                    .setQuality(1)));
+//
+//    public static final Item RAW_SARDINE = registerFishItem("raw_sardine",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SARDINE), new FishPropertiesBuilder()
+//                    .setWeight(30)
+//                    .setMinTime(6000)
+//                    .setMaxTime(18000)
+//                    .setYRange(HeightRanges.SEA_LEVEL.getRange())));
+//
+//    public static final Item RAW_RED_MULLET = registerFishItem("raw_red_mullet",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_RED_MULLET), new FishPropertiesBuilder()
+//                    .setWeight(35)
+//                    .setBiomes(
+//                            BiomeCategories.combine(
+//                                    BiomeCategories.BEACHES,
+//                                    BiomeCategories.WARM_WATERS,
+//                                    BiomeCategories.DESERTS))
+//                    .setYRange(HeightRanges.SEA_LEVEL.getRange())));
+//
+//    public static final Item RAW_HERRING = registerFishItem("raw_herring",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_HERRING), new FishPropertiesBuilder()
+//                    .setWeight(65)
+//                    .setMinTime(6000)
+//                    .setMaxTime(18000)));
+//
+//    public static final Item RAW_RED_SNAPPER = registerFishItem("raw_red_snapper",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_RED_SNAPPER), new FishPropertiesBuilder()
+//                    .setWeight(50)
+//                    .setBiomes(
+//                            BiomeCategories.combine(
+//                                    BiomeCategories.BEACHES,
+//                                    BiomeCategories.WARM_WATERS,
+//                                    BiomeCategories.JUNGLES))
+//                    .setRaining(true)
+//                    .setWeatherDependent(true)));
+//
+//    public static final Item RAW_SQUID = registerFishItem("raw_squid",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SQUID), new FishPropertiesBuilder()
+//                    .setWeight(20)
+//                    .setMinTime(18000)
+//                    .setMaxTime(24000)
+//                    .setYRange(HeightRanges.UNDERWATER_CAVES.getRange())
+//                    .setBiomes(
+//                            BiomeCategories.combine(
+//                                    BiomeCategories.WARM_WATERS,
+//                                    BiomeCategories.COLD_WATERS,
+//                                    BiomeCategories.UNDERGROUND,
+//                                    BiomeCategories.BEACHES))));
 
     public static final Item RAW_ALBACORE = registerFishItem("raw_albacore",
             new FishItem(new Item.Settings().food(ModFoodComponents.RAW_ALBACORE), new FishPropertiesBuilder()
@@ -147,207 +147,207 @@ public class ModItems {
                     .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.RIVERS, BiomeCategories.BEACHES))));
 
 
-    public static final Item RAW_HALIBUT = registerFishItem("raw_halibut",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_HALIBUT), new FishPropertiesBuilder()
-                    .setWeight(35)
-                    .setMinTime(18000)
-                    .setMaxTime(6000)
-                    .setYRange(HeightRanges.SEA_LEVEL.getRange())
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.MOUNTAINS, BiomeCategories.BEACHES))));
-
-    public static final Item RAW_TUNA = registerFishItem("raw_tuna",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_TUNA), new FishPropertiesBuilder()
-                    .setWeight(60)
-                    .setYRange(HeightRanges.SEA_LEVEL.getRange())
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.RIVERS, BiomeCategories.BEACHES, BiomeCategories.MOUNTAINS, BiomeCategories.FORESTS))
-                    .setQuality(2)));
-
-    public static final Item RAW_OCTOPUS = registerFishItem("raw_octopus",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_OCTOPUS), new FishPropertiesBuilder()
-                    .setWeight(10)
-                    .setQuality(2)
-                    .setMinTime(6000)
-                    .setMaxTime(18000)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.UNDERGROUND, BiomeCategories.MISCELLANEOUS))
-                    .setYRange(HeightRanges.SEA_LEVEL.getRange())));
-
-    public static final Item RAW_FLOUNDER = registerFishItem("raw_flounder",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_FLOUNDER), new FishPropertiesBuilder()
-                    .setWeight(30)
-                    .setQuality(1)));
-
-    public static final Item RAW_TILAPIA = registerFishItem("raw_tilapia",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_TILAPIA), new FishPropertiesBuilder()
-                    .setWeight(35)
-                    .setMinTime(2000)
-                    .setMaxTime(18000)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.SWAMPS))
-                    .setYRange(HeightRanges.LOWLANDS.getRange())));
-
-    public static final Item RAW_LIONFISH = registerFishItem("raw_lionfish",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_LIONFISH), new FishPropertiesBuilder()
-                    .setWeight(20)
-                    .setQuality(2)
-                    .setMinTime(2000)
-                    .setMaxTime(18000)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.BEACHES, BiomeCategories.JUNGLES))));
-
-    // Night Market
-    public static final Item MIDNIGHT_SQUID = registerFishItem("midnight_squid",
-            new FishItem(new Item.Settings().food(ModFoodComponents.MIDNIGHT_SQUID), new FishPropertiesBuilder()
-                    .setWeight(20)
-                    .setQuality(2)
-                    .setMinTime(18000)
-                    .setMaxTime(6000)
-                    .setYRange(HeightRanges.CAVERN.getRange())
-                    .setRaining(true)
-                    .setWeatherDependent(true)));
-
-    public static final Item SPOOK_FISH = registerFishItem("spook_fish",
-            new FishItem(new Item.Settings().food(ModFoodComponents.SPOOK_FISH), new FishPropertiesBuilder()
-                    .setWeight(20)
-                    .setQuality(2)
-                    .setMinTime(18000)
-                    .setMaxTime(6000)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.SWAMPS, BiomeCategories.UNDERGROUND))));
-
-    public static final Item BLOBFISH = registerFishItem("blobfish",
-            new FishItem(new Item.Settings().food(ModFoodComponents.BLOBFISH), new FishPropertiesBuilder()
-                    .setWeight(10)
-                    .setMinTime(18000)
-                    .setMaxTime(6000)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.MISCELLANEOUS))));
-
-    // Ocean (continued)
-    public static final Item RAW_EEL = registerFishItem("raw_eel",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_EEL), new FishPropertiesBuilder()
-                    .setWeight(25)
-                    .setYRange(HeightRanges.UNDERWATER_CAVES.getRange())
-                    .setQuality(1)));
-
-    public static final Item SEA_CUCUMBER = registerFishItem("sea_cucumber",
-            new FishItem(new Item.Settings().food(ModFoodComponents.SEA_CUCUMBER), new FishPropertiesBuilder()
-                    .setWeight(15)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.BEACHES, BiomeCategories.FORESTS))));
-
-    public static final Item SUPER_CUCUMBER = registerFishItem("super_cucumber",
-            new FishItem(new Item.Settings().food(ModFoodComponents.SUPER_CUCUMBER), new FishPropertiesBuilder()
-                    .setWeight(10)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.SWAMPS, BiomeCategories.SNOWY_BIOMES))
-                    .setYRange(NumberRange.DoubleRange.atMost(60.0))
-                    .setQuality(1)));
-
-    // River & Mountain
-    public static final Item RAW_WALLEYE = registerFishItem("raw_walleye",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_WALLEYE), new FishPropertiesBuilder()
-                    .setWeight(20)
-                    .setWeatherDependent(true)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.WARM_WATERS, BiomeCategories.FORESTS, BiomeCategories.PLAINS))
-                    .setMinTime(4000)
-                    .setMaxTime(18000)
-                    .setRaining(true)
-                    .setThundering(false)
-                    .setQuality(2)));
-
-    public static final Item RAW_PERCH = registerFishItem("raw_perch",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_PERCH), new FishPropertiesBuilder()
-                    .setWeight(15)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.WARM_WATERS, BiomeCategories.BEACHES, BiomeCategories.JUNGLES))
-                    .setYRange(HeightRanges.LOWLANDS.getRange())));
-
-    public static final Item RAW_CHUB = registerFishItem("raw_chub",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_CHUB), new FishPropertiesBuilder()
-                    .setWeight(10)));
-
-    public static final Item RAW_LINGCOD = registerFishItem("raw_lingcod",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_LINGCOD), new FishPropertiesBuilder()
-                    .setWeight(25)
-                    .setMinTime(2000)
-                    .setMaxTime(10000)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.MOUNTAINS))
-                    .setYRange(HeightRanges.MOUNTAIN_LEVEL.getRange())));
-
-    // River (Salmon)
-    public static final Item RAW_BREAM = registerFishItem("raw_bream",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_BREAM), new FishPropertiesBuilder()
-                    .setWeight(20)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.PLAINS))
-                    .setYRange(NumberRange.DoubleRange.between(10.0, 40.0))));
-
-    public static final Item RAW_SMALLMOUTH_BASS = registerFishItem("raw_smallmouth_bass",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SMALLMOUTH_BASS), new FishPropertiesBuilder()
-                    .setWeight(40)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.PLAINS, BiomeCategories.JUNGLES, BiomeCategories.SWAMPS))));
-
-    public static final Item RAW_RAINBOW_TROUT = registerFishItem("raw_rainbow_trout",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_RAINBOW_TROUT), new FishPropertiesBuilder()
-                    .setWeight(15)
-                    .setMinTime(2000)
-                    .setMaxTime(18000)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.MOUNTAINS))
-                    .setYRange(HeightRanges.MOUNTAIN_LEVEL.getRange())));
-
-    public static final Item RAW_PIKE = registerFishItem("raw_pike",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_PIKE), new FishPropertiesBuilder()
-                    .setWeight(25)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.SWAMPS))));
-
-    public static final Item RAW_SUNFISH = registerFishItem("raw_sunfish",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SUNFISH), new FishPropertiesBuilder()
-                    .setWeight(10)
-                    .setMinTime(6000)
-                    .setMaxTime(18000)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.PLAINS))
-                    .setYRange(HeightRanges.LOWLANDS.getRange())));
-
-    public static final Item RAW_TIGER_TROUT = registerFishItem("raw_tiger_trout",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_TIGER_TROUT), new FishPropertiesBuilder()
-                    .setWeight(20)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.MOUNTAINS, BiomeCategories.FORESTS))
-                    .setYRange(HeightRanges.MOUNTAIN_LEVEL.getRange())));
-
-    public static final Item RAW_DORADO = registerFishItem("raw_dorado",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_DORADO), new FishPropertiesBuilder()
-                    .setWeight(30)
-                    .setMinTime(6000)
-                    .setMaxTime(18000)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.PLAINS))
-                    .setYRange(HeightRanges.LOWLANDS.getRange())));
-
-    public static final Item RAW_SHAD = registerFishItem("raw_shad",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SHAD), new FishPropertiesBuilder()
-                    .setWeight(15)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.SWAMPS))));
-
-    public static final Item RAW_BLUE_DISCUS = registerFishItem("raw_blue_discus",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_BLUE_DISCUS), new FishPropertiesBuilder()
-                    .setWeight(20)
-                    .setQuality(1)
-                    .setMinTime(6000)
-                    .setMaxTime(18000)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.JUNGLES, BiomeCategories.WARM_WATERS))
-                    .setYRange(HeightRanges.LOWLANDS.getRange())));
-
-    public static final Item RAW_CATFISH = registerFishItem("raw_catfish",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_CATFISH), new FishPropertiesBuilder()
-                    .setWeight(30)
-                    .setQuality(1)
-                    .setMinTime(2000)
-                    .setMaxTime(18000)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.SWAMPS, BiomeCategories.MISCELLANEOUS))
-                    .setYRange(HeightRanges.LOWLANDS.getRange())));
-
-    public static final Item RAW_WOODSKIP = registerFishItem("raw_woodskip",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_WOODSKIP), new FishPropertiesBuilder()
-                    .setWeight(15)
-                    .setQuality(1)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.MISCELLANEOUS))));
-
-    public static final Item RAW_GOBY = registerFishItem("raw_goby",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_GOBY), new FishPropertiesBuilder()
-                    .setWeight(10)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS))
-                    .setYRange(HeightRanges.LOWLANDS.getRange())));
+//    public static final Item RAW_HALIBUT = registerFishItem("raw_halibut",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_HALIBUT), new FishPropertiesBuilder()
+//                    .setWeight(35)
+//                    .setMinTime(18000)
+//                    .setMaxTime(6000)
+//                    .setYRange(HeightRanges.SEA_LEVEL.getRange())
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.MOUNTAINS, BiomeCategories.BEACHES))));
+//
+//    public static final Item RAW_TUNA = registerFishItem("raw_tuna",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_TUNA), new FishPropertiesBuilder()
+//                    .setWeight(60)
+//                    .setYRange(HeightRanges.SEA_LEVEL.getRange())
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.RIVERS, BiomeCategories.BEACHES, BiomeCategories.MOUNTAINS, BiomeCategories.FORESTS))
+//                    .setQuality(2)));
+//
+//    public static final Item RAW_OCTOPUS = registerFishItem("raw_octopus",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_OCTOPUS), new FishPropertiesBuilder()
+//                    .setWeight(10)
+//                    .setQuality(2)
+//                    .setMinTime(6000)
+//                    .setMaxTime(18000)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.UNDERGROUND, BiomeCategories.MISCELLANEOUS))
+//                    .setYRange(HeightRanges.SEA_LEVEL.getRange())));
+//
+//    public static final Item RAW_FLOUNDER = registerFishItem("raw_flounder",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_FLOUNDER), new FishPropertiesBuilder()
+//                    .setWeight(30)
+//                    .setQuality(1)));
+//
+//    public static final Item RAW_TILAPIA = registerFishItem("raw_tilapia",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_TILAPIA), new FishPropertiesBuilder()
+//                    .setWeight(35)
+//                    .setMinTime(2000)
+//                    .setMaxTime(18000)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.SWAMPS))
+//                    .setYRange(HeightRanges.LOWLANDS.getRange())));
+//
+//    public static final Item RAW_LIONFISH = registerFishItem("raw_lionfish",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_LIONFISH), new FishPropertiesBuilder()
+//                    .setWeight(20)
+//                    .setQuality(2)
+//                    .setMinTime(2000)
+//                    .setMaxTime(18000)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.BEACHES, BiomeCategories.JUNGLES))));
+//
+//    // Night Market
+//    public static final Item MIDNIGHT_SQUID = registerFishItem("midnight_squid",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.MIDNIGHT_SQUID), new FishPropertiesBuilder()
+//                    .setWeight(20)
+//                    .setQuality(2)
+//                    .setMinTime(18000)
+//                    .setMaxTime(6000)
+//                    .setYRange(HeightRanges.CAVERN.getRange())
+//                    .setRaining(true)
+//                    .setWeatherDependent(true)));
+//
+//    public static final Item SPOOK_FISH = registerFishItem("spook_fish",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.SPOOK_FISH), new FishPropertiesBuilder()
+//                    .setWeight(20)
+//                    .setQuality(2)
+//                    .setMinTime(18000)
+//                    .setMaxTime(6000)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.SWAMPS, BiomeCategories.UNDERGROUND))));
+//
+//    public static final Item BLOBFISH = registerFishItem("blobfish",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.BLOBFISH), new FishPropertiesBuilder()
+//                    .setWeight(10)
+//                    .setMinTime(18000)
+//                    .setMaxTime(6000)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.MISCELLANEOUS))));
+//
+//    // Ocean (continued)
+//    public static final Item RAW_EEL = registerFishItem("raw_eel",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_EEL), new FishPropertiesBuilder()
+//                    .setWeight(25)
+//                    .setYRange(HeightRanges.UNDERWATER_CAVES.getRange())
+//                    .setQuality(1)));
+//
+//    public static final Item SEA_CUCUMBER = registerFishItem("sea_cucumber",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.SEA_CUCUMBER), new FishPropertiesBuilder()
+//                    .setWeight(15)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.BEACHES, BiomeCategories.FORESTS))));
+//
+//    public static final Item SUPER_CUCUMBER = registerFishItem("super_cucumber",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.SUPER_CUCUMBER), new FishPropertiesBuilder()
+//                    .setWeight(10)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.SWAMPS, BiomeCategories.SNOWY_BIOMES))
+//                    .setYRange(NumberRange.DoubleRange.atMost(60.0))
+//                    .setQuality(1)));
+//
+//    // River & Mountain
+//    public static final Item RAW_WALLEYE = registerFishItem("raw_walleye",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_WALLEYE), new FishPropertiesBuilder()
+//                    .setWeight(20)
+//                    .setWeatherDependent(true)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.WARM_WATERS, BiomeCategories.FORESTS, BiomeCategories.PLAINS))
+//                    .setMinTime(4000)
+//                    .setMaxTime(18000)
+//                    .setRaining(true)
+//                    .setThundering(false)
+//                    .setQuality(2)));
+//
+//    public static final Item RAW_PERCH = registerFishItem("raw_perch",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_PERCH), new FishPropertiesBuilder()
+//                    .setWeight(15)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.WARM_WATERS, BiomeCategories.BEACHES, BiomeCategories.JUNGLES))
+//                    .setYRange(HeightRanges.LOWLANDS.getRange())));
+//
+//    public static final Item RAW_CHUB = registerFishItem("raw_chub",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_CHUB), new FishPropertiesBuilder()
+//                    .setWeight(10)));
+//
+//    public static final Item RAW_LINGCOD = registerFishItem("raw_lingcod",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_LINGCOD), new FishPropertiesBuilder()
+//                    .setWeight(25)
+//                    .setMinTime(2000)
+//                    .setMaxTime(10000)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.MOUNTAINS))
+//                    .setYRange(HeightRanges.MOUNTAIN_LEVEL.getRange())));
+//
+//    // River (Salmon)
+//    public static final Item RAW_BREAM = registerFishItem("raw_bream",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_BREAM), new FishPropertiesBuilder()
+//                    .setWeight(20)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.PLAINS))
+//                    .setYRange(NumberRange.DoubleRange.between(10.0, 40.0))));
+//
+//    public static final Item RAW_SMALLMOUTH_BASS = registerFishItem("raw_smallmouth_bass",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SMALLMOUTH_BASS), new FishPropertiesBuilder()
+//                    .setWeight(40)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.PLAINS, BiomeCategories.JUNGLES, BiomeCategories.SWAMPS))));
+//
+//    public static final Item RAW_RAINBOW_TROUT = registerFishItem("raw_rainbow_trout",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_RAINBOW_TROUT), new FishPropertiesBuilder()
+//                    .setWeight(15)
+//                    .setMinTime(2000)
+//                    .setMaxTime(18000)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.MOUNTAINS))
+//                    .setYRange(HeightRanges.MOUNTAIN_LEVEL.getRange())));
+//
+//    public static final Item RAW_PIKE = registerFishItem("raw_pike",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_PIKE), new FishPropertiesBuilder()
+//                    .setWeight(25)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.SWAMPS))));
+//
+//    public static final Item RAW_SUNFISH = registerFishItem("raw_sunfish",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SUNFISH), new FishPropertiesBuilder()
+//                    .setWeight(10)
+//                    .setMinTime(6000)
+//                    .setMaxTime(18000)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.PLAINS))
+//                    .setYRange(HeightRanges.LOWLANDS.getRange())));
+//
+//    public static final Item RAW_TIGER_TROUT = registerFishItem("raw_tiger_trout",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_TIGER_TROUT), new FishPropertiesBuilder()
+//                    .setWeight(20)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.MOUNTAINS, BiomeCategories.FORESTS))
+//                    .setYRange(HeightRanges.MOUNTAIN_LEVEL.getRange())));
+//
+//    public static final Item RAW_DORADO = registerFishItem("raw_dorado",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_DORADO), new FishPropertiesBuilder()
+//                    .setWeight(30)
+//                    .setMinTime(6000)
+//                    .setMaxTime(18000)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.PLAINS))
+//                    .setYRange(HeightRanges.LOWLANDS.getRange())));
+//
+//    public static final Item RAW_SHAD = registerFishItem("raw_shad",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SHAD), new FishPropertiesBuilder()
+//                    .setWeight(15)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.SWAMPS))));
+//
+//    public static final Item RAW_BLUE_DISCUS = registerFishItem("raw_blue_discus",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_BLUE_DISCUS), new FishPropertiesBuilder()
+//                    .setWeight(20)
+//                    .setQuality(1)
+//                    .setMinTime(6000)
+//                    .setMaxTime(18000)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.JUNGLES, BiomeCategories.WARM_WATERS))
+//                    .setYRange(HeightRanges.LOWLANDS.getRange())));
+//
+//    public static final Item RAW_CATFISH = registerFishItem("raw_catfish",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_CATFISH), new FishPropertiesBuilder()
+//                    .setWeight(30)
+//                    .setQuality(1)
+//                    .setMinTime(2000)
+//                    .setMaxTime(18000)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.SWAMPS, BiomeCategories.MISCELLANEOUS))
+//                    .setYRange(HeightRanges.LOWLANDS.getRange())));
+//
+//    public static final Item RAW_WOODSKIP = registerFishItem("raw_woodskip",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_WOODSKIP), new FishPropertiesBuilder()
+//                    .setWeight(15)
+//                    .setQuality(1)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.MISCELLANEOUS))));
+//
+//    public static final Item RAW_GOBY = registerFishItem("raw_goby",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_GOBY), new FishPropertiesBuilder()
+//                    .setWeight(10)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS))
+//                    .setYRange(HeightRanges.LOWLANDS.getRange())));
 
     // Mountain
     public static final Item RAW_CARP = registerFishItem("raw_carp",
@@ -358,81 +358,81 @@ public class ModItems {
                     .setWeight(45)
                     .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.PLAINS, BiomeCategories.FORESTS, BiomeCategories.MOUNTAINS))));
 
-    public static final Item RAW_LARGEMOUTH_BASS = registerFishItem("raw_largemouth_bass",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_LARGEMOUTH_BASS), new FishPropertiesBuilder()
-                    .setWeight(30)
-                    .setMinTime(500)
-                    .setMaxTime(19000)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.PLAINS, BiomeCategories.FORESTS))));
-
-    public static final Item RAW_STURGEON = registerFishItem("raw_sturgeon",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_STURGEON), new FishPropertiesBuilder()
-                    .setWeight(35)
-                    .setMinTime(2000)
-                    .setMaxTime(18000)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.MISCELLANEOUS, BiomeCategories.MOUNTAINS, BiomeCategories.SWAMPS))
-                    .setYRange(HeightRanges.MOUNTAIN_LEVEL.getRange())));
-
-    public static final Item RAW_BULLHEAD = registerFishItem("raw_bullhead",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_BULLHEAD), new FishPropertiesBuilder()
-                    .setWeight(20)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.MOUNTAINS))));
-
-    public static final Item RAW_MIDNIGHT_CARP = registerFishItem("raw_midnight_carp",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_MIDNIGHT_CARP), new FishPropertiesBuilder()
-                    .setWeight(10)
-                    .setMinTime(18000)
-                    .setMaxTime(6000)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.MOUNTAINS))
-                    .setYRange(HeightRanges.MOUNTAIN_LEVEL.getRange())
-                    .setQuality(1)));
-
-    // Desert
-    public static final Item RAW_SANDFISH = registerFishItem("raw_sandfish",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SANDFISH), new FishPropertiesBuilder()
-                    .setWeight(25)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.DESERTS, BiomeCategories.SAVANNAS))));
-
-    public static final Item SCORPION_CARP = registerFishItem("scorpion_carp",
-            new FishItem(new Item.Settings().food(ModFoodComponents.SCORPION_CARP), new FishPropertiesBuilder()
-                    .setWeight(10)
-                    .setMinTime(6000)
-                    .setMaxTime(24000)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.DESERTS, BiomeCategories.SAVANNAS))));
-
-    // Underground
-    public static final Item RAW_GHOSTFISH = registerFishItem("raw_ghostfish",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_GHOSTFISH), new FishPropertiesBuilder()
-                    .setWeight(15)
-                    .setQuality(1)
-                    .setYRange(HeightRanges.DEEP_DARK.getRange())));
-
-    public static final Item COBBLESTONE_FISH = registerFishItem("cobblestone_fish",
-            new FishItem(new Item.Settings().food(ModFoodComponents.COBBLESTONE_FISH), new FishPropertiesBuilder()
-                    .setWeight(20)
-                    .setYRange(HeightRanges.CAVERN.getRange())));
-
-    public static final Item ICE_PIP = registerFishItem("ice_pip",
-            new FishItem(new Item.Settings().food(ModFoodComponents.ICE_PIP), new FishPropertiesBuilder()
-                    .setWeight(25)
-                    .setMinTime(6000)
-                    .setMaxTime(24000)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.ICY_BIOMES, BiomeCategories.SNOWY_BIOMES, BiomeCategories.MOUNTAINS))));
-
-    public static final Item LAVA_EEL = registerFishItem("lava_eel",
-            new FishItem(new Item.Settings().food(ModFoodComponents.LAVA_EEL), new FishPropertiesBuilder()
-                    .setWeight(30)
-                    .setYRange(HeightRanges.UNDERGROUND_LEVEL.getRange())));
-
-    public static final Item VOID_SALMON = registerFishItem("void_salmon",
-            new FishItem(new Item.Settings().food(ModFoodComponents.VOID_SALMON), new FishPropertiesBuilder()
-                    .setWeight(20)
-                    .setYRange(HeightRanges.DEEP_DARK.getRange())));
-
-    public static final Item SLIMEJACK = registerFishItem("slimejack",
-            new FishItem(new Item.Settings().food(ModFoodComponents.SLIMEJACK), new FishPropertiesBuilder()
-                    .setWeight(15)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.SWAMPS, BiomeCategories.UNDERGROUND))));
+//    public static final Item RAW_LARGEMOUTH_BASS = registerFishItem("raw_largemouth_bass",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_LARGEMOUTH_BASS), new FishPropertiesBuilder()
+//                    .setWeight(30)
+//                    .setMinTime(500)
+//                    .setMaxTime(19000)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.PLAINS, BiomeCategories.FORESTS))));
+//
+//    public static final Item RAW_STURGEON = registerFishItem("raw_sturgeon",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_STURGEON), new FishPropertiesBuilder()
+//                    .setWeight(35)
+//                    .setMinTime(2000)
+//                    .setMaxTime(18000)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.MISCELLANEOUS, BiomeCategories.MOUNTAINS, BiomeCategories.SWAMPS))
+//                    .setYRange(HeightRanges.MOUNTAIN_LEVEL.getRange())));
+//
+//    public static final Item RAW_BULLHEAD = registerFishItem("raw_bullhead",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_BULLHEAD), new FishPropertiesBuilder()
+//                    .setWeight(20)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.MOUNTAINS))));
+//
+//    public static final Item RAW_MIDNIGHT_CARP = registerFishItem("raw_midnight_carp",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_MIDNIGHT_CARP), new FishPropertiesBuilder()
+//                    .setWeight(10)
+//                    .setMinTime(18000)
+//                    .setMaxTime(6000)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.FORESTS, BiomeCategories.MOUNTAINS))
+//                    .setYRange(HeightRanges.MOUNTAIN_LEVEL.getRange())
+//                    .setQuality(1)));
+//
+//    // Desert
+//    public static final Item RAW_SANDFISH = registerFishItem("raw_sandfish",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SANDFISH), new FishPropertiesBuilder()
+//                    .setWeight(25)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.DESERTS, BiomeCategories.SAVANNAS))));
+//
+//    public static final Item SCORPION_CARP = registerFishItem("scorpion_carp",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.SCORPION_CARP), new FishPropertiesBuilder()
+//                    .setWeight(10)
+//                    .setMinTime(6000)
+//                    .setMaxTime(24000)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.DESERTS, BiomeCategories.SAVANNAS))));
+//
+//    // Underground
+//    public static final Item RAW_GHOSTFISH = registerFishItem("raw_ghostfish",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_GHOSTFISH), new FishPropertiesBuilder()
+//                    .setWeight(15)
+//                    .setQuality(1)
+//                    .setYRange(HeightRanges.DEEP_DARK.getRange())));
+//
+//    public static final Item COBBLESTONE_FISH = registerFishItem("cobblestone_fish",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.COBBLESTONE_FISH), new FishPropertiesBuilder()
+//                    .setWeight(20)
+//                    .setYRange(HeightRanges.CAVERN.getRange())));
+//
+//    public static final Item ICE_PIP = registerFishItem("ice_pip",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.ICE_PIP), new FishPropertiesBuilder()
+//                    .setWeight(25)
+//                    .setMinTime(6000)
+//                    .setMaxTime(24000)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.ICY_BIOMES, BiomeCategories.SNOWY_BIOMES, BiomeCategories.MOUNTAINS))));
+//
+//    public static final Item LAVA_EEL = registerFishItem("lava_eel",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.LAVA_EEL), new FishPropertiesBuilder()
+//                    .setWeight(30)
+//                    .setYRange(HeightRanges.UNDERGROUND_LEVEL.getRange())));
+//
+//    public static final Item VOID_SALMON = registerFishItem("void_salmon",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.VOID_SALMON), new FishPropertiesBuilder()
+//                    .setWeight(20)
+//                    .setYRange(HeightRanges.DEEP_DARK.getRange())));
+//
+//    public static final Item SLIMEJACK = registerFishItem("slimejack",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.SLIMEJACK), new FishPropertiesBuilder()
+//                    .setWeight(15)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.SWAMPS, BiomeCategories.UNDERGROUND))));
 
     public static final Item BONEFISH = registerFishItem("bonefish",
             new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SARDINE), new FishPropertiesBuilder()
@@ -446,21 +446,21 @@ public class ModItems {
                     .setSpawningWeight(3)
                     .setGroupSizes(Pair.of(1,2))));
 
-    public static final Item HARPYFISH = registerFishItem("harpyfish",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SARDINE), new FishPropertiesBuilder()
-                    .setWeight(10)
-                    .setYRange(HeightRanges.SKY_LEVEL.getRange())
-                    .setQuality(1)
-                    .setPrimaryColor(0x0398fc)
-                    .setSecondaryColor(0xfc039d)));
-
-    public static final Item FLYING_FISH = registerFishItem("flying_fish",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SARDINE), new FishPropertiesBuilder()
-                    .setWeight(10)
-                    .setYRange(HeightRanges.HIGH_PLATEAUS.getRange()) // there's also .atMost() or .between()
-                    .setQuality(1)
-                    .setPrimaryColor(0x036ffc)
-                    .setSecondaryColor(0xb0bdcf)));
+//    public static final Item HARPYFISH = registerFishItem("harpyfish",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SARDINE), new FishPropertiesBuilder()
+//                    .setWeight(10)
+//                    .setYRange(HeightRanges.SKY_LEVEL.getRange())
+//                    .setQuality(1)
+//                    .setPrimaryColor(0x0398fc)
+//                    .setSecondaryColor(0xfc039d)));
+//
+//    public static final Item FLYING_FISH = registerFishItem("flying_fish",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SARDINE), new FishPropertiesBuilder()
+//                    .setWeight(10)
+//                    .setYRange(HeightRanges.HIGH_PLATEAUS.getRange()) // there's also .atMost() or .between()
+//                    .setQuality(1)
+//                    .setPrimaryColor(0x036ffc)
+//                    .setSecondaryColor(0xb0bdcf)));
 
 //    public static final FishRegistry FISH_1 = new FishRegistry(
 //            "fish_1",

@@ -23,7 +23,7 @@ public class DrawContextMixin {
 
     @Shadow @Final private MinecraftClient client;
 
-    @Inject(method = "drawItemInSlot*", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "drawItemInSlot(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V", at = @At("HEAD"), cancellable = true)
     private void drawCustomItemInSlot(TextRenderer textRenderer, ItemStack stack, int x, int y, @Nullable String countOverride, CallbackInfo ci) {
         if (!stack.isEmpty() && stack.getItem() instanceof DeluxeFishingRodItem item) {
             MatrixStack matrices = ((DrawContext)(Object)this).getMatrices();
