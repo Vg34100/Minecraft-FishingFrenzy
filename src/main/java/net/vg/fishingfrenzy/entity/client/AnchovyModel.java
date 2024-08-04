@@ -6,11 +6,13 @@ import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.SchoolingFishEntity;
 import net.minecraft.util.math.MathHelper;
+import net.vg.fishingfrenzy.entity.mob.BreedableSchoolingFishEntity;
+import net.vg.fishingfrenzy.management.CustomBreedableSchoolingFishEntity;
 
 // Made with Blockbench 4.10.4
 // Exported for Minecraft version 1.17+ for Yarn
 // Paste this class into your mod and generate all required imports
-public class AnchovyModel extends SinglePartEntityModel<SchoolingFishEntity> {
+public class AnchovyModel extends SinglePartEntityModel<CustomBreedableSchoolingFishEntity> {
 	private final ModelPart anchovy;
 	private final ModelPart head;
 
@@ -59,7 +61,7 @@ public class AnchovyModel extends SinglePartEntityModel<SchoolingFishEntity> {
 	}
 
 	@Override
-	public void setAngles(SchoolingFishEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setAngles(CustomBreedableSchoolingFishEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.getPart().traverse().forEach(ModelPart::resetTransform);
 		this.setHeadAngles(netHeadYaw, headPitch);
 	}

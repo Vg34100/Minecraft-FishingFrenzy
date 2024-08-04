@@ -3,6 +3,7 @@ package net.vg.fishingfrenzy.entity;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.vg.fishingfrenzy.entity.client.*;
+import net.vg.fishingfrenzy.management.FishManager;
 
 public class ModEntityClientInitializer {
 

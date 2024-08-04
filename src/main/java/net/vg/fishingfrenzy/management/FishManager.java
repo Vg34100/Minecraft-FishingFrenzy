@@ -138,6 +138,7 @@ public class FishManager {
         }
     }
 
+
     public static List<Item> getItemsByType(ItemType type) {
         return ALL_ITEMS.get(type);
     }

@@ -37,6 +37,11 @@ public class ModEntities {
                     .dimensions(1f, 1f)
                     .build());
 
+    public static final EntityType<DiscusEntity> NOT_DISCUS = Registry.register(Registries.ENTITY_TYPE,
+            Identifier.of(FishingFrenzy.MOD_ID, "not_discus"),
+            EntityType.Builder.create(DiscusEntity::new, SpawnGroup.WATER_AMBIENT)
+                    .dimensions(1f, 1f)
+                    .build());
 
 
     public static void registerEntities() {
