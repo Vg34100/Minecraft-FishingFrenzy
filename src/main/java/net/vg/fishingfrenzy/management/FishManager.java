@@ -11,6 +11,7 @@ import net.minecraft.registry.RegistryWrapper;
 import net.vg.fishingfrenzy.datagen.ModItemTagProvider;
 import net.vg.fishingfrenzy.entity.ModEntities;
 import net.vg.fishingfrenzy.entity.client.AnchovyModel;
+import net.vg.fishingfrenzy.entity.client.BullheadModel;
 import net.vg.fishingfrenzy.entity.client.CarpModel;
 import net.vg.fishingfrenzy.entity.client.NewCarpModel;
 import net.vg.fishingfrenzy.item.ModItems;
@@ -83,6 +84,18 @@ public class FishManager {
                             .addStatusEffect(StatusEffects.ABSORPTION, 150, 0, 0.1f),
                     EnvironmentUtil.isClient() ? AnchovyModel.class : null
             );
+
+        FishRegistry BULLHEAD = new FishRegistry(
+                "bullhead",
+                FishPreset.applyPresets(
+                                new FishPropertiesBuilder()
+                        )
+                        .setPrimaryColor(0x733d1f)
+                        .setSecondaryColor(0x8b4828)
+                        .setWeight(3000)
+                        .setSpawningWeight(3000),
+                EnvironmentUtil.isClient() ? BullheadModel.class : null
+        );
 
 
 //        } else {

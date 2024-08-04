@@ -14,4 +14,7 @@ public class ModModelLayers {
     public static final EntityModelLayer ALBACORE =
             new EntityModelLayer(Identifier.of(FishingFrenzy.MOD_ID, "albacore"), "main");
 
+    public static final EntityModelLayer DISCUS =
+            new EntityModelLayer(Identifier.of(FishingFrenzy.MOD_ID, "discus"), "main");
+
 }

@@ -9,6 +9,7 @@ import net.vg.fishingfrenzy.FishingFrenzy;
 import net.vg.fishingfrenzy.entity.custom.AlbacoreEntity;
 import net.vg.fishingfrenzy.entity.custom.BonefishEntity;
 import net.vg.fishingfrenzy.entity.custom.CarpEntity;
+import net.vg.fishingfrenzy.entity.custom.DiscusEntity;
 
 public class ModEntities {
 
@@ -30,6 +31,11 @@ public class ModEntities {
                     .dimensions(1f, 1f)
                     .build());
 
+    public static final EntityType<DiscusEntity> DISCUS = Registry.register(Registries.ENTITY_TYPE,
+            Identifier.of(FishingFrenzy.MOD_ID, "discus"),
+            EntityType.Builder.create(DiscusEntity::new, SpawnGroup.WATER_AMBIENT)
+                    .dimensions(1f, 1f)
+                    .build());
 
 
 

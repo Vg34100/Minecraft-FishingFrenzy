@@ -15,5 +15,9 @@ public class ModEntityClientInitializer {
 
         EntityRendererRegistry.register(ModEntities.ALBACORE, AlbacoreRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(ModModelLayers.ALBACORE, AlbacoreModel::getTexturedModelData);
+
+        EntityRendererRegistry.register(ModEntities.DISCUS, DiscusRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(ModModelLayers.DISCUS, DiscusModel::getTexturedModelData);
+
     }
 }

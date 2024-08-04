@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRe
 import net.vg.fishingfrenzy.entity.custom.AlbacoreEntity;
 import net.vg.fishingfrenzy.entity.custom.BonefishEntity;
 import net.vg.fishingfrenzy.entity.custom.CarpEntity;
+import net.vg.fishingfrenzy.entity.custom.DiscusEntity;
 
 public class ModEntityInitializer {
     public static void registerEntities() {
@@ -11,5 +12,6 @@ public class ModEntityInitializer {
         FabricDefaultAttributeRegistry.register(ModEntities.BONEFISH, BonefishEntity.createBonefishAttributes());
         FabricDefaultAttributeRegistry.register(ModEntities.ALBACORE, AlbacoreEntity.createAlbacoreAttributes());
 
+        FabricDefaultAttributeRegistry.register(ModEntities.DISCUS, DiscusEntity.createDiscusAttributes());
     }
 }
