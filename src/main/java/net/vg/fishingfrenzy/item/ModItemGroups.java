@@ -25,6 +25,7 @@ public class ModItemGroups {
                 ModItems.FISHING_RODS,
 //                ModItems.FISH_ITEMS,
                 FishManager.getItemsByType(FishManager.ItemType.FISH),
+                FishManager.getItemsByType(FishManager.ItemType.COOKED_FISH),
                 ModItems.BAIT_ITEMS,
                 FishManager.getItemsByType(FishManager.ItemType.BAIT),
 //                ModItems.FISH_SPAWN_EGGS,

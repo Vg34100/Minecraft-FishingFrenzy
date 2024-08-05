@@ -17,11 +17,11 @@ public class ModTags {
 
     public static class Items {
 
-        public static final TagKey<Item> BAITS =
-                createTag("baits");
+        public static final TagKey<Item> BAIT =
+                createTag("bait");
 
-        public static final TagKey<Item> TARGET_BAITS =
-                createTag("target_baits");
+        public static final TagKey<Item> TARGET_BAIT =
+                createTag("target_bait");
 
         private static TagKey<Item> createTag(String name) {
             return TagKey.of(RegistryKeys.ITEM, Identifier.of(FishingFrenzy.MOD_ID, name));

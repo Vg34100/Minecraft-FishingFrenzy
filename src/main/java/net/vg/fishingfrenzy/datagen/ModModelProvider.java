@@ -35,6 +35,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.MAGNET, Models.GENERATED);
         itemModelGenerator.register(ModItems.CHALLENGE_BAIT, Models.GENERATED);
         itemModelGenerator.register(ModItems.WILD_BAIT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.MAGIC_BAIT, Models.GENERATED);
 
 //
 //        for (Item fishItem : ModItems.FISH_ITEMS) {

@@ -50,6 +50,13 @@ public class ModItems {
                     .setMultiCatchAmount(1)
                     .setMultiCatchChance(0.9f)), BAIT_ITEMS);
 
+    // Double the fish
+    public static final Item MAGIC_BAIT = registerItem("magic_bait",
+            new BaitItem(new Item.Settings(), new BaitPropertiesBuilder()
+                    .setLureBonus(8)
+                    .setMultiCatchAmount(9)
+                    .setMultiCatchChance(0.2f)), BAIT_ITEMS);
+
     // Treasure greater chance
     public static final Item MAGNET = registerItem("magnet",
             new BaitItem(new Item.Settings(), new BaitPropertiesBuilder()
@@ -548,6 +555,7 @@ public class ModItems {
 
     public static void registerItems() {
         FishingFrenzy.LOGGER.info("Registering Items for: " + FishingFrenzy.MOD_ID);
+        FishingFrenzy.LOGGER.warn("No data fixer registered error does not cause issues. It's just a thing.");
         FishManager.registerAllFish();
 
 //

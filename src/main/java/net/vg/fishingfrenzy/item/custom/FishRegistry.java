@@ -36,7 +36,6 @@ import net.minecraft.data.client.Model;
 import net.minecraft.data.client.Models;
 import net.vg.fishingfrenzy.config.ModConfigs;
 import net.vg.fishingfrenzy.datagen.ModItemTagProvider;
-import net.vg.fishingfrenzy.entity.mob.BreedableSchoolingFishEntity;
 import net.vg.fishingfrenzy.management.CustomBreedableSchoolingFishEntity;
 import net.vg.fishingfrenzy.management.DynamicFishEntityGenerator;
 import net.vg.fishingfrenzy.management.DynamicFishSystem;
@@ -278,7 +277,7 @@ public class FishRegistry {
             builder.snack();
         }
         for (StatusEffectEntry entry : statusEffects) {
-            builder.statusEffect(new StatusEffectInstance(entry.getEffect(), entry.getDuration(), entry.getAmplifier()), entry.getChance());
+            builder.statusEffect(new StatusEffectInstance(entry.effect(), entry.duration(), entry.amplifier()), entry.chance());
         }
         return builder.build();
     }
@@ -409,8 +408,8 @@ public class FishRegistry {
         tagProvider.addToTag(ItemTags.FISHES, cookedFish);
 
         if (bait != null) {
-            tagProvider.addToTag(ModTags.Items.BAITS, bait);
-            tagProvider.addToTag(ModTags.Items.TARGET_BAITS, bait);
+            tagProvider.addToTag(ModTags.Items.BAIT, bait);
+            tagProvider.addToTag(ModTags.Items.TARGET_BAIT, bait);
         }
     }
 
@@ -426,10 +425,19 @@ public class FishRegistry {
         if (str.isEmpty()) {
             return str;
         }
-        return Character.toUpperCase(str.charAt(0)) + str.substring(1);
+        String[] words = str.split(" ");
+        StringBuilder capitalizedWords = new StringBuilder();
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                capitalizedWords.append(Character.toUpperCase(word.charAt(0)))
+                        .append(word.substring(1))
+                        .append(" ");
+            }
+        }
+        return capitalizedWords.toString().trim();
     }
 
-    // Helper function to turn biomes list into correct class for LocationCondition
+    // Helper function to turn a biome list into the correct class for LocationCondition
     public RegistryEntryList<Biome> getEntryBiomes(RegistryWrapper<Biome> biomeRegistry) {
         List<RegistryKey<Biome>> biomeKeys = getBiomes();
         if (biomeKeys.isEmpty()) {

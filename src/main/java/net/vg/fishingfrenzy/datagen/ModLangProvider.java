@@ -19,68 +19,51 @@ public class ModLangProvider extends FabricLanguageProvider {
     @Override
     public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
 
+        // Item groups
         translationBuilder.add("itemgroup.fishing_frenzy_all", "Fishing Frenzy");
         translationBuilder.add("itemgroup.fishing_frenzy_fishes", "Frenzy Fishes");
         translationBuilder.add("itemgroup.fishing_frenzy_bait", "Frenzy Baits");
         translationBuilder.add("itemgroup.fishing_frenzy_fish_spawn_eggs", "Frenzy Spawn Eggs");
 
-
-
+        // Configuration screens
         translationBuilder.add("config.client.title", "Client Settings");
         translationBuilder.add("config.server.title", "Server Settings");
         translationBuilder.add("config.general.title", "Fishing Frenzy Settings");
 
+        // Tags
+        translationBuilder.add("tag.item.fishingfrenzy.bait", "Bait");
+        translationBuilder.add("tag.item.fishingfrenzy.target_bait", "Targeted Bait");
 
 
-        // Example for generated items
-//        for (Item fishItem : ModItems.FISH_ITEMS) {
-//            String fishName = Registries.ITEM.getId(fishItem).getPath();
-//            translationBuilder.add("item.fishingfrenzy." + fishName, capitalize(fishName.replace("_", " ")));
-//        }
+        // ModItems
+        for (Item fishing_rod : ModItems.FISHING_RODS) {
+            String fishingRodName = Registries.ITEM.getId(fishing_rod).getPath();
+            translationBuilder.add(fishing_rod.getTranslationKey(), capitalize(fishingRodName.replace("_", " ")));
+        }
 
-//        for (FishRegistry fish : FishManager.FISH_REGISTRIES) {
-//            String fishName = Registries.ITEM.getId(fish.getFish()).getPath();
-//            translationBuilder.add("item.fishingfrenzy." + fishName, capitalize(fishName.replace("_", " ")));
-//
-//            String eggName = Registries.ITEM.getId(fish.getSpawnEgg()).getPath();
-//            String formattedName = capitalize(fishName.replace("_", " ")) + " Spawn Egg";
-//            translationBuilder.add("item.fishingfrenzy." + eggName, formattedName);
-//
-//            String baitName = Registries.ITEM.getId(fish.getBait()).getPath();
-//            translationBuilder.add("item.fishingfrenzy." + baitName, capitalize(baitName.replace("_", " ")));
-//        }
+        for (Item bait : ModItems.BAIT_ITEMS) {
+            String baitName = Registries.ITEM.getId(bait).getPath();
+            translationBuilder.add(bait.getTranslationKey(), capitalize(baitName.replace("_", " ")));
+        }
+
+        // Fish Manager Items
         FishManager.registerTranslations(translationBuilder);
-
-
-
-
-        // Add translations for fish spawn eggs
-//        for (Item fishSpawnEgg : ModItems.FISH_SPAWN_EGGS) {
-//            String eggName = Registries.ITEM.getId(fishSpawnEgg).getPath();
-//            String fishName = eggName.replace("_spawn_egg", "").replace("raw_", "");
-//            String formattedName = capitalize(fishName.replace("_", " ")) + " Spawn Egg";
-//            translationBuilder.add("item.fishingfrenzy." + eggName, formattedName);
-//        }
-//
-//        for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
-//            String baitName = Registries.ITEM.getId(baitItem).getPath();
-//            translationBuilder.add("item.fishingfrenzy." + baitName, capitalize(baitName.replace("_", " ")));
-//        }
-
     }
 
-    private String capitalize(String input) {
-        String[] words = input.split(" ");
-        StringBuilder capitalized = new StringBuilder();
-
+    // Helper function to capitalize strings
+    private String capitalize(String str) {
+        if (str.isEmpty()) {
+            return str;
+        }
+        String[] words = str.split(" ");
+        StringBuilder capitalizedWords = new StringBuilder();
         for (String word : words) {
             if (!word.isEmpty()) {
-                capitalized.append(Character.toUpperCase(word.charAt(0)))
+                capitalizedWords.append(Character.toUpperCase(word.charAt(0)))
                         .append(word.substring(1))
                         .append(" ");
             }
         }
-
-        return capitalized.toString().trim();
+        return capitalizedWords.toString().trim();
     }
 }

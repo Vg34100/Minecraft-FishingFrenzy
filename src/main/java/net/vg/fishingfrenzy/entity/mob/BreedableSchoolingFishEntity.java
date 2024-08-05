@@ -155,14 +155,14 @@ public abstract class BreedableSchoolingFishEntity extends SchoolingFishEntity {
     public void breed(ServerWorld world, BreedableSchoolingFishEntity other) {
         BreedableSchoolingFishEntity baby = this.createChild(world, other);
         if (baby != null) {
-            FishingFrenzy.LOGGER.info("Baby created");
+            FishingFrenzy.LOGGER.debug("Baby created");
             baby.setBaby(true);
-            FishingFrenzy.LOGGER.info("Baby set to baby");
+            FishingFrenzy.LOGGER.debug("Baby set to baby");
             baby.refreshPositionAndAngles(this.getX(), this.getY(), this.getZ(), 0.0F, 0.0F);
             this.breed(world, other, baby);
             world.spawnEntityAndPassengers(baby);
         } else {
-            FishingFrenzy.LOGGER.info("Baby was null, not spawning");
+            FishingFrenzy.LOGGER.debug("Baby was null, not spawning");
         }
     }
 
@@ -188,7 +188,7 @@ public abstract class BreedableSchoolingFishEntity extends SchoolingFishEntity {
     }
 
     public void setBreedingAge(int age) {
-        FishingFrenzy.LOGGER.info("Setting breeding age: " + age);
+        FishingFrenzy.LOGGER.debug("Setting breeding age: " + age);
         this.breedingAge = age;
         this.dataTracker.set(BABY, age < 0);
     }
@@ -223,7 +223,7 @@ public abstract class BreedableSchoolingFishEntity extends SchoolingFishEntity {
     }
 
     public void setBaby(boolean baby) {
-        FishingFrenzy.LOGGER.info("Setting baby: " + baby);
+        FishingFrenzy.LOGGER.debug("Setting baby: " + baby);
         this.setBreedingAge(baby ? BABY_AGE : 0);
     }
 

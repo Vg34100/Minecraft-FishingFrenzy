@@ -11,17 +11,11 @@ import net.vg.fishingfrenzy.management.FishManager;
 public class FishingFrenzyClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-//        ModEntityClientInitializer.registerEntities();
-
-//        for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
-//            ColorProviderRegistry.ITEM.register((stack, tintIndex) ->
-//                    ColorHelper.Argb.fullAlpha(((TargetBaitItem)stack.getItem()).getColor(tintIndex)), baitItem);
-//        }
-
-        //ModItems.FISH_1.registerItemColorProviders();
         FishManager.registerItemColorProviders();
+        registerCastTexture();
+    }
 
-
+    public void registerCastTexture() {
         // Render the cast texture
         ModelPredicateProviderRegistry.register(ModItems.DELUXE_FISHING_ROD, Identifier.of("cast"), (stack, world, entity, seed) -> {
             boolean bl2;
@@ -35,6 +29,5 @@ public class FishingFrenzyClient implements ClientModInitializer {
             }
             return (bl || bl2) && entity instanceof PlayerEntity && ((PlayerEntity)entity).fishHook != null ? 1.0f : 0.0f;
         });
-
     }
 }

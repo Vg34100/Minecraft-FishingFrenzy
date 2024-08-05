@@ -22,29 +22,19 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(item);
     }
 
-
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
         getOrCreateTagBuilder(ItemTags.FISHING_ENCHANTABLE)
                 .add(ModItems.DELUXE_FISHING_ROD);
 
-        getOrCreateTagBuilder(ModTags.Items.BAITS)
+        getOrCreateTagBuilder(ModTags.Items.BAIT)
                 .add(ModItems.GENERIC_BAIT)
                 .add(ModItems.DELUXE_BAIT)
                 .add(ModItems.MAGNET)
                 .add(ModItems.CHALLENGE_BAIT)
-                .add(ModItems.WILD_BAIT);
+                .add(ModItems.WILD_BAIT)
+                .add(ModItems.MAGIC_BAIT);
 
-//        for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
-//            getOrCreateTagBuilder(ModTags.Items.BAITS).add(baitItem);
-//            getOrCreateTagBuilder(ModTags.Items.TARGET_BAITS).add(baitItem);
-//        }
-//
-//        for (Item fishItem : ModItems.FISH_ITEMS) {
-//            getOrCreateTagBuilder(ItemTags.FISHES).add(fishItem);
-//        }
-
-        ////
         FishManager.registerItemTags(this);
 
     }

@@ -7,6 +7,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.math.MathHelper;
 import net.vg.fishingfrenzy.item.custom.DeluxeFishingRodItem;
@@ -19,9 +20,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(DrawContext.class)
-public class DrawContextMixin {
+public abstract class DrawContextMixin {
 
     @Shadow @Final private MinecraftClient client;
+
+    @Shadow public abstract void fill(RenderLayer guiOverlay, int x1, int y1, int x2, int y2, int color);
+
+    @Shadow public abstract int drawText(TextRenderer textRenderer, Text text, int x, int y, int color, boolean shadow);
 
     @Inject(method = "drawItemInSlot(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V", at = @At("HEAD"), cancellable = true)
     private void drawCustomItemInSlot(TextRenderer textRenderer, ItemStack stack, int x, int y, @Nullable String countOverride, CallbackInfo ci) {
@@ -32,7 +37,7 @@ public class DrawContextMixin {
             if (stack.getCount() != 1 || countOverride != null) {
                 String string = countOverride == null ? String.valueOf(stack.getCount()) : countOverride;
                 matrices.translate(0.0F, 0.0F, 200.0F);
-                ((DrawContext)(Object)this).drawText(textRenderer, string, x + 19 - 2 - textRenderer.getWidth(string), y + 6 + 3, 16777215, true);
+                this.drawText(textRenderer, Text.of(string), x + 19 - 2 - textRenderer.getWidth(string), y + 6 + 3, 16777215, true);
             }
 
             if (item.isItemBarVisible(stack)) {
@@ -44,9 +49,8 @@ public class DrawContextMixin {
                 int barY = y + 13;
 
 //                 Draw durability bar
-                ((DrawContext)(Object)this).fill(RenderLayer.getGuiOverlay(), barX, barY, barX + 13, barY + 2, Colors.BLACK);
-                ((DrawContext)(Object)this).fill(RenderLayer.getGuiOverlay(), barX, barY, barX + durabilityStep, barY + 1, durabilityColor | Colors.BLACK);
-
+                this.fill(RenderLayer.getGuiOverlay(), barX, barY, barX + 13, barY + 2, Colors.BLACK);
+                this.fill(RenderLayer.getGuiOverlay(), barX, barY, barX + durabilityStep, barY + 1, durabilityColor | Colors.BLACK);
             }
 
             if (item.isBundleBarVisible(stack)) {
@@ -56,8 +60,8 @@ public class DrawContextMixin {
                 int barY = y + 13;
 
                 // Draw bundle contents bar above durability bar
-                ((DrawContext)(Object)this).fill(RenderLayer.getGuiOverlay(), barX, barY - 2, barX + 13, barY, Colors.BLACK);
-                ((DrawContext)(Object)this).fill(RenderLayer.getGuiOverlay(), barX, barY - 2, barX + bundleStep, barY - 1, bundleColor | Colors.BLACK);
+                this.fill(RenderLayer.getGuiOverlay(), barX, barY - 2, barX + 13, barY, Colors.BLACK);
+                this.fill(RenderLayer.getGuiOverlay(), barX, barY - 2, barX + bundleStep, barY - 1, bundleColor | Colors.BLACK);
 
             }
 
@@ -66,7 +70,7 @@ public class DrawContextMixin {
             if (f > 0.0F) {
                 int cooldownStart = y + MathHelper.floor(16.0F * (1.0F - f));
                 int cooldownEnd = cooldownStart + MathHelper.ceil(16.0F * f);
-                ((DrawContext)(Object)this).fill(RenderLayer.getGuiOverlay(), x, cooldownStart, x + 16, cooldownEnd, Integer.MAX_VALUE);
+                this.fill(RenderLayer.getGuiOverlay(), x, cooldownStart, x + 16, cooldownEnd, Integer.MAX_VALUE);
             }
 
             matrices.pop();

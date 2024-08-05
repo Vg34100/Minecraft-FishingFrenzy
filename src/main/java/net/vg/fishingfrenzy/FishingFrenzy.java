@@ -30,15 +30,15 @@ public class FishingFrenzy implements ModInitializer {
 	 */
 	@Override
 	public void onInitialize() {
+		// Registers Configs
 		ModConfigs.registerConfigs();
+
+		// Registers Items and their Groups
 		ModItems.registerItems();
 		ModItemGroups.registerItemGroups();
 
-//		ModEntities.registerEntities();
+		// Modifies Loot Tables and Spawning
 		ModLootTableModifiers.modifyLootTables();
-
-//		ModEntityInitializer.registerEntities();
-
 		ModEntitySpawns.addEntitySpawns();
 
 		// Log the initialization message with mod name and version
