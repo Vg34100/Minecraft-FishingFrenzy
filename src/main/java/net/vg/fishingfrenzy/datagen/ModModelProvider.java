@@ -36,10 +36,10 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.CHALLENGE_BAIT, Models.GENERATED);
         itemModelGenerator.register(ModItems.WILD_BAIT, Models.GENERATED);
 
-
-        for (Item fishItem : ModItems.FISH_ITEMS) {
-            itemModelGenerator.register(fishItem, Models.GENERATED);
-        }
+//
+//        for (Item fishItem : ModItems.FISH_ITEMS) {
+//            itemModelGenerator.register(fishItem, Models.GENERATED);
+//        }
 
 //        itemModelGenerator.register(ModItems.MANUAL_DUMMY_2_SPAWN_EGG,
 //                new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty()));
@@ -51,23 +51,23 @@ public class ModModelProvider extends FabricModelProvider {
 //        itemModelGenerator.register(ModItems.MANUAL_DUMMY_1_SPAWN_EGG,
 //                new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty()));
         // Create a single Model instance for the spawn egg template
-        Model spawnEggModel = new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty());
+//        Model spawnEggModel = new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty());
 
         // Register each spawn egg with the same model instance
-        for (Item fishSpawnEgg : ModItems.FISH_SPAWN_EGGS) {
-            Identifier spawnEggId = Registries.ITEM.getId(fishSpawnEgg);
-            itemModelGenerator.register(fishSpawnEgg, spawnEggModel);
-            FishingFrenzy.LOGGER.info("Registered model for spawn egg: " + spawnEggId.getPath());
-        }
+//        for (Item fishSpawnEgg : ModItems.FISH_SPAWN_EGGS) {
+//            Identifier spawnEggId = Registries.ITEM.getId(fishSpawnEgg);
+//            itemModelGenerator.register(fishSpawnEgg, spawnEggModel);
+//            FishingFrenzy.LOGGER.info("Registered model for spawn egg: " + spawnEggId.getPath());
+//        }
 
-        Model targetBaitModel = new Model(Optional.of(Identifier.of(FishingFrenzy.MOD_ID,"item/template_target_bait")), Optional.empty());
+//        Model targetBaitModel = new Model(Optional.of(Identifier.of(FishingFrenzy.MOD_ID,"item/template_target_bait")), Optional.empty());
 
 
-        for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
-            Identifier spawnEggId = Registries.ITEM.getId(baitItem);
-            itemModelGenerator.register(baitItem, targetBaitModel);
-            FishingFrenzy.LOGGER.info("Registered model for spawn egg: " + spawnEggId.getPath());
-        }
+//        for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
+//            Identifier spawnEggId = Registries.ITEM.getId(baitItem);
+//            itemModelGenerator.register(baitItem, targetBaitModel);
+//            FishingFrenzy.LOGGER.info("Registered model for spawn egg: " + spawnEggId.getPath());
+//        }
 
         FishManager.registerItemModels(itemModelGenerator);
 

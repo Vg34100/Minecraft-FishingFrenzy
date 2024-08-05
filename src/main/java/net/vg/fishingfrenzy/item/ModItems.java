@@ -1,36 +1,28 @@
 package net.vg.fishingfrenzy.item;
 
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.BundleContentsComponent;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.predicate.NumberRange;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.vg.fishingfrenzy.FishingFrenzy;
 import net.vg.fishingfrenzy.datagen.ModLootTableProvider;
-import net.vg.fishingfrenzy.entity.ModEntities;
 import net.vg.fishingfrenzy.item.custom.*;
 import net.vg.fishingfrenzy.management.FishManager;
-import net.vg.fishingfrenzy.util.BiomeCategories;
-import net.vg.fishingfrenzy.util.HeightRanges;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModItems {
 
-    public static final List<Item> FISH_ITEMS = new ArrayList<>();
-    public static final List<Item> FISH_SPAWN_EGGS = new ArrayList<>();
+//    public static final List<Item> FISH_ITEMS = new ArrayList<>();
+//    public static final List<Item> FISH_SPAWN_EGGS = new ArrayList<>();
 
     public static final List<Item> FISHING_RODS = new ArrayList<>();
 
     public static final List<Item> BAIT_ITEMS = new ArrayList<>();
-    public static final List<Item> TARGETED_BAIT_ITEMS = new ArrayList<>();
+//    public static final List<Item> TARGETED_BAIT_ITEMS = new ArrayList<>();
 
 
     public static final Item DELUXE_FISHING_ROD = registerItem("deluxe_fishing_rod",
@@ -137,14 +129,14 @@ public class ModItems {
 //                                    BiomeCategories.UNDERGROUND,
 //                                    BiomeCategories.BEACHES))));
 
-    public static final Item RAW_ALBACORE = registerFishItem("raw_albacore",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_ALBACORE), new FishPropertiesBuilder()
-                    .setFishEntityType(ModEntities.ALBACORE)
-                    .setPrimaryColor(0x72b287)
-                    .setSecondaryColor(0x196c8d)
-                    .setWeight(30)
-                    .setYRange(HeightRanges.SEA_LEVEL.getRange())
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.RIVERS, BiomeCategories.BEACHES))));
+//    public static final Item RAW_ALBACORE = registerFishItem("raw_albacore",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_ALBACORE), new FishPropertiesBuilder()
+//                    .setFishEntityType(ModEntities.ALBACORE)
+//                    .setPrimaryColor(0x72b287)
+//                    .setSecondaryColor(0x196c8d)
+//                    .setWeight(30)
+//                    .setYRange(HeightRanges.SEA_LEVEL.getRange())
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.RIVERS, BiomeCategories.BEACHES))));
 
 
 //    public static final Item RAW_HALIBUT = registerFishItem("raw_halibut",
@@ -350,13 +342,13 @@ public class ModItems {
 //                    .setYRange(HeightRanges.LOWLANDS.getRange())));
 
     // Mountain
-    public static final Item RAW_CARP = registerFishItem("raw_carp",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_CARP), new FishPropertiesBuilder()
-                    .setFishEntityType(ModEntities.CARP)
-                    .setPrimaryColor(0xe5b650)
-                    .setSecondaryColor(0xffd578)
-                    .setWeight(45)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.PLAINS, BiomeCategories.FORESTS, BiomeCategories.MOUNTAINS))));
+//    public static final Item RAW_CARP = registerFishItem("raw_carp",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_CARP), new FishPropertiesBuilder()
+//                    .setFishEntityType(ModEntities.CARP)
+//                    .setPrimaryColor(0xe5b650)
+//                    .setSecondaryColor(0xffd578)
+//                    .setWeight(45)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.RIVERS, BiomeCategories.PLAINS, BiomeCategories.FORESTS, BiomeCategories.MOUNTAINS))));
 
 //    public static final Item RAW_LARGEMOUTH_BASS = registerFishItem("raw_largemouth_bass",
 //            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_LARGEMOUTH_BASS), new FishPropertiesBuilder()
@@ -434,17 +426,17 @@ public class ModItems {
 //                    .setWeight(15)
 //                    .setBiomes(BiomeCategories.combine(BiomeCategories.SWAMPS, BiomeCategories.UNDERGROUND))));
 
-    public static final Item BONEFISH = registerFishItem("bonefish",
-            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SARDINE), new FishPropertiesBuilder()
-//                    .setFishEntityType(ModEntities.BONEFISH)
-                    .setPrimaryColor(0xa0a082)
-                    .setSecondaryColor(0x595945)
-                    .setWeight(10)
-                    .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.JUNGLES, BiomeCategories.SWAMPS))
-                    .setYRange(HeightRanges.CAVERN.getRange())
-                    .setQuality(1)
-                    .setSpawningWeight(3)
-                    .setGroupSizes(Pair.of(1,2))));
+//    public static final Item BONEFISH = registerFishItem("bonefish",
+//            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SARDINE), new FishPropertiesBuilder()
+////                    .setFishEntityType(ModEntities.BONEFISH)
+//                    .setPrimaryColor(0xa0a082)
+//                    .setSecondaryColor(0x595945)
+//                    .setWeight(10)
+//                    .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.JUNGLES, BiomeCategories.SWAMPS))
+//                    .setYRange(HeightRanges.CAVERN.getRange())
+//                    .setQuality(1)
+//                    .setSpawningWeight(3)
+//                    .setGroupSizes(Pair.of(1,2))));
 
 //    public static final Item HARPYFISH = registerFishItem("harpyfish",
 //            new FishItem(new Item.Settings().food(ModFoodComponents.RAW_SARDINE), new FishPropertiesBuilder()
@@ -478,52 +470,52 @@ public class ModItems {
 
 
 
-    private static void createBait() {
-        for (Item fish : FISH_ITEMS) {
-            if (fish instanceof FishItem fishItem) {
-
-                String fishName = Registries.ITEM.getId(fish).getPath();
-                String baitName = fishName + "_bait";
-                registerItem(baitName,
-                        new TargetBaitItem(((FishItem) fish).getPrimaryColor(), ((FishItem) fish).getSecondaryColor(), new Item.Settings(), new BaitPropertiesBuilder()
-                                .setLuckBonus(4)
-                                .setLureBonus(2)
-                                .setTargetedFish(fish)
-                                .setMultiCatchAmount(3)
-                                .setMultiCatchChance(0.1f)),
-                        TARGETED_BAIT_ITEMS, BAIT_ITEMS);
-            }
-        }
-    }
+//    private static void createBait() {
+//        for (Item fish : FISH_ITEMS) {
+//            if (fish instanceof FishItem fishItem) {
+//
+//                String fishName = Registries.ITEM.getId(fish).getPath();
+//                String baitName = fishName + "_bait";
+//                registerItem(baitName,
+//                        new TargetBaitItem(((FishItem) fish).getPrimaryColor(), ((FishItem) fish).getSecondaryColor(), new Item.Settings(), new BaitPropertiesBuilder()
+//                                .setLuckBonus(4)
+//                                .setLureBonus(2)
+//                                .setTargetedFish(fish)
+//                                .setMultiCatchAmount(3)
+//                                .setMultiCatchChance(0.1f)),
+//                        TARGETED_BAIT_ITEMS, BAIT_ITEMS);
+//            }
+//        }
+//    }
 
 //    private static Item registerBaitItem(String name, Item item) {
 //        TARGETED_BAIT_ITEMS.add(item);
 //        return Registry.register(Registries.ITEM, Identifier.of(FishingFrenzy.MOD_ID, name), item);
 //    }
 
-    private static void createSpawnItems() {
-        for (Item fish : FISH_ITEMS) {
-            if (fish instanceof FishItem fishItem) {
-
-                if (fishItem.hasFishEntityType()) {
-                    EntityType<? extends MobEntity> entityType = fishItem.getFishEntityType();
-                    String fishName = Registries.ITEM.getId(fish).getPath();
-                    String eggName = fishName + "_spawn_egg";
-                    int primaryColor = fishItem.getPrimaryColor();
-                    int secondaryColor = fishItem.getSecondaryColor();
-
-                    FishingFrenzy.LOGGER.info("Creating spawn egg for " + fishName +
-                            " with colors: " + String.format("0x%06X", primaryColor) +
-                            ", " + String.format("0x%06X", secondaryColor));
-
-                    registerItem(eggName, new SpawnEggItem(entityType, primaryColor, secondaryColor, new Item.Settings()), FISH_SPAWN_EGGS);
-                } else {
-                    FishingFrenzy.LOGGER.info("Skipping spawn egg creation for " + Registries.ITEM.getId(fish).getPath() +
-                            " as no entity type is set.");
-                }
-            }
-        }
-    }
+//    private static void createSpawnItems() {
+//        for (Item fish : FISH_ITEMS) {
+//            if (fish instanceof FishItem fishItem) {
+//
+//                if (fishItem.hasFishEntityType()) {
+//                    EntityType<? extends MobEntity> entityType = fishItem.getFishEntityType();
+//                    String fishName = Registries.ITEM.getId(fish).getPath();
+//                    String eggName = fishName + "_spawn_egg";
+//                    int primaryColor = fishItem.getPrimaryColor();
+//                    int secondaryColor = fishItem.getSecondaryColor();
+//
+//                    FishingFrenzy.LOGGER.info("Creating spawn egg for " + fishName +
+//                            " with colors: " + String.format("0x%06X", primaryColor) +
+//                            ", " + String.format("0x%06X", secondaryColor));
+//
+//                    registerItem(eggName, new SpawnEggItem(entityType, primaryColor, secondaryColor, new Item.Settings()), FISH_SPAWN_EGGS);
+//                } else {
+//                    FishingFrenzy.LOGGER.info("Skipping spawn egg creation for " + Registries.ITEM.getId(fish).getPath() +
+//                            " as no entity type is set.");
+//                }
+//            }
+//        }
+//    }
 
 
 
@@ -532,10 +524,10 @@ public class ModItems {
 //        return Registry.register(Registries.ITEM, Identifier.of(FishingFrenzy.MOD_ID, name), item);
 //    }
 
-    private static Item registerFishItem(String name, Item item) {
-        FISH_ITEMS.add(item);
-        return Registry.register(Registries.ITEM, Identifier.of(FishingFrenzy.MOD_ID, name), item);
-    }
+//    private static Item registerFishItem(String name, Item item) {
+//        FISH_ITEMS.add(item);
+//        return Registry.register(Registries.ITEM, Identifier.of(FishingFrenzy.MOD_ID, name), item);
+//    }
 
 
     @SafeVarargs
@@ -558,8 +550,8 @@ public class ModItems {
         FishingFrenzy.LOGGER.info("Registering Items for: " + FishingFrenzy.MOD_ID);
         FishManager.registerAllFish();
 
-
-        createBait();
-        createSpawnItems();
+//
+//        createBait();
+//        createSpawnItems();
     }
 }

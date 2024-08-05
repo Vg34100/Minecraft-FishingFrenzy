@@ -1,27 +1,22 @@
 package net.vg.fishingfrenzy;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FishingRodItem;
-import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.ColorHelper;
-import net.vg.fishingfrenzy.entity.ModEntityClientInitializer;
 import net.vg.fishingfrenzy.item.ModItems;
-import net.vg.fishingfrenzy.item.custom.TargetBaitItem;
 import net.vg.fishingfrenzy.management.FishManager;
 
 public class FishingFrenzyClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        ModEntityClientInitializer.registerEntities();
+//        ModEntityClientInitializer.registerEntities();
 
-        for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
-            ColorProviderRegistry.ITEM.register((stack, tintIndex) ->
-                    ColorHelper.Argb.fullAlpha(((TargetBaitItem)stack.getItem()).getColor(tintIndex)), baitItem);
-        }
+//        for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
+//            ColorProviderRegistry.ITEM.register((stack, tintIndex) ->
+//                    ColorHelper.Argb.fullAlpha(((TargetBaitItem)stack.getItem()).getColor(tintIndex)), baitItem);
+//        }
 
         //ModItems.FISH_1.registerItemColorProviders();
         FishManager.registerItemColorProviders();

@@ -20,13 +20,13 @@ public class ModEntitySpawns {
     public static void addEntitySpawns() {
         FishManager.registerAllFishSpawns();
 
-        for (Item fishItem : ModItems.FISH_ITEMS) {
-            if (fishItem instanceof FishItem) {
-                if (((FishItem) fishItem).hasFishEntityType()) {
-                    addSpawnForFish((FishItem) fishItem);
-                }
-            }
-        }
+//        for (Item fishItem : ModItems.FISH_ITEMS) {
+//            if (fishItem instanceof FishItem) {
+//                if (((FishItem) fishItem).hasFishEntityType()) {
+//                    addSpawnForFish((FishItem) fishItem);
+//                }
+//            }
+//        }
     }
 
     private static boolean isWithinTimeRange(long currentTime, int minTime, int maxTime) {

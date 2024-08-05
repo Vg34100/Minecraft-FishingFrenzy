@@ -1,17 +1,9 @@
 package net.vg.fishingfrenzy;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
-import net.minecraft.component.ComponentType;
-import net.minecraft.util.Identifier;
 import net.vg.fishingfrenzy.config.ModConfigs;
-import net.vg.fishingfrenzy.entity.ModEntities;
-import net.vg.fishingfrenzy.entity.ModEntityInitializer;
-import net.vg.fishingfrenzy.entity.custom.BonefishEntity;
-import net.vg.fishingfrenzy.entity.custom.CarpEntity;
 import net.vg.fishingfrenzy.item.ModItemGroups;
 import net.vg.fishingfrenzy.item.ModItems;
 import net.vg.fishingfrenzy.loot.ModLootTableModifiers;
@@ -42,10 +34,10 @@ public class FishingFrenzy implements ModInitializer {
 		ModItems.registerItems();
 		ModItemGroups.registerItemGroups();
 
-		ModEntities.registerEntities();
+//		ModEntities.registerEntities();
 		ModLootTableModifiers.modifyLootTables();
 
-		ModEntityInitializer.registerEntities();
+//		ModEntityInitializer.registerEntities();
 
 		ModEntitySpawns.addEntitySpawns();
 

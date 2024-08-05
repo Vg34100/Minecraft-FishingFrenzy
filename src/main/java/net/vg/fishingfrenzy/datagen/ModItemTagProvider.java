@@ -35,14 +35,14 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.CHALLENGE_BAIT)
                 .add(ModItems.WILD_BAIT);
 
-        for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
-            getOrCreateTagBuilder(ModTags.Items.BAITS).add(baitItem);
-            getOrCreateTagBuilder(ModTags.Items.TARGET_BAITS).add(baitItem);
-        }
-
-        for (Item fishItem : ModItems.FISH_ITEMS) {
-            getOrCreateTagBuilder(ItemTags.FISHES).add(fishItem);
-        }
+//        for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
+//            getOrCreateTagBuilder(ModTags.Items.BAITS).add(baitItem);
+//            getOrCreateTagBuilder(ModTags.Items.TARGET_BAITS).add(baitItem);
+//        }
+//
+//        for (Item fishItem : ModItems.FISH_ITEMS) {
+//            getOrCreateTagBuilder(ItemTags.FISHES).add(fishItem);
+//        }
 
         ////
         FishManager.registerItemTags(this);

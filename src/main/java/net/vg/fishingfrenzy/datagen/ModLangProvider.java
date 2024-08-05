@@ -33,10 +33,10 @@ public class ModLangProvider extends FabricLanguageProvider {
 
 
         // Example for generated items
-        for (Item fishItem : ModItems.FISH_ITEMS) {
-            String fishName = Registries.ITEM.getId(fishItem).getPath();
-            translationBuilder.add("item.fishingfrenzy." + fishName, capitalize(fishName.replace("_", " ")));
-        }
+//        for (Item fishItem : ModItems.FISH_ITEMS) {
+//            String fishName = Registries.ITEM.getId(fishItem).getPath();
+//            translationBuilder.add("item.fishingfrenzy." + fishName, capitalize(fishName.replace("_", " ")));
+//        }
 
 //        for (FishRegistry fish : FishManager.FISH_REGISTRIES) {
 //            String fishName = Registries.ITEM.getId(fish.getFish()).getPath();
@@ -55,17 +55,17 @@ public class ModLangProvider extends FabricLanguageProvider {
 
 
         // Add translations for fish spawn eggs
-        for (Item fishSpawnEgg : ModItems.FISH_SPAWN_EGGS) {
-            String eggName = Registries.ITEM.getId(fishSpawnEgg).getPath();
-            String fishName = eggName.replace("_spawn_egg", "").replace("raw_", "");
-            String formattedName = capitalize(fishName.replace("_", " ")) + " Spawn Egg";
-            translationBuilder.add("item.fishingfrenzy." + eggName, formattedName);
-        }
-
-        for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
-            String baitName = Registries.ITEM.getId(baitItem).getPath();
-            translationBuilder.add("item.fishingfrenzy." + baitName, capitalize(baitName.replace("_", " ")));
-        }
+//        for (Item fishSpawnEgg : ModItems.FISH_SPAWN_EGGS) {
+//            String eggName = Registries.ITEM.getId(fishSpawnEgg).getPath();
+//            String fishName = eggName.replace("_spawn_egg", "").replace("raw_", "");
+//            String formattedName = capitalize(fishName.replace("_", " ")) + " Spawn Egg";
+//            translationBuilder.add("item.fishingfrenzy." + eggName, formattedName);
+//        }
+//
+//        for (Item baitItem : ModItems.TARGETED_BAIT_ITEMS) {
+//            String baitName = Registries.ITEM.getId(baitItem).getPath();
+//            translationBuilder.add("item.fishingfrenzy." + baitName, capitalize(baitName.replace("_", " ")));
+//        }
 
     }
 

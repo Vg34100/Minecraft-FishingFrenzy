@@ -23,15 +23,21 @@ public class ModItemGroups {
     static {
         FISHING_FRENZY_GROUP = registerGroup("fishing_frenzy_all", ModItems.DELUXE_FISHING_ROD,
                 ModItems.FISHING_RODS,
-                ModItems.FISH_ITEMS, FishManager.getItemsByType(FishManager.ItemType.FISH),
-                ModItems.BAIT_ITEMS, FishManager.getItemsByType(FishManager.ItemType.BAIT),
-                ModItems.FISH_SPAWN_EGGS, FishManager.getItemsByType(FishManager.ItemType.SPAWN_EGG));
-        FISHES_GROUP = registerGroup("fishing_frenzy_fishes", ModItems.RAW_CARP,
-                ModItems.FISH_ITEMS, FishManager.getItemsByType(FishManager.ItemType.FISH));
+//                ModItems.FISH_ITEMS,
+                FishManager.getItemsByType(FishManager.ItemType.FISH),
+                ModItems.BAIT_ITEMS,
+                FishManager.getItemsByType(FishManager.ItemType.BAIT),
+//                ModItems.FISH_SPAWN_EGGS,
+                FishManager.getItemsByType(FishManager.ItemType.SPAWN_EGG));
+        FISHES_GROUP = registerGroup("fishing_frenzy_fishes", FishManager.getItemsByType(FishManager.ItemType.FISH).getFirst(),
+//                ModItems.FISH_ITEMS,
+                FishManager.getItemsByType(FishManager.ItemType.FISH));
         BAIT_GROUP = registerGroup("fishing_frenzy_bait", ModItems.DELUXE_BAIT,
-                ModItems.BAIT_ITEMS, FishManager.getItemsByType(FishManager.ItemType.BAIT));
-        FISHES_SPAWN_GROUP = registerGroup("fishing_frenzy_fish_spawn_eggs", ModItems.FISH_SPAWN_EGGS.getFirst(),
-                ModItems.FISH_SPAWN_EGGS, FishManager.getItemsByType(FishManager.ItemType.SPAWN_EGG));
+                ModItems.BAIT_ITEMS,
+                FishManager.getItemsByType(FishManager.ItemType.BAIT));
+        FISHES_SPAWN_GROUP = registerGroup("fishing_frenzy_fish_spawn_eggs", FishManager.getItemsByType(FishManager.ItemType.SPAWN_EGG).getFirst(),
+//                ModItems.FISH_SPAWN_EGGS,
+                FishManager.getItemsByType(FishManager.ItemType.SPAWN_EGG));
 
     }
 

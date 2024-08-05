@@ -54,12 +54,28 @@ public class DynamicFishEntityGenerator {
                         .build(entityName)
         );
 
-//        EntityType<BreedableSchoolingFishEntity> entityType = Registry.register(
+//        EntityType<CustomBreedableSchoolingFishEntity> entityType = Registry.register(
 //                Registries.ENTITY_TYPE,
 //                Identifier.of(FishingFrenzy.MOD_ID, entityName),
 //                EntityType.Builder.create(
-//                                (EntityType<BreedableSchoolingFishEntity> type, World world) ->
-//                                        new BreedableSchoolingFishEntity(type, world) {
+//                                (EntityType<CustomBreedableSchoolingFishEntity> type, World world) -> {
+//                                    CustomBreedableSchoolingFishEntity entity = new  CustomBreedableSchoolingFishEntity(type, world, fishRegistry);
+//                                    entity.setFishRegistry(fishRegistry);
+//                                    return entity;
+//                                },
+//
+//                                SpawnGroup.WATER_AMBIENT
+//                        )
+//                        .dimensions(1f, 1f)
+//                        .build(entityName)
+//        );
+
+//        EntityType<CustomBreedableSchoolingFishEntity> entityType = Registry.register(
+//                Registries.ENTITY_TYPE,
+//                Identifier.of(FishingFrenzy.MOD_ID, entityName),
+//                EntityType.Builder.create(
+//                                (EntityType<CustomBreedableSchoolingFishEntity> type, World world) ->
+//                                        new CustomBreedableSchoolingFishEntity(type, world, fishRegistry) {
 //                                            public final AnimationState idleAnimationState = new AnimationState();
 //                                            private int idleAnimationTimeout = 0;
 //
@@ -163,16 +179,22 @@ public class DynamicFishEntityGenerator {
 //        );
 
         // Register the entity attributes
-        FabricDefaultAttributeRegistry.register(entityType, createFishAttributes());
+        FabricDefaultAttributeRegistry.register(entityType, createFishAttributes(fishRegistry));
         FishingFrenzy.LOGGER.info("Registered dynamic entity: {}", entityName);
 
         return entityType;
     }
 
-    private static DefaultAttributeContainer.Builder createFishAttributes() {
-        return SchoolingFishEntity.createFishAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 15)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 1f)
-                .add(EntityAttributes.GENERIC_WATER_MOVEMENT_EFFICIENCY, 0.2f);
+    private static DefaultAttributeContainer.Builder createFishAttributes(FishRegistry fishRegistry) {
+        DefaultAttributeContainer.Builder attributes =  SchoolingFishEntity.createFishAttributes()
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, fishRegistry.getMaxHealth())
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, fishRegistry.getMoveSpeed())
+                .add(EntityAttributes.GENERIC_WATER_MOVEMENT_EFFICIENCY, 1.0f)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, fishRegistry.getAttackDamage());
+//        if (fishRegistry.shouldAttack()) {
+//            attributes.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, fishRegistry.getAttackDamage());
+//        }
+
+        return attributes;
     }
 }

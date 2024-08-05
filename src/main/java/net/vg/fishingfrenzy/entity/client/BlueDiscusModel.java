@@ -1,19 +1,23 @@
-package net.vg.fishingfrenzy.entity.client;// Made with Blockbench 4.10.4
-// Exported for Minecraft version 1.17+ for Yarn
-// Paste this class into your mod and generate all required imports
-
+package net.vg.fishingfrenzy.entity.client;
 
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.vg.fishingfrenzy.entity.custom.DiscusEntity;
+import net.minecraft.entity.passive.SchoolingFishEntity;
+import net.minecraft.util.math.MathHelper;
+import net.vg.fishingfrenzy.entity.mob.BreedableSchoolingFishEntity;
+import net.vg.fishingfrenzy.management.CustomBreedableSchoolingFishEntity;
 
-public class DiscusModel<T extends DiscusEntity> extends SinglePartEntityModel<T> {
+// Made with Blockbench 4.10.4
+// Exported for Minecraft version 1.17+ for Yarn
+// Paste this class into your mod and generate all required imports
+public class BlueDiscusModel extends SinglePartEntityModel<CustomBreedableSchoolingFishEntity> {
 	private final ModelPart blue_discus;
 	private final ModelPart head;
 
-	public DiscusModel(ModelPart root) {
+
+	public BlueDiscusModel(ModelPart root) {
 		this.blue_discus = root.getChild("blue_discus");
 		this.head = blue_discus.getChild("main").getChild("head");
 	}
@@ -49,6 +53,19 @@ public class DiscusModel<T extends DiscusEntity> extends SinglePartEntityModel<T
 	}
 
 
+	@Override
+	public void setAngles(CustomBreedableSchoolingFishEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		this.getPart().traverse().forEach(ModelPart::resetTransform);
+		this.setHeadAngles(netHeadYaw, headPitch);
+	}
+
+	private void setHeadAngles(float headYaw, float headPitch) {
+		headYaw = MathHelper.clamp(headYaw, -10.0f, 10.0f);
+		headPitch = MathHelper.clamp(headPitch, -5.0f, 25.0f);
+
+		this.head.yaw = headYaw * 0.017456292F;
+		this.head.pitch = headPitch * 0.017456292F;
+	}
 
 	@Override
 	public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
@@ -60,8 +77,4 @@ public class DiscusModel<T extends DiscusEntity> extends SinglePartEntityModel<T
 		return blue_discus;
 	}
 
-	@Override
-	public void setAngles(DiscusEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-
-	}
 }

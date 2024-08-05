@@ -7,6 +7,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.SchoolingFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
@@ -16,6 +17,7 @@ import net.minecraft.stat.Stats;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.vg.fishingfrenzy.FishingFrenzy;
 import net.vg.fishingfrenzy.entity.ai.goal.BreedableSchoolFishMateGoal;
 import net.vg.fishingfrenzy.entity.mob.BreedableSchoolingFishEntity;
 import net.vg.fishingfrenzy.item.custom.FishRegistry;
@@ -25,6 +27,7 @@ import java.util.Optional;
 
 public class CustomBreedableSchoolingFishEntity extends BreedableSchoolingFishEntity {
     private FishRegistry fishRegistry;
+
     private final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
 
@@ -32,9 +35,25 @@ public class CustomBreedableSchoolingFishEntity extends BreedableSchoolingFishEn
     public CustomBreedableSchoolingFishEntity(EntityType<? extends BreedableSchoolingFishEntity> type, World world, FishRegistry fishRegistry) {
         super(type, world);
         this.fishRegistry = fishRegistry;
+        this.initCustomGoals();
+
+
     }
 
+    private void initCustomGoals() {
+        this.goalSelector.add(2, new TemptGoal(this, 1.250, Ingredient.ofItems(fishRegistry.getBreedingItem()), false));
+        this.goalSelector.add(1, new BreedableSchoolFishMateGoal(this, 1.0));
+//        this.goalSelector.add(3, new FollowGroupLeaderGoal(this));
+        this.goalSelector.add(4, new WanderAroundFarGoal(this, 1.0));
+        this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 4f));
+        this.goalSelector.add(6, new LookAroundGoal(this));
 
+        // Always add attack goals, but only target players if shouldAttack is true
+        this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0, false));
+        if (fishRegistry.shouldAttack()) {
+            this.targetSelector.add(2, new ActiveTargetGoal(this, PlayerEntity.class, false, false));
+        }
+    }
 
     public void setFishRegistry(FishRegistry fishRegistry) {
         this.fishRegistry = fishRegistry;
@@ -42,19 +61,17 @@ public class CustomBreedableSchoolingFishEntity extends BreedableSchoolingFishEn
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(2, new TemptGoal(this, 1.250, Ingredient.ofItems(Items.SEAGRASS), false));
-        this.goalSelector.add(1, new BreedableSchoolFishMateGoal(this, 1.0));
-        this.goalSelector.add(3, new WanderAroundFarGoal(this, 1.0));
-        this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 4f));
-        this.goalSelector.add(5, new LookAroundGoal(this));
-        this.goalSelector.add(4, new MeleeAttackGoal(this, 1.0, false));
-        this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+        super.initGoals();
     }
 
     @Override
     protected void dropLoot(DamageSource damageSource, boolean causedByPlayer) {
         super.dropLoot(damageSource, causedByPlayer);
-        this.dropItem(fishRegistry.getFish());
+        this.dropItem(fishRegistry.getFish()); // this is completely fine
+
+        for (Item item : fishRegistry.getAdditionalDrops()) {
+            this.dropItem(item);
+        }
     }
 
     @Override
@@ -92,7 +109,7 @@ public class CustomBreedableSchoolingFishEntity extends BreedableSchoolingFishEn
 
     @Override
     public boolean isBreedingItem(ItemStack stack) {
-        return stack.isOf(Items.SEAGRASS);
+        return stack.isOf(fishRegistry.getBreedingItem());
     }
 
     @Override

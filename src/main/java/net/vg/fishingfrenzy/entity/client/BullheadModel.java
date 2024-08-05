@@ -7,9 +7,7 @@ import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.passive.SchoolingFishEntity;
 import net.minecraft.util.math.MathHelper;
-import net.vg.fishingfrenzy.entity.mob.BreedableSchoolingFishEntity;
 import net.vg.fishingfrenzy.management.CustomBreedableSchoolingFishEntity;
 
 public class BullheadModel extends SinglePartEntityModel<CustomBreedableSchoolingFishEntity> {
@@ -47,8 +45,8 @@ public class BullheadModel extends SinglePartEntityModel<CustomBreedableSchoolin
 	}
 
 	private void setHeadAngles(float headYaw, float headPitch) {
-		headYaw = MathHelper.clamp(headYaw, -30.0f, 30.0f);
-		headPitch = MathHelper.clamp(headPitch, -25.0f, 45.0f);
+		headYaw = MathHelper.clamp(headYaw, -10.0f, 10.0f);
+		headPitch = MathHelper.clamp(headPitch, -5.0f, 25.0f);
 
 		this.head.yaw = headYaw * 0.017456292F;
 		this.head.pitch = headPitch * 0.017456292F;

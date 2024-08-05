@@ -62,9 +62,11 @@ public class DynamicFishSystem {
 
     private static class FishRenderer extends MobEntityRenderer<CustomBreedableSchoolingFishEntity, EntityModel<CustomBreedableSchoolingFishEntity>> {
         private final Identifier texture;
+        private final FishRegistry fishRegistry;
 
         public FishRenderer(EntityRendererFactory.Context context, FishRegistry fishRegistry) {
-            super(context, createModel(context, fishRegistry), 1);
+            super(context, createModel(context, fishRegistry), 0.6f);
+            this.fishRegistry = fishRegistry;
             this.texture = Identifier.of(FishingFrenzy.MOD_ID, "textures/entity/" + fishRegistry.getFishName() + ".png");
         }
 
@@ -86,7 +88,7 @@ public class DynamicFishSystem {
         @Override
         public void render(CustomBreedableSchoolingFishEntity livingEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
             if (livingEntity.isBaby()) {
-                matrixStack.scale(0.5f, 0.5f, 0.5f);
+                matrixStack.scale((float) (1f * fishRegistry.getBabySizeMultiplier()), (float) (1f * fishRegistry.getBabySizeMultiplier()), (float) (1f * fishRegistry.getBabySizeMultiplier()));
             } else {
                 matrixStack.scale(1f, 1f, 1f);
             }
