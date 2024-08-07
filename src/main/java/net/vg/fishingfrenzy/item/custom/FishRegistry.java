@@ -8,6 +8,9 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.component.type.FoodComponent;
+import net.minecraft.data.server.recipe.RecipeExporter;
+import net.minecraft.data.server.recipe.RecipeProvider;
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnLocationTypes;
@@ -23,6 +26,10 @@ import net.minecraft.loot.condition.WeatherCheckLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.entity.LocationPredicate;
+import net.minecraft.recipe.CampfireCookingRecipe;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.SmokingRecipe;
+import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.*;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.ItemTags;
@@ -36,6 +43,8 @@ import net.minecraft.data.client.Model;
 import net.minecraft.data.client.Models;
 import net.vg.fishingfrenzy.config.ModConfigs;
 import net.vg.fishingfrenzy.datagen.ModItemTagProvider;
+import net.vg.fishingfrenzy.datagen.ModRecipeProvider;
+import net.vg.fishingfrenzy.item.ModItems;
 import net.vg.fishingfrenzy.management.CustomBreedableSchoolingFishEntity;
 import net.vg.fishingfrenzy.management.DynamicFishEntityGenerator;
 import net.vg.fishingfrenzy.management.DynamicFishSystem;
@@ -411,6 +420,18 @@ public class FishRegistry {
             tagProvider.addToTag(ModTags.Items.BAIT, bait);
             tagProvider.addToTag(ModTags.Items.TARGET_BAIT, bait);
         }
+    }
+
+    // Handles Data Generation: ModRecipeProvider
+    public void registerRecipes(ModRecipeProvider recipeProvider, RecipeExporter exporter) {
+        RecipeProvider.offerSmelting(exporter, List.of(fish), RecipeCategory.FOOD, cookedFish, 0.35F, 200, fish_name);
+        RecipeProvider.offerFoodCookingRecipe(exporter, "smoking",  RecipeSerializer.SMOKING, SmokingRecipe::new, 100, fish, cookedFish, 0.35F);
+        RecipeProvider.offerFoodCookingRecipe(exporter, "campfire_cooking",  RecipeSerializer.CAMPFIRE_COOKING, CampfireCookingRecipe::new, 600, fish, cookedFish, 0.35F);
+
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, bait, 2)
+                .input(fish)
+                .criterion(RecipeProvider.hasItem(fish), RecipeProvider.conditionsFromItem(fish))
+                .offerTo(exporter, Identifier.of(RecipeProvider.getRecipeName(bait)));
     }
 
     // Handles FishingFrenzyClient -> Targeted Bait Alpha

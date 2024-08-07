@@ -17,8 +17,8 @@ Requires FabricAPI
 
 ### Advanced Fishing Mechanics
 
-- **Custom Fishing Rods**: New types of fishing rods can be given bait to increase chances of catching specific fish or change the types of fish you can catch.
-- **Diverse Baits**: Introduces numerous baits that can increase your lure, luck, or even help you catch multiple fish at once.
+- **Custom Fishing Rods**: New types of fishing rods can be given bait to increase the chances of catching specific fish or change the types of fish you can catch.
+- **Diverse Baits**: Introduces many baits that can increase your lure, luck, or even help you catch multiple fish at once.
 - **Variety of Fish**: Adds a variety of new fish with custom spawning conditions based on y-ranges, biomes, and weather.
 
 ### New Fish Class
@@ -31,8 +31,11 @@ Requires FabricAPI
 
 ### Note on Early Development
 
-- **Development Status**: This mod is still in early development, I don't even got recipes yet.
-- **Error Message**: The error `[Render thread/ERROR] (Minecraft) No data fixer registered for bullhead` isn't a problem. It occurs due to the dynamic creation of entities and I can't figure out how to remove it.
+- **Development Status**: This mod is still in early development.
+- **Error Message**: The error `[Render thread/ERROR] (Minecraft) No data fixer registered for bullhead` isn't a problem. It occurs due to the dynamic creation of entities, and I can't figure out how to remove it.
+
+### Currently Implemented Fish
+- Albacore, Anchovy, Blue Discus, Bream, Bullhead, and Catfish.
 
 ---------------	
 
@@ -49,7 +52,7 @@ Requires FabricAPI
 
 ### Mod Configuration File
 
-- Located in the config folder, the configuration file allows you to customize various aspects of the mod, such as fishing rod properties and bait effects.
+- Located in the config folder, the configuration file allows you to customize various aspects of the mod, such as fishing rod properties and bait effects (To be implemented).
 - Easy mode can be enabled through this file to simplify fish spawning conditions.
 
 ---------------	
@@ -64,10 +67,13 @@ Requires FabricAPI
 
 ### Advancements and Statistics
 
+- *To Be Implemented*
 - **Track Your Progress**: Custom advancements and statistics will help you track your fishing achievements and habits.
 
 ---------------	
 
 ## Contributions
 
-Contributions are welcome! If you have ideas for new features, optimizations, or bug fixes, please feel free to open an issue or submit a pull request on the mod's GitHub repository.
+Contributions are welcome!
+If you have ideas for new features, optimizations, or bug fixes,
+please feel free to open an issue or submit a pull request in the mod's GitHub repository.

@@ -120,29 +120,44 @@ public class FishPreset {
 
     // Food Conditions
     public static Consumer<FishPropertiesBuilder> FOOD_LIGHT = builder -> {
-        builder.setSnack(true).setFoodAttributes(1, 0.2f);
+        builder.setSnack(true)
+                .setFoodAttributes(1, 0.2f)
+                .setCookedFoodAttributes(2, 0.4f);
     };
 
     public static Consumer<FishPropertiesBuilder> FOOD_BALANCED = builder -> {
-        builder.setFoodAttributes(2, 0.5f);
+        builder.setFoodAttributes(2, 0.5f)
+                .setCookedFoodAttributes(4, 1.5f);
     };
 
     public static Consumer<FishPropertiesBuilder> FOOD_HEARTY = builder -> {
-        builder.setFoodAttributes(3, 1f).addStatusEffect(StatusEffects.REGENERATION, 150, 0, 0.4f);
+        builder.setFoodAttributes(3, 1f)
+                .addStatusEffect(StatusEffects.REGENERATION, 150, 0, 0.2f)
+                .setCookedFoodAttributes(5, 2f)
+                .addCookedStatusEffect(StatusEffects.REGENERATION, 250, 1, 0.5f);
     };
 
     public static Consumer<FishPropertiesBuilder> FOOD_POISONOUS = builder -> {
-        builder.setFoodAttributes(2, 0.2f).addStatusEffect(StatusEffects.POISON, 150, 0, 0.8f);
+        builder.setFoodAttributes(2, 0.2f)
+                .addStatusEffect(StatusEffects.POISON, 150, 0, 0.8f)
+                .setCookedFoodAttributes(3, 1f)
+                .addCookedStatusEffect(StatusEffects.POISON, 150, 0, 0.2f);
     };
 
     // Nutritious Fish
     public static Consumer<FishPropertiesBuilder> FOOD_NUTRITIOUS = builder -> {
-        builder.setFoodAttributes(4, 1.2f).addStatusEffect(StatusEffects.STRENGTH, 200, 1, 0.5f);
+        builder.setFoodAttributes(4, 1.2f)
+                .addStatusEffect(StatusEffects.STRENGTH, 200, 0, 0.2f)
+                .setCookedFoodAttributes(7, 1.9f)
+                .addCookedStatusEffect(StatusEffects.STRENGTH, 300, 1, 0.3f);
     };
 
     // Energizing Fish
     public static Consumer<FishPropertiesBuilder> FOOD_ENERGIZING = builder -> {
-        builder.setFoodAttributes(3, 0.8f).addStatusEffect(StatusEffects.HASTE, 200, 1, 0.5f);
+        builder.setFoodAttributes(3, 0.8f)
+                .addStatusEffect(StatusEffects.HASTE, 200, 0, 0.3f)
+                .setCookedFoodAttributes(4, 1.5f)
+                .addCookedStatusEffect(StatusEffects.HASTE, 400, 1, 0.8f);
     };
 
     // Food Conditions: Effect Only

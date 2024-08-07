@@ -2,12 +2,14 @@ package net.vg.fishingfrenzy.management;
 
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.data.client.ItemModelGenerator;
+import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootTable;
 import net.minecraft.registry.RegistryWrapper;
 import net.vg.fishingfrenzy.datagen.ModItemTagProvider;
+import net.vg.fishingfrenzy.datagen.ModRecipeProvider;
 import net.vg.fishingfrenzy.entity.client.*;
 import net.vg.fishingfrenzy.item.ModItems;
 import net.vg.fishingfrenzy.item.custom.FishPropertiesBuilder;
@@ -38,33 +40,7 @@ public class FishManager {
         ALL_ITEMS.put(ItemType.SPAWN_EGG, new ArrayList<>());
     }
 
-//    public static FishRegistry ANCHOVY;
-
     public static void registerAllFish() {
-//        ANCHOVY = new FishRegistry(
-//                "raw_anchovy",
-//                new FishPropertiesBuilder()
-//                        .setPrimaryColor(0x036ffc)
-//                        .setSecondaryColor(0xb0bdcf));
-//        ANCHOVY = FishRegistry.createServerRegistry(
-//                "anchovy",
-//                FishPreset.applyPresets(
-//                                new FishPropertiesBuilder()//,
-////                                FishPreset.TEST,
-////                                FishPreset.LIGHT
-//                        )
-//                        .setPrimaryColor(0x036ffc)
-//                        .setSecondaryColor(0xb0bdcf)
-//                        .setWeight(30)
-////                        .setYRange(HeightRanges.SEA_LEVEL.getRange())
-////                        .setBiomes(BiomeCategories.combine(BiomeCategories.WARM_WATERS, BiomeCategories.COLD_WATERS, BiomeCategories.RIVERS, BiomeCategories.BEACHES))
-//                        .addStatusEffect(StatusEffects.DARKNESS, 150, 0, 0.1f)
-//                        .addStatusEffect(StatusEffects.ABSORPTION, 150, 0, 0.1f)
-//        );
-//        if (EnvironmentUtil.isClient()) {
-//            ANCHOVY.initializeClientSide(AnchovyModel.class);
-//        }
-//
 
         FishRegistry ANCHOVY = new FishRegistry(
                 "anchovy",
@@ -92,8 +68,6 @@ public class FishManager {
                         .setBreedingItem(ANCHOVY.getFish()),
                 EnvironmentUtil.isClient() ? AlbacoreModel.class : null
         );
-
-
 
         FishRegistry BLUE_DISCUS = new FishRegistry(
                 "blue_discus",
@@ -153,26 +127,6 @@ public class FishManager {
                         .setAdditionalDrops(List.of(Items.STRING)),
                 EnvironmentUtil.isClient() ? CatfishModel.class : null
         );
-
-
-//        } else {
-//            FishRegistry ANCHOVY = new FishRegistry(
-//                    "anchovy",
-//                    FishPreset.applyPresets(
-//                                    new FishPropertiesBuilder(),
-//                                    FishPreset.TEST,
-//                                    FishPreset.LIGHT
-//                            )
-//                            .setPrimaryColor(0x036ffc)
-//                            .setSecondaryColor(0xb0bdcf)
-//                            .setWeight(3000)
-//                            .setSpawningWeight(3000)
-//                            .addStatusEffect(StatusEffects.DARKNESS, 150, 0, 0.1f)
-//                            .addStatusEffect(StatusEffects.ABSORPTION, 150, 0, 0.1f)
-//            );
-//        }
-
-//        FishRegistry carpRegistry = new FishRegistry("carp", new FishPropertiesBuilder(), NewCarpModel.class);
 
     }
 
@@ -239,12 +193,20 @@ public class FishManager {
         }
     }
 
+    // Handle Data Generation: ModRecipeProvider
+    public static void registerRecipes(ModRecipeProvider recipeProvider, RecipeExporter exporter) {
+        for (FishRegistry registry : FISH_REGISTRIES) {
+            registry.registerRecipes(recipeProvider, exporter);
+        }
+    }
+
     // Handles FishingFrenzyClient -> Targeted Bait Alpha
     public static void registerItemColorProviders() {
         for (FishRegistry registry : FISH_REGISTRIES) {
             registry.registerItemColorProviders();
         }
     }
+
 
 
 }
