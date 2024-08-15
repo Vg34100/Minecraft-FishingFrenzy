@@ -23,14 +23,23 @@ public class FishingFrenzy implements ModInitializer {
 	public static final String MOD_NAME = "Fishing Frenzy";
 	public static final String MOD_VERSION = fetchModVersion();
 
+	private static final String FISHING_REAL_MOD_ID = "fishingreal";
 
+	public static boolean isFishingRealLoaded() {
+		return FabricLoader.getInstance().isModLoaded(FISHING_REAL_MOD_ID);
+	}
 	/**
 	 * This method is called when Minecraft is ready to load mods.
 	 * It initializes the mod by registering configurations and block entities.
 	 */
 	@Override
 	public void onInitialize() {
-		// Registers Configs
+
+		if (isFishingRealLoaded()) {
+			System.out.println("Fishing Real Detected");
+		}
+
+			// Registers Configs
 		ModConfigs.registerConfigs();
 
 		// Registers Items and their Groups

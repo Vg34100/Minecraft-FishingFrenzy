@@ -75,6 +75,7 @@ public class DeluxeFishingRodItem extends FishingRodItem {
 
                 // Spawn the fishing bobber entity
                 FishingBobberEntity fishingBobberEntity = new DeluxeFishingBobberEntity(user, serverWorld, luckLevel, lureLevel, baitStack);
+//                FishingBobberEntity fishingBobberEntity = new FishingBobberEntity(user, serverWorld, luckLevel, lureLevel);
                 serverWorld.spawnEntity(fishingBobberEntity);
             }
 
@@ -86,7 +87,7 @@ public class DeluxeFishingRodItem extends FishingRodItem {
     }
 
     // Find bait item in the BundleContentsComponent
-    private ItemStack findBaitInBundle(ItemStack rodStack) {
+    public static ItemStack findBaitInBundle(ItemStack rodStack) {
         BundleContentsComponent bundleContentsComponent = rodStack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
         if (bundleContentsComponent.isEmpty()) {
             return ItemStack.EMPTY;
@@ -252,7 +253,7 @@ public class DeluxeFishingRodItem extends FishingRodItem {
     }
 
     // Check if the given stack is a bait item
-    private boolean isBait(ItemStack stack) {
+    private static boolean isBait(ItemStack stack) {
         return stack.getItem() instanceof BaitItem;
     }
 

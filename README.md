@@ -9,7 +9,7 @@ The **FishingFrenzy** Mod for Minecraft introduces a dynamic fishing experience 
 Works in Minecraft 1.21
 
 Requires FabricAPI
-
+Testing compatibility with Fishing Real!?
 
 ---------------	
 

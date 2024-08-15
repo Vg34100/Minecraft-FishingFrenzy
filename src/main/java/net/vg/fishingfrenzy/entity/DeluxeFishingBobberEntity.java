@@ -1,6 +1,9 @@
 package net.vg.fishingfrenzy.entity;
 
+import koala.fishingreal.FishingReal;
+import koala.fishingreal.fabric.FishingRealFabric;
 import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.ItemEntity;
@@ -18,6 +21,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.World;
+import net.vg.fishingfrenzy.FishingFrenzy;
 import net.vg.fishingfrenzy.item.ModItems;
 import net.vg.fishingfrenzy.item.custom.BaitItem;
 import net.vg.fishingfrenzy.item.custom.DeluxeFishingRodItem;
@@ -107,13 +111,29 @@ public class DeluxeFishingBobberEntity extends FishingBobberEntity {
                         if (targetedFish != null && Math.random() < 0.8f) {
                             itemStack = new ItemStack(targetedFish);
                             ItemEntity itemEntity = new ItemEntity(this.getWorld(), this.getX(), this.getY(), this.getZ(), itemStack);
+                            System.out.println(itemEntity.getName());
+
+
                             itemEntity.setVelocity(d * 0.1, e * 0.1 + Math.sqrt(Math.sqrt(d * d + e * e + f * f)) * 0.08, f * 0.1);
-                            this.getWorld().spawnEntity(itemEntity);
+
+                            if (FishingFrenzy.isFishingRealLoaded()) {
+                                Entity entity = FishingReal.convertItemEntity(itemEntity, playerEntity);
+                                this.getWorld().spawnEntity(entity);
+                            } else {
+                                this.getWorld().spawnEntity(itemEntity);
+                            }
                             caught++;
                         } else {
                             ItemEntity itemEntity = new ItemEntity(this.getWorld(), this.getX(), this.getY(), this.getZ(), itemStack);
                             itemEntity.setVelocity(d * 0.1, e * 0.1 + Math.sqrt(Math.sqrt(d * d + e * e + f * f)) * 0.08, f * 0.1);
-                            this.getWorld().spawnEntity(itemEntity);
+
+                            if (FishingFrenzy.isFishingRealLoaded()) {
+                                Entity entity = FishingReal.convertItemEntity(itemEntity, playerEntity);
+                                this.getWorld().spawnEntity(entity);
+                            } else {
+                                this.getWorld().spawnEntity(itemEntity);
+                            }
+
                             caught++;
                         }
                     }
