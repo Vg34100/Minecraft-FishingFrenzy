@@ -26,7 +26,8 @@ public class FishManager {
         FISH,
         COOKED_FISH,
         BAIT,
-        SPAWN_EGG;
+        SPAWN_EGG,
+        BUCKET
     }
 
     public static final List<FishRegistry> FISH_REGISTRIES = new ArrayList<>();
@@ -38,6 +39,7 @@ public class FishManager {
         ALL_ITEMS.put(ItemType.COOKED_FISH, new ArrayList<>());
         ALL_ITEMS.put(ItemType.BAIT, new ArrayList<>());
         ALL_ITEMS.put(ItemType.SPAWN_EGG, new ArrayList<>());
+        ALL_ITEMS.put(ItemType.BUCKET, new ArrayList<>());
     }
 
     public static void registerAllFish() {
@@ -138,6 +140,7 @@ public class FishManager {
         Item cookedFish = fishRegistry.getCookedFish();
         Item bait = fishRegistry.getBait();
         Item spawnEgg = fishRegistry.getSpawnEgg();
+        Item bucketItem = fishRegistry.getBucketItem();
 
         if (fish != null) {
             ALL_ITEMS.get(ItemType.FISH).add(fish);
@@ -150,6 +153,9 @@ public class FishManager {
         }
         if (cookedFish != null) {
             ALL_ITEMS.get(ItemType.COOKED_FISH).add(cookedFish);
+        }
+        if (bucketItem != null) {
+            ALL_ITEMS.get(ItemType.BUCKET).add(bucketItem);
         }
     }
 

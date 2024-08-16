@@ -7,7 +7,9 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FoodComponent;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.RecipeProvider;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
@@ -16,6 +18,8 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnLocationTypes;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.EntityBucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.loot.LootTable;
@@ -33,6 +37,7 @@ import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.*;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.world.Heightmap;
@@ -67,6 +72,7 @@ public class FishRegistry {
 
     private final Item spawnEgg;
     private final Item bait;
+    private final Item bucketItem;
 
     private final int weight;
     private final int quality;
@@ -137,6 +143,8 @@ public class FishRegistry {
         this.cookedFish = createCookedFishItem(new Item.Settings().food(cookedFoodComponent), properties);
         this.spawnEgg = createSpawnEgg(new Item.Settings());
         this.bait = createBait(new Item.Settings(), new BaitPropertiesBuilder().setTargetedFish(this.fish));
+        this.bucketItem = createBucketItem();
+
 
         if (this.fishEntityType == null) {
             FishingFrenzy.LOGGER.error("Failed to generate fish entity for: {}", name);
@@ -212,6 +220,9 @@ public class FishRegistry {
     public Item getBait() {
         return bait;
     }
+    public Item getBucketItem() {
+        return bucketItem;
+    }
     public String getFishName() {
         return fish_name;
     }
@@ -277,6 +288,17 @@ public class FishRegistry {
         TargetBaitItem bait = new TargetBaitItem(this.getPrimaryColor(), this.getSecondaryColor(), settings, properties);
         Registry.register(Registries.ITEM, Identifier.of(FishingFrenzy.MOD_ID, getFishName() + "_bait"), bait);
         return bait;
+    }
+
+    // Handles registering entity bucket items
+    private Item createBucketItem() {
+        Item item = new EntityBucketItem(
+                this.fishEntityType,
+                Fluids.WATER,
+                SoundEvents.ITEM_BUCKET_EMPTY_FISH,
+                new Item.Settings().maxCount(1).component(DataComponentTypes.BUCKET_ENTITY_DATA, NbtComponent.DEFAULT));
+        Registry.register(Registries.ITEM, Identifier.of(FishingFrenzy.MOD_ID, getFishName() + "_bucket"), item);
+        return item;
     }
 
     // Handles ModFoodComponents
@@ -378,6 +400,7 @@ public class FishRegistry {
     public void registerItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(this.fish, Models.GENERATED);
         itemModelGenerator.register(this.cookedFish, Models.GENERATED);
+        itemModelGenerator.register(this.bucketItem, Models.GENERATED);
         if (this.spawnEgg != null) {
             Model spawnEggModel = new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty());
             itemModelGenerator.register(this.spawnEgg, spawnEggModel);
@@ -408,6 +431,12 @@ public class FishRegistry {
             String eggName = Registries.ITEM.getId(spawnEgg).getPath();
             String formattedName = capitalize(fishName.replace("_", " ")) + " Spawn Egg";
             translationBuilder.add("item.fishingfrenzy." + eggName, formattedName);
+        }
+
+        if (bucketItem != null) {
+            String bucketName = Registries.ITEM.getId(bucketItem).getPath();
+            String bucketFormattedName = "Bucket of " + capitalize(fishName.replace("_", " "));
+            translationBuilder.add("item.fishingfrenzy." + bucketName, bucketFormattedName);
         }
     }
 

@@ -26,8 +26,10 @@ public class ModItemGroups {
 //                ModItems.FISH_ITEMS,
                 FishManager.getItemsByType(FishManager.ItemType.FISH),
                 FishManager.getItemsByType(FishManager.ItemType.COOKED_FISH),
+                FishManager.getItemsByType(FishManager.ItemType.BUCKET),
                 ModItems.BAIT_ITEMS,
                 FishManager.getItemsByType(FishManager.ItemType.BAIT),
+
 //                ModItems.FISH_SPAWN_EGGS,
                 FishManager.getItemsByType(FishManager.ItemType.SPAWN_EGG));
         FISHES_GROUP = registerGroup("fishing_frenzy_fishes", FishManager.getItemsByType(FishManager.ItemType.FISH).getFirst(),

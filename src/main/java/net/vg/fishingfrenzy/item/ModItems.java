@@ -2,9 +2,14 @@ package net.vg.fishingfrenzy.item;
 
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.BundleContentsComponent;
+import net.minecraft.component.type.NbtComponent;
+import net.minecraft.entity.EntityType;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.EntityBucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.vg.fishingfrenzy.FishingFrenzy;
 import net.vg.fishingfrenzy.datagen.ModLootTableProvider;
@@ -24,6 +29,12 @@ public class ModItems {
     public static final List<Item> BAIT_ITEMS = new ArrayList<>();
 //    public static final List<Item> TARGETED_BAIT_ITEMS = new ArrayList<>();
 
+    public static final Item TEST_BUCK = registerItem("item",
+            new EntityBucketItem(
+                    EntityType.PUFFERFISH,
+                    Fluids.WATER,
+                    SoundEvents.ITEM_BUCKET_EMPTY_FISH,
+                    new Item.Settings().maxCount(1).component(DataComponentTypes.BUCKET_ENTITY_DATA, NbtComponent.DEFAULT)));
 
     public static final Item DELUXE_FISHING_ROD = registerItem("deluxe_fishing_rod",
             new DeluxeFishingRodItem(new Item.Settings().maxDamage(64).component(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT)), FISHING_RODS);

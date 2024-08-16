@@ -85,6 +85,9 @@ public class DeluxeFishingBobberEntity extends FishingBobberEntity {
             List<ItemStack> list = lootTable.generateLoot(lootContextParameterSet);
             Criteria.FISHING_ROD_HOOKED.trigger((ServerPlayerEntity)playerEntity, usedItem, this, list);
 
+
+
+
             for (ItemStack itemStack : list) {
                 double d = playerEntity.getX() - this.getX();
                 double e = playerEntity.getY() - this.getY();

@@ -47,7 +47,12 @@ public class DynamicFishEntityGenerator {
                 Identifier.of(FishingFrenzy.MOD_ID, entityName),
                 EntityType.Builder.create(
                                 (EntityType<CustomBreedableSchoolingFishEntity> type, World world) ->
-                                        new CustomBreedableSchoolingFishEntity(type, world, fishRegistry),
+                                        new CustomBreedableSchoolingFishEntity(type, world, fishRegistry) {
+                                            @Override
+                                            public ItemStack getBucketItem() {
+                                                return fishRegistry.getBucketItem().getDefaultStack();
+                                            }
+                                        },
                                 SpawnGroup.WATER_AMBIENT
                         )
                         .dimensions(1f, 1f)
