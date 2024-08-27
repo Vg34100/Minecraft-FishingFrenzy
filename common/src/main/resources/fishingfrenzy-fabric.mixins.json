@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "net.vg.fishingfrenzy.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "client": [
+    "FishingHookRendererMixin"
+  ],
+  "mixins": [
+
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
