@@ -1,8 +1,10 @@
 package net.vg.fishingfrenzy.item.fish;
 
 import com.mojang.datafixers.util.Pair;
+import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.rendering.ColorHandlerRegistry;
 import dev.architectury.registry.registries.RegistrySupplier;
+import dev.architectury.utils.Env;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
@@ -33,12 +35,16 @@ public class FishRegistry {
 
 
         this.bait = ModItems.ITEMS.register(name + "_bait", () -> new TargetBaitItem(properties.getPrimaryColor(), properties.getSecondaryColor(), new Item.Properties(), new BaitPropertiesBuilder().setTargetedFish(fish.get())));
-        ColorHandlerRegistry.registerItemColors((stack, tintIndex) -> {
-            if (stack.getItem() instanceof TargetBaitItem targetBaitItem) {
-                return targetBaitItem.getColor(tintIndex) | 0xFF000000; // Full alpha
-            }
-            return 0xFFFFFFFF; // Default to white if not a TargetBaitItem
-        }, this.bait);
+
+        if (Platform.getEnvironment() == Env.CLIENT) {
+            ColorHandlerRegistry.registerItemColors((stack, tintIndex) -> {
+                if (stack.getItem() instanceof TargetBaitItem targetBaitItem) {
+                    return targetBaitItem.getColor(tintIndex) | 0xFF000000; // Full alpha
+                }
+                return 0xFFFFFFFF; // Default to white if not a TargetBaitItem
+            }, this.bait);
+        }
+
 
         FishManager.addFishRegistry(this);
     }
