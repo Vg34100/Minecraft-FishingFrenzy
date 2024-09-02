@@ -62,7 +62,7 @@ public class FishRegistry {
 
         if (modelClass != null) {
             this.modelLayer = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, name), "main");
-            DynamicFishSystem.registerFish(this);
+//            DynamicFishSystem.registerFish(this);
         } else {
             this.modelLayer = null;
             Constants.LOGGER.info("ModelClass found null for fish: {}", name);
@@ -111,7 +111,7 @@ public class FishRegistry {
         return modelClass;
     }
     public boolean hasFishEntityType() {
-        return fishEntityType != null && fishEntityType.isPresent();
+        return fishEntityType != null;
     }
 
 }

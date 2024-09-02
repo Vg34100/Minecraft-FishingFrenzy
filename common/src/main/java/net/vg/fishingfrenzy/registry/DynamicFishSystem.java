@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.vg.fishingfrenzy.Constants;
 import net.vg.fishingfrenzy.entity.mob.CustomBreedableSchoolingFishEntity;
+import net.vg.fishingfrenzy.item.fish.FishManager;
 import net.vg.fishingfrenzy.item.fish.FishRegistry;
 
 import java.lang.reflect.Constructor;
@@ -20,9 +21,21 @@ import java.lang.reflect.Method;
 
 public class DynamicFishSystem {
 
+    public static void registerAllFish() {
+        FishManager.FISH_REGISTRIES.forEach(
+                fishRegistry -> {
+                    if (fishRegistry.getModelClass() != null) {
+                        registerFish(fishRegistry);
+                    }
+                }
+        );
+    }
+
     public static void registerFish(FishRegistry fishRegistry) {
         if (fishRegistry.hasFishEntityType()) {
+            Constants.LOGGER.info("Attempting registerFish");
             var entityTypeSupplier = fishRegistry.getFishEntityType();
+//            EntityType<CustomBreedableSchoolingFishEntity> entityType = fishRegistry.getFishEntityType().get();
 
             // Register attributes
             Constants.LOGGER.info(entityTypeSupplier.toString());
@@ -38,6 +51,8 @@ public class DynamicFishSystem {
                     throw new RuntimeException("Failed to get model data for " + fishRegistry.getFishName(), e);
                 }
             });
+        } else {
+            Constants.LOGGER.info("no Fish Entity Type found");
         }
     }
 
