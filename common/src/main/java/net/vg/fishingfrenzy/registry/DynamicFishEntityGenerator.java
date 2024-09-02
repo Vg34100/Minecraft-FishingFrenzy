@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.vg.fishingfrenzy.Constants;
 import net.vg.fishingfrenzy.entity.mob.CustomBreedableSchoolingFishEntity;
+import net.vg.fishingfrenzy.item.fish.FishManager;
 import net.vg.fishingfrenzy.item.fish.FishRegistry;
 
 public class DynamicFishEntityGenerator {
@@ -43,6 +44,13 @@ public class DynamicFishEntityGenerator {
         Constants.LOGGER.info("Registered dynamic entity: {}", entityName);
 
         return entityType;
+    }
+
+    public static void registerEntityAttributes() {
+        FishManager.FISH_REGISTRIES.forEach(fishRegistry -> {
+            RegistrySupplier<EntityType<CustomBreedableSchoolingFishEntity>> fishEntityType = fishRegistry.getFishEntityType();
+            EntityAttributeRegistry.register(fishEntityType, () -> createFishAttributes(fishRegistry));
+        });
     }
 
     private static AttributeSupplier.Builder createFishAttributes(FishRegistry fishRegistry) {

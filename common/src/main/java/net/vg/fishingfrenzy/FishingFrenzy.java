@@ -12,6 +12,7 @@ public final class FishingFrenzy {
 
         ModItems.register();
         DynamicFishEntityGenerator.init();
+        DynamicFishEntityGenerator.registerEntityAttributes();
         ModTabRegsitry.register();
 
     }
