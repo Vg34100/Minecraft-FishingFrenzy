@@ -88,7 +88,6 @@ public interface FishProperties {
         return Items.SEAGRASS;
     }
 
-
     // Entity Properties
     default double getBabySizeMultiplier() {
         return 0.5;

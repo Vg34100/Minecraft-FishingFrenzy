@@ -2,6 +2,7 @@ package net.vg.fishingfrenzy.item.fish;
 
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.world.item.Item;
+import net.vg.fishingfrenzy.entity.client.AnchovyModel;
 
 import java.util.*;
 
@@ -29,7 +30,7 @@ public class FishManager {
                 "anchovy",
                 new FishPropertiesBuilder()
                         .setPrimaryColor(0x28ccf0)
-                        .setSecondaryColor(0x93ffb6));
+                        .setSecondaryColor(0x93ffb6), AnchovyModel.class);
 
 
 

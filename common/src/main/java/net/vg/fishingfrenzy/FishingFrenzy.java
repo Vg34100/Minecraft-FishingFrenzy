@@ -1,5 +1,6 @@
 package net.vg.fishingfrenzy;
 
+import net.vg.fishingfrenzy.registry.DynamicFishEntityGenerator;
 import net.vg.fishingfrenzy.registry.ModItems;
 import net.vg.fishingfrenzy.registry.ModTabRegsitry;
 
@@ -10,6 +11,7 @@ public final class FishingFrenzy {
         Constants.LOGGER.info("Initializing, {} {}", Constants.MOD_ID, Constants.MOD_VERSION);
 
         ModItems.register();
+        DynamicFishEntityGenerator.init();
         ModTabRegsitry.register();
 
     }
