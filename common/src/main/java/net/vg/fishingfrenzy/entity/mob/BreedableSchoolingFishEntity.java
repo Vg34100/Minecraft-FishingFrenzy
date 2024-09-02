@@ -1,18 +1,26 @@
 package net.vg.fishingfrenzy.entity.mob;
 
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.vg.fishingfrenzy.Constants;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public abstract class BreedableSchoolingFishEntity extends AbstractSchoolingFish {
@@ -51,15 +59,18 @@ public abstract class BreedableSchoolingFishEntity extends AbstractSchoolingFish
 //        return PathAwareEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 3.0);
 //    }
     public abstract boolean isBreedingItem(ItemStack stack);
+    public void setBaby(boolean baby) {
+        Constants.LOGGER.debug("Setting baby: " + baby);
+        this.setBreedingAge(baby ? BABY_START_AGE : 0);
+    }
 
-
-    @Override
+    @Override // initDataTracker
     protected void defineSynchedData(SynchedEntityData.Builder arg) {
         super.defineSynchedData(arg);
         arg.define(DATA_BABY_ID, false);
     }
 
-    @Override
+    @Override // tickMovement
     public void aiStep() {
         super.aiStep();
 
@@ -79,8 +90,8 @@ public abstract class BreedableSchoolingFishEntity extends AbstractSchoolingFish
         }
     }
 
-    @Override
-    protected InteractionResult mobInteract(Player player, InteractionHand interactionHand) {
+    @Override // interactMob
+    public @NotNull InteractionResult mobInteract(Player player, InteractionHand interactionHand) {
         ItemStack itemStack = player.getItemInHand(interactionHand);
         if (this.isBreedingItem(itemStack)) {
             if (!this.level().isClientSide && this.getBreedingAge() == 0 && this.canEat()) {
@@ -145,6 +156,93 @@ public abstract class BreedableSchoolingFishEntity extends AbstractSchoolingFish
     }
 
 
+    public ServerPlayer getLovingPlayer() {
+        if (this.lovingPlayer == null) {
+            return null;
+        } else {
+            Player player = this.level().getPlayerByUUID(this.lovingPlayer);
+            return player instanceof ServerPlayer ? (ServerPlayer) player : null;
+        }
+    }
 
+    public boolean isInLove() {
+        return this.loveTicks > 0;
+    }
+    public void resetLoveTicks() {
+        this.loveTicks = 0;
+    }
+    public boolean canBreedWith(BreedableSchoolingFishEntity other) {
+        if (other == this) {
+            return  false;
+        } else {
+            return other.getClass() == this.getClass() && this.isInLove() && other.isInLove();
+        }
+    }
 
+    public abstract BreedableSchoolingFishEntity createChild(ServerLevel level, BreedableSchoolingFishEntity entity);
+
+    public void breed(ServerLevel level, BreedableSchoolingFishEntity other) {
+        BreedableSchoolingFishEntity baby = this.createChild(level, other);
+        if (baby != null) {
+            Constants.LOGGER.debug("Baby Created");
+            baby.setBaby(true);
+            Constants.LOGGER.debug("Baby set to baby");
+            baby.moveTo(this.getX(), this.getY(), this.getZ(), 0.0F, 0.0F);
+            this.breed(level, other, baby);
+            level.addFreshEntityWithPassengers(baby);
+        } else {
+            Constants.LOGGER.debug("Baby was null, not spawning");
+        }
+    }
+
+    public void breed(ServerLevel level, BreedableSchoolingFishEntity other, BreedableSchoolingFishEntity baby) {
+        if (baby != null) {
+            Optional.ofNullable(this.getLovingPlayer()).or(() -> Optional.ofNullable(other.getLovingPlayer())).ifPresent(player -> {
+                player.awardStat(Stats.ANIMALS_BRED);
+            });
+            this.setBreedingAge(6000);
+            other.setBreedingAge(6000);
+            this.resetLoveTicks();
+            other.resetLoveTicks();
+            this.level().broadcastEntityEvent(this, (byte)18);
+            if (level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
+                level.addFreshEntity(new ExperienceOrb(level, this.getX(), this.getY(), this.getZ(), this.getRandom().nextInt(7) + 1));
+            }
+        }
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag compoundTag) {
+        super.addAdditionalSaveData(compoundTag);
+        compoundTag.putInt("Age", this.getBreedingAge());
+        compoundTag.putInt("ForcedAge", this.forcedAge);
+        compoundTag.putInt("InLove", this.loveTicks);
+        if (this.lovingPlayer != null) {
+            compoundTag.putUUID("LoveCause", this.lovingPlayer);
+        }
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag compoundTag) {
+        super.readAdditionalSaveData(compoundTag);
+        this.setBreedingAge(compoundTag.getInt("Age"));
+        this.forcedAge = compoundTag.getInt("ForcedAge");
+        this.loveTicks = compoundTag.getInt("InLove");
+        this.lovingPlayer = compoundTag.contains("LoveCause") ? compoundTag.getUUID("LoveCause") : null;
+    }
+
+    @Override
+    public void handleEntityEvent(byte b) {
+        if (b == (byte)18) {
+            for (int i = 0; i < 7; i++) {
+                double d = this.random.nextGaussian() * 0.02;
+                double e = this.random.nextGaussian() * 0.02;
+                double f = this.random.nextGaussian() * 0.02;
+
+                this.level().addParticle(ParticleTypes.HEART, this.getRandomX(1.0), this.getRandomY() + 0.5, this.getRandomZ(1.0), d, e, f);
+            }
+        } else {
+            super.handleEntityEvent(b);
+        }
+    }
 }
