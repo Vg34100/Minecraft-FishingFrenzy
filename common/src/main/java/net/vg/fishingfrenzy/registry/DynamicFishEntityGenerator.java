@@ -47,10 +47,13 @@ public class DynamicFishEntityGenerator {
     }
 
     public static void registerEntityAttributes() {
+        Constants.LOGGER.info("Registering Entity Attributes");
+
         FishManager.FISH_REGISTRIES.forEach(fishRegistry -> {
             RegistrySupplier<EntityType<CustomBreedableSchoolingFishEntity>> fishEntityType = fishRegistry.getFishEntityType();
             EntityAttributeRegistry.register(fishEntityType, () -> createFishAttributes(fishRegistry));
         });
+        Constants.LOGGER.info("Registered Entity Attributes");
     }
 
     private static AttributeSupplier.Builder createFishAttributes(FishRegistry fishRegistry) {

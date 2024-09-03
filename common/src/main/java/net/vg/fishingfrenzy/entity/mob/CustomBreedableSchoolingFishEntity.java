@@ -10,6 +10,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -35,8 +36,7 @@ public class CustomBreedableSchoolingFishEntity extends BreedableSchoolingFishEn
     }
 
     private void registerCustomGoals() {
-        //! I also didn't set a breeding Item, add this back at some point!!
-//        this.goalSelector.addGoal(2, new TemptGoal(this, 1.250, arg -> arg.is(fishRegistry.getBreedingItem()), false));
+        this.goalSelector.addGoal(2, new TemptGoal(this, 1.250, arg -> arg.is(fishRegistry.getBreedingItem()), false));
         this.goalSelector.addGoal(1, new BreedableSchoolFishMateGoal(this, 1.0));
 //        this.goalSelector.add(3, new FollowGroupLeaderGoal(this));
         this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0));
@@ -46,10 +46,9 @@ public class CustomBreedableSchoolingFishEntity extends BreedableSchoolingFishEn
         // Always add attack goals, but only target players if shouldAttack is true
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0, false));
 
-        //!! Add this back at some point
-//        if (fishRegistry.shouldAttack()) {
-//            this.targetSelector.addGoal(2, new ActiveTargetGoal(this, PlayerEntity.class, false, false));
-//        }
+        if (fishRegistry.shouldAttack()) {
+            this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, Player.class, false, false));
+        }
     }
 
     public void setFishRegistry(FishRegistry fishRegistry) {
@@ -66,10 +65,9 @@ public class CustomBreedableSchoolingFishEntity extends BreedableSchoolingFishEn
         super.dropFromLootTable(damageSource, bl);
         this.spawnAtLocation(fishRegistry.getFishRegistry().get());
 
-        // This is also not yet implemented
-//        for (Item item : fishRegistry.getAdditionalDrops()) {
-//
-//        }
+        for (Item item : fishRegistry.getAdditionalDrops()) {
+            this.spawnAtLocation(item);
+        }
     }
 
 

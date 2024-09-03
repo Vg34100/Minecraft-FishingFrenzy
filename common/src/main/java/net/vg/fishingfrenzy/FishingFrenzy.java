@@ -4,6 +4,7 @@ import net.vg.fishingfrenzy.registry.DynamicFishEntityGenerator;
 import net.vg.fishingfrenzy.registry.DynamicFishSystem;
 import net.vg.fishingfrenzy.registry.ModItems;
 import net.vg.fishingfrenzy.registry.ModTabRegsitry;
+import net.vg.fishingfrenzy.world.ModEntitySpawns;
 
 public final class FishingFrenzy {
 
@@ -16,6 +17,7 @@ public final class FishingFrenzy {
         DynamicFishEntityGenerator.registerEntityAttributes();
         DynamicFishSystem.registerAllFish();
         ModTabRegsitry.register();
+        ModEntitySpawns.addEntitySpawnsBasic();
 
     }
 }

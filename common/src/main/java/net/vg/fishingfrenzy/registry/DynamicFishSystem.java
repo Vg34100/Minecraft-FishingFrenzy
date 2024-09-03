@@ -22,6 +22,7 @@ import java.lang.reflect.Method;
 public class DynamicFishSystem {
 
     public static void registerAllFish() {
+        Constants.LOGGER.info("Registering dynamic fish");
         FishManager.FISH_REGISTRIES.forEach(
                 fishRegistry -> {
                     if (fishRegistry.getModelClass() != null) {
@@ -29,6 +30,7 @@ public class DynamicFishSystem {
                     }
                 }
         );
+        Constants.LOGGER.info("Registered dynamic fish");
     }
 
     public static void registerFish(FishRegistry fishRegistry) {
@@ -39,7 +41,7 @@ public class DynamicFishSystem {
 
             // Register attributes
             Constants.LOGGER.info(entityTypeSupplier.toString());
-            EntityAttributeRegistry.register(entityTypeSupplier, CustomBreedableSchoolingFishEntity::createAttributes);
+//            EntityAttributeRegistry.register(entityTypeSupplier, CustomBreedableSchoolingFishEntity::createAttributes);
 
             // Register model layer and renderer
             EntityRendererRegistry.register(entityTypeSupplier, (context) -> new FishRenderer(context, fishRegistry));
